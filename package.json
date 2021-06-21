@@ -1,0 +1,25 @@
+{
+  "name": "token-art-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Token Art Tools",
+  "author": "Grant Moore",
+  "keywords": [
+    "gatsby"
+  ],
+  "dependencies": {
+    "gatsby": "^3.6.2",
+    "gh-pages": "^3.2.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3"
+  },
+  "scripts": {
+    "deploy": "gatsby build && gh-pages -d public -b deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ctrlshiftmake/token-art-tools"
+  }
+}
