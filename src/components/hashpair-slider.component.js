@@ -13,11 +13,12 @@ const HashPairSlider = (props) => {
         setHex("00");
     }, []);
 
-    useEffect(() => {
-        var h = ValueToHexPair(value);
-        update(index, h);
+    const updateValue = (v) => {
+        setValue(v);
+        var h = ValueToHexPair(v);
         if (hex !== h) setHex(h);
-    }, [value]);
+        update(index, h);
+    };
 
     const stepValue = (inc) => {
         var v = value;
@@ -31,7 +32,7 @@ const HashPairSlider = (props) => {
                 break;
             default:
         }
-        setValue(v);
+        updateValue(v);
     };
 
     const settings = {
@@ -40,7 +41,7 @@ const HashPairSlider = (props) => {
         max: 255,
         step: 1,
         onChange: (v) => {
-            setValue(v);
+            updateValue(v);
         },
     };
 

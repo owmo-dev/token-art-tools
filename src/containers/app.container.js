@@ -30,7 +30,7 @@ const App = () => {
             h += hexValues[i];
         }
         if (hash !== h) setHash(h);
-    }, [hexValues]);
+    }, [hexValues, hash]);
 
     return (
         <div>

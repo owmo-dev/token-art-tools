@@ -27,7 +27,7 @@ const Viewer = (props) => {
                     src={url + "?hash=" + hash}
                 />
             ) : (
-                <div style={{ width: "100%", height: "calc(100% - 60px)", background: "#666" }}>
+                <div style={{ width: "100%", height: "calc(100% - 60px)", background: "#666", overflow: "scroll" }}>
                     <Waiting />
                 </div>
             )}
