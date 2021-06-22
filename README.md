@@ -1,5 +1,5 @@
 # token-art-tools
-React Gatsby static webapp for generative artists working on token/hash based artwork, such as Artblocks.io NFT scripts.
+React Gatsby static webapp for generative artists working on token/hash based NFT artwork, ex: Artblocks.io
 
 https://ctrlshiftmake.github.io/token-art-tools/
 
