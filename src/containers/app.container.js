@@ -18,10 +18,11 @@ const App = () => {
     });
 
     const updateHexValue = (i, v) => {
-        setHexValues({
+        const values = {
             ...hexValues,
             [i]: v,
-        });
+        };
+        if (hexValues !== values) setHexValues(values);
     };
 
     useEffect(() => {
