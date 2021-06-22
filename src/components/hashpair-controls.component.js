@@ -26,7 +26,7 @@ const HashPairControls = (props) => {
                     </Button>
                 </List.Item>
             </List>
-            <Segment inverted style={{ maxHeight: "calc(100vh - 240px)", overflow: "auto" }}>
+            <Segment inverted style={{ maxHeight: "calc(100vh - 240px)", overflow: "auto", background: "#222" }}>
                 <Segment.Group>{sliders}</Segment.Group>
             </Segment>
             <Segment style={{ padding: 0, margin: 0, paddingTop: 12, paddingBottom: 12, marginRight: 10 }}>
