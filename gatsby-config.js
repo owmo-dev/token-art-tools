@@ -1,6 +1,7 @@
 module.exports = {
-  siteMetadata: {
-    title: "Token Art Tools",
-  },
-  plugins: [],
+    pathPrefix: "/token-art-tools",
+    siteMetadata: {
+        title: "Token Art Tools",
+    },
+    plugins: [],
 };
