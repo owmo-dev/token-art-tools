@@ -45,7 +45,7 @@ const HashPairSlider = (props) => {
     };
 
     return (
-        <Segment inverted style={{ overflow: "auto" }}>
+        <Segment inverted style={{ overflow: "auto", background: "#222" }}>
             <Grid>
                 <Grid.Column width={1}>
                     <span style={{ top: 5, position: "relative" }}>{props.index}</span>
