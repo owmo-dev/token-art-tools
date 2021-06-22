@@ -6,9 +6,9 @@ const Waiting = () => {
         <Segment
             style={{
                 width: 500,
-                height: 320,
+                height: 190,
                 padding: 40,
-                top: "calc(50% - 160px)",
+                top: "calc(50% - 95px)",
                 margin: "auto",
                 boxShadow: "0 3px 3px rgba(0,0,0,0.2)",
             }}
@@ -18,47 +18,8 @@ const Waiting = () => {
                 Enter your localhost URL above
             </Header>
             <Message info>
-                <p style={{ marginBottom: 20 }}>
-                    Host your artwork script using a local http(s) server and enter the URL above. For example, the
-                    following command...
-                </p>
-                <span
-                    style={{
-                        fontFamily: "monospace",
-                        background: "#555",
-                        color: "white",
-                        padding: 8,
-                        borderRadius: 2,
-                    }}
-                >
-                    python -m http.server 5500
-                </span>
-                <p style={{ marginBottom: 20, marginTop: 20 }}>
-                    ...will serve an
-                    <span
-                        style={{
-                            fontFamily: "monospace",
-                            color: "#094270",
-                            marginLeft: 4,
-                            marginRight: 4,
-                        }}
-                    >
-                        index.html
-                    </span>
-                    file at this URL.
-                </p>
-                <span
-                    style={{
-                        fontFamily: "monospace",
-                        background: "#555",
-                        color: "white",
-                        padding: 8,
-                        borderRadius: 2,
-                    }}
-                >
-                    http://localhost:5500
-                </span>
-                <Divider hidden clearing />
+                Host your artwork script via local http server and enter the URL above. View the GitHub repository for
+                more information.
             </Message>
         </Segment>
     );

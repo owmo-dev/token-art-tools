@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
     width: 100%;
-    background: #333;
+    background:rgb(40,40,40);
+    background: linear-gradient(0deg, rgba(40,40,40,1) 0%, rgba(60,60,60,1) 80%);
   }
