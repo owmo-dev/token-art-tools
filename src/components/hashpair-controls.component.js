@@ -29,7 +29,7 @@ const HashPairControls = (props) => {
             <Segment inverted style={{ maxHeight: "calc(100vh - 240px)", overflow: "auto" }}>
                 <Segment.Group>{sliders}</Segment.Group>
             </Segment>
-            <Segment>
+            <Segment style={{ padding: 0, margin: 0, paddingTop: 12, paddingBottom: 12, marginRight: 10 }}>
                 <center>
                     <span style={{ fontFamily: "monospace", fontSize: 12 }}>{props.hash}</span>
                 </center>
