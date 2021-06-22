@@ -9,12 +9,34 @@ import Viewer from "../components/viewer.component";
 
 const App = () => {
     const [hash, setHash] = useState("0x0000000000000000000000000000000000000000000000000000000000000000");
+    const [hexValues, setHexValues] = useState(() => {
+        var v = {};
+        for (let i = 0; i < 32; i++) {
+            v[i] = "00";
+        }
+        return v;
+    });
+
+    const updateHexValue = (i, v) => {
+        setHexValues({
+            ...hexValues,
+            [i]: v,
+        });
+    };
+
+    useEffect(() => {
+        var h = "0x";
+        for (let i = 0; i < 32; i++) {
+            h += hexValues[i];
+        }
+        if (hash !== h) setHash(h);
+    }, [hexValues]);
 
     return (
         <div>
             <div style={{ width: 520, position: "absolute", top: 20, left: 20 }}>
                 <Title />
-                <HashPairControls />
+                <HashPairControls hash={hash} update={updateHexValue} />
             </div>
             <div
                 style={{
