@@ -5,22 +5,32 @@ import HashPairSlider from "./hashpair-slider.component";
 
 const HashPairControls = (props) => {
     const [sliders, setSliders] = useState();
+    const [randomHash, triggerRandom] = useState(false);
 
     const { update } = props;
 
     useEffect(() => {
         let s = [];
         for (let i = 0; i < 32; i++) {
-            s = s.concat(<HashPairSlider key={i} index={i} update={update} />);
+            s = s.concat(<HashPairSlider key={i} index={i} id={i} name={i} update={update} randomHash={randomHash} />);
         }
         setSliders(s);
-    }, [update]);
+    }, [update, randomHash]);
+
+    useEffect(() => {
+        if (randomHash) triggerRandom(false);
+    }, [randomHash]);
 
     return (
         <>
             <List horizontal>
                 <List.Item>
-                    <Button>
+                    <Button
+                        primary
+                        onClick={() => {
+                            triggerRandom(true);
+                        }}
+                    >
                         <Icon name="random" />
                         Random Hash
                     </Button>
