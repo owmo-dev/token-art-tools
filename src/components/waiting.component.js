@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Header, Icon, Divider, Message } from "semantic-ui-react";
+import { Segment, Header, Icon, Message } from "semantic-ui-react";
 
 const Waiting = () => {
     return (
