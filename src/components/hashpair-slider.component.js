@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 import { Segment, Grid, Input, Button } from "semantic-ui-react";
-import { Slider } from "react-semantic-ui-range";
+import { RangeStepInput } from "react-range-step-input";
+
+import { ValueToHexPair } from "../helpers/token.helpers";
 
 const HashPairSlider = (props) => {
     const [hex, setHex] = useState("");
@@ -13,7 +14,13 @@ const HashPairSlider = (props) => {
         setHex("00");
     }, []);
 
+    const handleChange = (e) => {
+        const v = parseInt(e.target.value);
+        updateValue(v);
+    };
+
     const updateValue = (v) => {
+        if (value === v) return;
         setValue(v);
         var h = ValueToHexPair(v);
         if (hex !== h) setHex(h);
@@ -21,28 +28,13 @@ const HashPairSlider = (props) => {
     };
 
     const stepValue = (inc) => {
-        var v = value;
-        v += inc;
-        switch (v) {
-            case v >= 256:
-                v = 255;
-                break;
-            case v < 0:
-                v = 0;
-                break;
-            default:
+        var v = value + parseInt(inc);
+        if (v > 255) {
+            v = 255;
+        } else if (v < 0) {
+            v = 0;
         }
         updateValue(v);
-    };
-
-    const settings = {
-        start: 0,
-        min: 0,
-        max: 255,
-        step: 1,
-        onChange: (v) => {
-            updateValue(v);
-        },
     };
 
     return (
@@ -57,13 +49,20 @@ const HashPairSlider = (props) => {
                         icon="minus"
                         size="mini"
                         onClick={() => {
-                            stepValue(-1);
+                            stepValue(-8);
                         }}
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <span style={{ top: 4, position: "relative" }}>
-                        <Slider inverted discrete color="grey" settings={settings} />
+                        <RangeStepInput
+                            min={0}
+                            max={255}
+                            step={1}
+                            onChange={handleChange}
+                            value={value}
+                            style={{ width: "100%" }}
+                        />
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
@@ -72,7 +71,7 @@ const HashPairSlider = (props) => {
                         icon="plus"
                         size="mini"
                         onClick={() => {
-                            stepValue(1);
+                            stepValue(8);
                         }}
                     />
                 </Grid.Column>
@@ -83,13 +82,5 @@ const HashPairSlider = (props) => {
         </Segment>
     );
 };
-
-function ValueToHexPair(value) {
-    var hex = Number(value).toString(16);
-    if (hex.length < 2) {
-        hex = "0" + hex;
-    }
-    return hex;
-}
 
 export default HashPairSlider;
