@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Input } from "semantic-ui-react";
 
+import Waiting from "./waiting.component";
+
 const Viewer = (props) => {
     const [url, setUrl] = useState("");
+
+    const { hash } = props;
 
     function onChange(e) {
         if (isValidHttpUrl(e.target.value)) {
@@ -20,9 +24,13 @@ const Viewer = (props) => {
                     id="embed"
                     title="token art tools viewer"
                     style={{ width: "100%", height: "calc(100% - 60px)" }}
-                    src={url + "?hash=" + props.hash}
+                    src={url + "?hash=" + hash}
                 />
-            ) : null}
+            ) : (
+                <div style={{ width: "100%", height: "calc(100% - 60px)", background: "#666" }}>
+                    <Waiting />
+                </div>
+            )}
         </>
     );
 };
