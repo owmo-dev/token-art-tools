@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-import { Segment, Grid, Input } from "semantic-ui-react";
+import { Segment, Grid, Input, Button } from "semantic-ui-react";
 import { Slider } from "react-semantic-ui-range";
 
 const HashPairSlider = (props) => {
     const [hex, setHex] = useState("");
+
+    const { index, update } = props;
 
     useEffect(() => {
         setHex("00");
     }, []);
 
     function handleChange(value) {
-        setHex(ValueToHexPair(value));
+        var v = ValueToHexPair(value);
+        setHex(v);
+        update(index, v);
     }
 
     const settings = {
@@ -27,9 +31,19 @@ const HashPairSlider = (props) => {
     return (
         <Segment inverted style={{ overflow: "auto" }}>
             <Grid>
-                <Grid.Column width={1}>{props.index}</Grid.Column>
-                <Grid.Column width={12}>
-                    <Slider inverted discrete color="black" settings={settings} />
+                <Grid.Column width={1}>
+                    <span style={{ top: 5, position: "relative" }}>{props.index}</span>
+                </Grid.Column>
+                <Grid.Column width={2}>
+                    <Button circular icon="minus" size="mini" />
+                </Grid.Column>
+                <Grid.Column width={8}>
+                    <span style={{ top: 4, position: "relative" }}>
+                        <Slider inverted discrete color="grey" settings={settings} />
+                    </span>
+                </Grid.Column>
+                <Grid.Column width={2}>
+                    <Button circular icon="plus" size="mini" />
                 </Grid.Column>
                 <Grid.Column width={3}>
                     <Input fluid maxLength="2" style={{ width: 50 }} value={hex} />
