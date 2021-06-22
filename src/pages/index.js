@@ -1,5 +1,9 @@
 import React from "react";
 
-export default function Index() {
-    return <h1>Token Art Tools</h1>;
-}
+import App from "../containers/app.container";
+
+const Index = () => {
+    return <App />;
+};
+
+export default Index;
