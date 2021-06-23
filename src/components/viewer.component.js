@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "semantic-ui-react";
 
-import Waiting from "./waiting.component";
+import Usage from "./usage.component";
 
 const Viewer = (props) => {
     const [url, setUrl] = useState("");
@@ -11,6 +11,8 @@ const Viewer = (props) => {
     function onChange(e) {
         if (isValidHttpUrl(e.target.value)) {
             setUrl(e.target.value);
+        } else {
+            setUrl("");
         }
     }
 
@@ -35,7 +37,7 @@ const Viewer = (props) => {
                     />
                 ) : (
                     <div style={{ width: "100%", height: "100%", background: "#666", overflow: "auto" }}>
-                        <Waiting />
+                        <Usage />
                     </div>
                 )}
             </div>
