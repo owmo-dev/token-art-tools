@@ -7,13 +7,10 @@ https://ctrlshiftmake.github.io/token-art-tools/
 
 ## Using the Application
 
-Your `index.html` file needs the following script in it's header to get the generated hash
+Include this in the head of your `index.html` file
 
-```javascript
-<script>
-    const params = new URLSearchParams(window.location.search);
-    tokenData = { hash: params.get("hash") };
-</script>
+```html
+<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools@main/providers/artblocks.js"></script>
 ```
 
 Host your generative artwork script via a local HTTP server, for example:
@@ -22,12 +19,13 @@ Host your generative artwork script via a local HTTP server, for example:
 python -m http.server 5500
 ```
 
-Copy/paste the resulting localhost URL into the application
+Paste the URL of your local server into the web application
 
 ```
 http://localhost:5500
 ```
-Use the controls provided to manipulate the hash and see how your artwork updates
+
+Have fun creating with the available features in the web application!
 
 ## Running App Locally
 
@@ -36,13 +34,6 @@ Use the controls provided to manipulate the hash and see how your artwork update
 3) `make run-server`
 4) Open `http://localhost:8000`
 
-## Version 1.0 Features
+## Feature Suggestions & Bugs
 
-If you have any feature suggestions, or discover bugs, please create a GitHub issue.
-
-- [x] README preview and instructions
-- [x] HashPair Controls
-- [x] ArtBlocks Token Format
-- [ ] Lock hash at index
-- [ ] Favourite Hash
-- [ ] Favourite URL
+Please create an issue in this repository if you have any suggestions or discover bugs.
