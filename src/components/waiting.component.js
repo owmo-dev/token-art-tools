@@ -18,8 +18,11 @@ const Waiting = () => {
                 Enter your localhost URL above
             </Header>
             <Message info>
-                Host your artwork script via local http server and enter the URL above. View the GitHub repository for
-                more information.
+                Host your artwork script via local http server and enter the URL above. Read the{" "}
+                <a href="https://github.com/ctrlshiftmake/token-art-tools" target="_blank" rel="noreferrer">
+                    GitHub Repository
+                </a>{" "}
+                for more info.
             </Message>
         </Segment>
     );
