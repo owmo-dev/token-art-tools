@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Header, Icon, Message, Input } from "semantic-ui-react";
+import { Segment, Header, Icon, Input } from "semantic-ui-react";
 
 const Usage = () => {
     const script =
