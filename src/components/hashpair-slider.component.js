@@ -7,6 +7,7 @@ import { ValueToHexPair, RandomInt } from "../helpers/token.helpers";
 const HashPairSlider = (props) => {
     const [hex, setHex] = useState("");
     const [value, setValue] = useState(0);
+    const [locked, setLocked] = useState(false);
 
     const { index, update, randomHash } = props;
 
@@ -15,7 +16,7 @@ const HashPairSlider = (props) => {
     }, []);
 
     useEffect(() => {
-        if (randomHash) {
+        if (randomHash && !locked) {
             const r = RandomInt(255);
             updateValue(r);
         }
@@ -58,9 +59,10 @@ const HashPairSlider = (props) => {
                         onClick={() => {
                             stepValue(-8);
                         }}
+                        disabled={locked}
                     />
                 </Grid.Column>
-                <Grid.Column width={8}>
+                <Grid.Column width={7}>
                     <span style={{ top: 4, position: "relative" }}>
                         <RangeStepInput
                             min={0}
@@ -69,6 +71,7 @@ const HashPairSlider = (props) => {
                             onChange={handleChange}
                             value={value}
                             style={{ width: "100%" }}
+                            disabled={locked}
                         />
                     </span>
                 </Grid.Column>
@@ -80,10 +83,28 @@ const HashPairSlider = (props) => {
                         onClick={() => {
                             stepValue(8);
                         }}
+                        disabled={locked}
                     />
                 </Grid.Column>
-                <Grid.Column width={3}>
-                    <Input fluid maxLength="2" style={{ width: 50 }} value={hex} readOnly={true} />
+                <Grid.Column width={2}>
+                    <Input
+                        fluid
+                        maxLength="2"
+                        style={{ width: 46, height: 30 }}
+                        value={hex}
+                        readOnly={true}
+                        disabled={locked}
+                    />
+                </Grid.Column>
+                <Grid.Column width={2}>
+                    <Button
+                        size="tiny"
+                        icon={locked ? "lock" : "unlock"}
+                        onClick={() => {
+                            setLocked(!locked);
+                        }}
+                        color={locked ? "red" : null}
+                    />
                 </Grid.Column>
             </Grid>
         </Segment>
