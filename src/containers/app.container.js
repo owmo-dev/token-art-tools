@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
 import "../css/style.css";
 
-import Title from "../components/title.component";
 import HashPairControls from "../components/hashpair-controls.component";
 import Viewer from "../components/viewer.component";
 
@@ -35,7 +34,6 @@ const App = () => {
     return (
         <div>
             <div style={{ width: 520, position: "absolute", top: 20, left: 20 }}>
-                <Title />
                 <HashPairControls hash={hash} update={updateHexValue} />
             </div>
             <div
