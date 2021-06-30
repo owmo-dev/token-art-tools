@@ -3,7 +3,7 @@ import { Segment, Header, Icon, Input } from "semantic-ui-react";
 
 const Usage = () => {
     const script =
-        '<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools@main/providers/artblocks.js"></script>';
+        '<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools/providers/artblocks.js"></script>';
     const localhost = "python -m http.server 5500";
     const localURL = "http://127.0.0.1:5500";
 
