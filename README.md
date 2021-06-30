@@ -27,6 +27,23 @@ http://localhost:5500
 
 Have fun creating with the available features in the web application!
 
+### Projects Setup
+
+Your `index.html` file must display your work within a single `canvas` tag for all features to work.
+
+#### P5.js
+
+Standard project setup should work.
+
+#### THREE.js
+
+Please set the following in your script for screenshots to work.
+
+```javascript
+ renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
+
+```
+
 ## Running App Locally
 
 1) Clone / fork repository
