@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Input, Button, Icon } from "semantic-ui-react";
+import { Input, Button, Icon } from "semantic-ui-react";
 
 import Usage from "./usage.component";
 
@@ -23,7 +23,7 @@ const Viewer = (props) => {
                     disabled={url === ""}
                     floated="right"
                     onClick={() => {
-                        var iframe = window.document.getElementById("iframe-viewer").contentWindow;
+                        var iframe = window.document.querySelector("iframe").contentWindow;
                         if (iframe === undefined) return;
                         iframe.postMessage({ command: "screenshot", token: hash }, "*");
                     }}
@@ -43,7 +43,7 @@ const Viewer = (props) => {
             <div style={{ width: "100%", height: "calc(100% - 70px)" }}>
                 {url !== undefined && url !== "" && hash !== undefined ? (
                     <iframe
-                        id="iframe-viewer"
+                        id={new Date().getTime()}
                         title="token art tools viewer"
                         src={url + "?hash=" + hash}
                         style={{ width: "100%", height: "100%", border: 0 }}
