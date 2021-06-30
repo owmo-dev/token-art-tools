@@ -10,7 +10,7 @@ https://ctrlshiftmake.github.io/token-art-tools/
 Include this in the head of your `index.html` file
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools@main/providers/artblocks.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools/providers/artblocks.js"></script>
 ```
 
 Host your generative artwork script via a local HTTP server, for example:
