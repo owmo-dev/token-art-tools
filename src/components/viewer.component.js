@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input } from "semantic-ui-react";
+import { Grid, Input, Button, Icon } from "semantic-ui-react";
 
 import Usage from "./usage.component";
 
@@ -18,7 +18,20 @@ const Viewer = (props) => {
 
     return (
         <>
-            <div style={{ width: "100%", height: 50, marginBottom: 10, marginTop: 10 }}>
+            <div style={{ width: "auto", height: 50, marginBottom: 10, marginTop: 10 }}>
+                <Button
+                    disabled={url === ""}
+                    floated="right"
+                    onClick={() => {
+                        var iframe = window.document.getElementById("iframe-viewer").contentWindow;
+                        if (iframe === undefined) return;
+                        iframe.postMessage({ command: "screenshot", token: hash }, "*");
+                    }}
+                    style={{ float: "right", marginLeft: 20 }}
+                >
+                    <Icon name="camera" />
+                    Screenshot Artwork
+                </Button>
                 <Input
                     label="localhost URL"
                     fluid
@@ -29,11 +42,11 @@ const Viewer = (props) => {
             </div>
             <div style={{ width: "100%", height: "calc(100% - 70px)" }}>
                 {url !== undefined && url !== "" && hash !== undefined ? (
-                    <embed
-                        id="embed-viewer"
+                    <iframe
+                        id="iframe-viewer"
                         title="token art tools viewer"
                         src={url + "?hash=" + hash}
-                        style={{ width: "100%", height: "100%" }}
+                        style={{ width: "100%", height: "100%", border: 0 }}
                     />
                 ) : (
                     <div style={{ width: "100%", height: "100%", background: "#666", overflow: "auto" }}>
