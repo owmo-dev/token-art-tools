@@ -5,23 +5,28 @@ import Usage from "./usage.component";
 
 const Viewer = (props) => {
     const [url, setUrl] = useState("");
+    const [isUrlValid, setUrlValid] = useState(false);
+    const [iKey, setKey] = useState(0);
 
     const { hash } = props;
 
     function onChange(e) {
-        if (isValidHttpUrl(e.target.value)) {
-            setUrl(e.target.value);
-        } else {
-            setUrl("");
-        }
+        if (url === e.target.value) return;
+        setUrl(e.target.value);
+        setUrlValid(isValidHttpUrl(e.target.value));
+    }
+
+    function handleClearURL() {
+        setUrl("");
+        setUrlValid(false);
     }
 
     return (
         <>
             <div style={{ width: "auto", height: 50, marginBottom: 10, marginTop: 10 }}>
                 <Button
-                    disabled={url === ""}
-                    floated="right"
+                    icon
+                    disabled={!isUrlValid}
                     onClick={() => {
                         var iframe = window.document.querySelector("iframe").contentWindow;
                         if (iframe === undefined) return;
@@ -30,14 +35,34 @@ const Viewer = (props) => {
                     style={{ float: "right", marginLeft: 20 }}
                 >
                     <Icon name="camera" />
-                    Screenshot Artwork
+                </Button>
+                <Button
+                    icon
+                    disabled={!isUrlValid}
+                    floated="right"
+                    style={{ float: "right", marginLeft: 20 }}
+                    onClick={() => {
+                        setKey(iKey + 1);
+                    }}
+                >
+                    <Icon name="refresh" />
                 </Button>
                 <Input
-                    label="localhost URL"
+                    label="localhost url"
                     fluid
                     placeholder="http://127.0.0.1:5500"
                     onChange={onChange}
+                    value={url}
                     style={{ height: 36 }}
+                    icon={
+                        <Icon
+                            name="delete"
+                            link
+                            onClick={() => {
+                                handleClearURL();
+                            }}
+                        />
+                    }
                 />
             </div>
             <div style={{ width: "100%", height: "calc(100% - 70px)" }}>
@@ -47,6 +72,7 @@ const Viewer = (props) => {
                         title="token art tools viewer"
                         src={url + "?hash=" + hash}
                         style={{ width: "100%", height: "100%", border: 0 }}
+                        key={iKey}
                     />
                 ) : (
                     <div style={{ width: "100%", height: "100%", background: "#666", overflow: "auto" }}>
