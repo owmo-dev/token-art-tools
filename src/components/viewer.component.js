@@ -55,18 +55,20 @@ const Viewer = (props) => {
                     value={url}
                     style={{ height: 36 }}
                     icon={
-                        <Icon
-                            name="delete"
-                            link
-                            onClick={() => {
-                                handleClearURL();
-                            }}
-                        />
+                        url !== "" ? (
+                            <Icon
+                                name="delete"
+                                link
+                                onClick={() => {
+                                    handleClearURL();
+                                }}
+                            />
+                        ) : null
                     }
                 />
             </div>
             <div style={{ width: "100%", height: "calc(100% - 70px)" }}>
-                {url !== undefined && url !== "" && hash !== undefined ? (
+                {isUrlValid && hash !== undefined ? (
                     <iframe
                         id={new Date().getTime()}
                         title="token art tools viewer"
