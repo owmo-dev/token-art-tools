@@ -46,10 +46,12 @@ const HashPairSlider = (props) => {
     };
 
     return (
-        <Segment inverted style={{ overflow: "auto", background: "#222", marginBottom: 10 }}>
+        <Segment inverted style={{ background: "#222", marginBottom: 8, padding: 0 }}>
             <Grid>
                 <Grid.Column width={1}>
-                    <span style={{ top: 5, position: "relative" }}>{props.index}</span>
+                    <span style={{ fontFamily: "monospace", fontSize: 16, position: "relative", top: 5, left: -3 }}>
+                        {props.index}
+                    </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
                     <Button
@@ -57,12 +59,12 @@ const HashPairSlider = (props) => {
                         icon="minus"
                         size="mini"
                         onClick={() => {
-                            stepValue(-8);
+                            stepValue(-16);
                         }}
                         disabled={locked}
                     />
                 </Grid.Column>
-                <Grid.Column width={7}>
+                <Grid.Column width={8}>
                     <span style={{ top: 4, position: "relative" }}>
                         <RangeStepInput
                             min={0}
@@ -81,20 +83,15 @@ const HashPairSlider = (props) => {
                         icon="plus"
                         size="mini"
                         onClick={() => {
-                            stepValue(8);
+                            stepValue(16);
                         }}
                         disabled={locked}
                     />
                 </Grid.Column>
-                <Grid.Column width={2}>
-                    <Input
-                        fluid
-                        maxLength="2"
-                        style={{ width: 46, height: 30 }}
-                        value={hex}
-                        readOnly={true}
-                        disabled={locked}
-                    />
+                <Grid.Column width={1}>
+                    <span style={{ fontFamily: "monospace", fontSize: 16, position: "relative", top: 5, left: -10 }}>
+                        {hex}
+                    </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
                     <Button

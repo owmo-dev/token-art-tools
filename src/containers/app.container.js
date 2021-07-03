@@ -33,12 +33,12 @@ const App = () => {
 
     return (
         <div>
-            <div style={{ width: 520, position: "absolute", top: 20, left: 20 }}>
+            <div style={{ width: 480, position: "absolute", top: 20, left: 20 }}>
                 <HashPairControls hash={hash} update={updateHexValue} />
             </div>
             <div
                 style={{
-                    marginLeft: 540,
+                    marginLeft: 500,
                     padding: 20,
                     height: "100vh",
                     width: "auto",
