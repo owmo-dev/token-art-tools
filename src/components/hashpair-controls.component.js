@@ -45,11 +45,18 @@ const HashPairControls = (props) => {
             </Grid>
             <Segment
                 inverted
-                style={{ marginTop: 18, maxHeight: "calc(100vh - 170px)", overflow: "auto", background: "#222" }}
+                style={{
+                    marginTop: 18,
+                    maxHeight: "calc(100vh - 150px)",
+                    overflow: "auto",
+                    background: "#222",
+                    padding: 20,
+                    paddingBottom: 0,
+                }}
             >
                 <Segment.Group>{sliders}</Segment.Group>
             </Segment>
-            <Segment style={{ padding: 0, margin: 0, paddingTop: 12, paddingBottom: 12 }}>
+            <Segment style={{ padding: 0, margin: 0, paddingTop: 1, paddingBottom: 1 }}>
                 <center>
                     <span style={{ fontFamily: "monospace", fontSize: 12 }}>{props.hash}</span>
                 </center>
