@@ -1,7 +1,7 @@
 import React from "react";
 import { Segment, Header, Icon, Input } from "semantic-ui-react";
 
-const Usage = () => {
+const Instructions = () => {
     const script =
         '<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools/providers/artblocks.js"></script>';
     const localhost = "python -m http.server 5500";
@@ -10,7 +10,7 @@ const Usage = () => {
     return (
         <Segment
             style={{
-                width: 500,
+                width: "60%",
                 height: 350,
                 padding: 40,
                 top: "calc(50% - 175px)",
@@ -75,4 +75,4 @@ const Usage = () => {
     );
 };
 
-export default Usage;
+export default Instructions;
