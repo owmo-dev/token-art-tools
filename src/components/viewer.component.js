@@ -8,6 +8,8 @@ const Viewer = (props) => {
     const [isUrlValid, setUrlValid] = useState(false);
     const [iKey, setKey] = useState(0);
 
+    const [popout, setPopout] = useState();
+
     const { hash } = props;
 
     function onChange(e) {
@@ -39,6 +41,19 @@ const Viewer = (props) => {
                 <Button
                     icon
                     disabled={!isUrlValid}
+                    onClick={() => {
+                        var iframe = window.document.querySelector("iframe");
+                        const w = iframe.clientWidth;
+                        const h = iframe.clientHeight;
+                        const win = window.open(url + "?hash=" + hash, "", `top=100, width=${w}, height=${h}`);
+                    }}
+                    style={{ float: "right", marginLeft: 20 }}
+                >
+                    <Icon name="external" />
+                </Button>
+                <Button
+                    icon
+                    disabled={!isUrlValid}
                     floated="right"
                     style={{ float: "right", marginLeft: 20 }}
                     onClick={() => {
@@ -48,7 +63,7 @@ const Viewer = (props) => {
                     <Icon name="refresh" />
                 </Button>
                 <Input
-                    label="localhost url"
+                    label="url"
                     fluid
                     placeholder="http://127.0.0.1:5500"
                     onChange={onChange}
