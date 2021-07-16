@@ -8,7 +8,7 @@ const Title = () => {
             <Header.Subheader style={{ color: "white" }}>
                 created by
                 <a href="https://www.ctrlshiftmake.com/" target="_blank" rel="noreferrer" style={{ marginLeft: 5 }}>
-                    CtrlShiftMake
+                    ctrlshiftmake
                 </a>
                 <a
                     href="https://github.com/ctrlshiftmake/token-art-tools"

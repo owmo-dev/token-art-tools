@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Input, Button, Icon, Dropdown } from "semantic-ui-react";
 
-import Usage from "./usage.component";
+import SetResolution from "./modals/set-resolution.component";
+import Instructions from "./copy/instructions.component";
 
 const Viewer = (props) => {
     const [url, setUrl] = useState("");
     const [isUrlValid, setUrlValid] = useState(false);
     const [iKey, setKey] = useState(0);
 
-    const [value, setValue] = useState("fit");
-    const [resolution, setResolution] = useState("100%");
+    const [resolutionValue, setResolutionValue] = useState("fill");
+    const [iframeResolution, setIFrameResolution] = useState({ x: "100%", y: "100%" });
 
     const { hash } = props;
 
@@ -19,7 +20,7 @@ const Viewer = (props) => {
         var valid = isValidHttpUrl(e.target.value);
         setUrlValid(valid);
         if (!valid) {
-            setValue("fit");
+            setResolutionValue("fill");
         }
     }
 
@@ -30,34 +31,24 @@ const Viewer = (props) => {
 
     const resolutionOptions = [
         {
-            key: "fit",
-            text: "Fit Available Space",
-            value: "fit",
+            key: "fill",
+            text: "Fill Space",
+            value: "fill",
         },
         {
-            key: "512px",
-            text: "512px Square",
-            value: "512px",
+            key: "half",
+            text: "Half Size Preview",
+            value: "half",
         },
         {
-            key: "1k",
-            text: "1K Square",
-            value: "1k",
-        },
-        {
-            key: "2k",
-            text: "2K Square",
-            value: "2k",
-        },
-        {
-            key: "4k",
-            text: "4K Square",
-            value: "4k",
+            key: "custom",
+            text: "Custom Resolution",
+            value: "custom",
         },
     ];
 
     function handleChange(e, d) {
-        setValue(d.value);
+        setResolutionValue(d.value);
     }
 
     function refresh() {
@@ -65,30 +56,43 @@ const Viewer = (props) => {
     }
 
     useEffect(() => {
-        console.log(value);
-        switch (value) {
-            case "512px":
-                setResolution("512px");
+        switch (resolutionValue) {
+            case "custom":
+                openResolutionModal();
                 break;
-            case "1k":
-                setResolution("1024px");
-                break;
-            case "2k":
-                setResolution("2048px");
-                break;
-            case "4k":
-                setResolution("4096px");
+            case "half":
+                setIFrameResolution({ x: "50%", y: "50%" });
                 break;
             default:
-            case "fit":
-                setResolution("100%");
+            case "fill":
+                setIFrameResolution({ x: "100%", y: "100%" });
                 break;
         }
         refresh();
-    }, [value]);
+    }, [resolutionValue]);
+
+    const [isResolutionModalOpen, setResolutionModalState] = useState(false);
+
+    function openResolutionModal() {
+        setResolutionModalState(true);
+    }
+
+    function closeResolutionModal(isCancel) {
+        setResolutionModalState(false);
+        if (isCancel) setResolutionValue("fill");
+    }
+
+    function setRes(x, y) {
+        setIFrameResolution({
+            x: x + 2 + "px",
+            y: y + 2 + "px",
+        });
+        refresh();
+    }
 
     return (
         <>
+            <SetResolution active={isResolutionModalOpen} close={closeResolutionModal} set={setRes} />
             <div style={{ width: "auto", height: 50, marginBottom: 10, marginTop: 10 }}>
                 <Button
                     icon
@@ -105,19 +109,6 @@ const Viewer = (props) => {
                 <Button
                     icon
                     disabled={!isUrlValid}
-                    onClick={() => {
-                        var iframe = window.document.querySelector("iframe");
-                        const w = iframe.clientWidth;
-                        const h = iframe.clientHeight;
-                        window.open(url + "?hash=" + hash, "", `top=100, width=${w}, height=${h}`);
-                    }}
-                    style={{ float: "right", marginLeft: 20 }}
-                >
-                    <Icon name="external" />
-                </Button>
-                <Button
-                    icon
-                    disabled={!isUrlValid}
                     floated="right"
                     style={{ float: "right", marginLeft: 20 }}
                     onClick={refresh}
@@ -129,7 +120,7 @@ const Viewer = (props) => {
                     placeholder="Fit Available Space"
                     disabled={!isUrlValid}
                     options={resolutionOptions}
-                    value={value}
+                    value={resolutionValue}
                     onChange={handleChange}
                     style={{ float: "right", marginLeft: 20 }}
                 />
@@ -147,7 +138,7 @@ const Viewer = (props) => {
                                 link
                                 onClick={() => {
                                     handleClearURL();
-                                    setValue("fit");
+                                    setResolutionValue("fill");
                                 }}
                             />
                         ) : null
@@ -158,32 +149,60 @@ const Viewer = (props) => {
                 style={{
                     width: "100%",
                     height: "calc(100vh - 105px)",
-                    background: "#33333399",
-                    overflow: "auto",
                     position: "relative",
+                    border: "1px solid #00000044",
                 }}
             >
-                {isUrlValid && hash !== undefined ? (
-                    <iframe
-                        id={new Date().getTime()}
-                        title="token art tools viewer"
-                        src={url + "?hash=" + hash}
-                        width={resolution}
-                        height={resolution}
-                        style={{
-                            border: 0,
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                        }}
-                        key={iKey}
-                    />
-                ) : (
-                    <div style={{ width: "100%", height: "100%", background: "#666", overflow: "auto" }}>
-                        <Usage />
-                    </div>
-                )}
+                <Button
+                    icon
+                    inverted
+                    disabled={!isUrlValid}
+                    size="mini"
+                    onClick={() => {
+                        var iframe = window.document.querySelector("iframe");
+                        const w = iframe.clientWidth;
+                        const h = iframe.clientHeight;
+                        window.open(url + "?hash=" + hash, "", `top=100, width=${w}, height=${h}`);
+                    }}
+                    style={{
+                        position: "absolute",
+                        bottom: 0,
+                        right: 0,
+                        marginBottom: 10,
+                        marginRight: 10,
+                        zIndex: 1000,
+                        opacity: "0.5",
+                    }}
+                >
+                    <Icon name="external" />
+                </Button>
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        overflow: "auto",
+                        position: "relative",
+                    }}
+                >
+                    {isUrlValid && hash !== undefined ? (
+                        <iframe
+                            id={new Date().getTime()}
+                            title="token art tools viewer"
+                            src={url + "?hash=" + hash}
+                            width={iframeResolution.x}
+                            height={iframeResolution.y}
+                            style={{
+                                border: "1px dashed #99999933",
+                                position: "absolute",
+                            }}
+                            key={iKey}
+                        />
+                    ) : (
+                        <div style={{ width: "100%", height: "100%", background: "#555", overflow: "auto" }}>
+                            <Instructions />
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );
