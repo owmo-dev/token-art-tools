@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Segment, Grid, Button } from "semantic-ui-react";
 import { RangeStepInput } from "react-range-step-input";
 
-import { ValueToHexPair, RandomInt } from "../helpers/token.helpers";
+import { ValueToHexPair, RandomInt } from "../../helpers/token.helpers";
 
 const HashPairSlider = (props) => {
     const [hex, setHex] = useState("");
