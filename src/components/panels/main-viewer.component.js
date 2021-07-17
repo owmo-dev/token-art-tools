@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Input, Button, Icon, Dropdown } from "semantic-ui-react";
 
-import SetResolution from "./modals/set-resolution.component";
-import Instructions from "./copy/instructions.component";
+import SetResolution from "../modals/set-resolution.component";
+import Instructions from "../copy/instructions.component";
 
-const Viewer = (props) => {
+const MainViewer = (props) => {
     const [url, setUrl] = useState("");
     const [isUrlValid, setUrlValid] = useState(false);
     const [iKey, setKey] = useState(0);
@@ -220,4 +220,4 @@ function isValidHttpUrl(string) {
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
-export default Viewer;
+export default MainViewer;

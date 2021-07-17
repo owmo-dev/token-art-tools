@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
 import "../css/style.css";
 
-import HashPairControls from "../components/hashpair-controls.component";
-import Viewer from "../components/viewer.component";
+import LeftControls from "../components/panels/left-controls.component";
+import MainViewer from "../components/panels/main-viewer.component";
 
 const App = () => {
     const [hash, setHash] = useState("0x0000000000000000000000000000000000000000000000000000000000000000");
@@ -34,7 +34,7 @@ const App = () => {
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
             <div style={{ width: 480, position: "absolute", top: 20, left: 20 }}>
-                <HashPairControls hash={hash} update={updateHexValue} />
+                <LeftControls hash={hash} update={updateHexValue} />
             </div>
             <div
                 style={{
@@ -45,7 +45,7 @@ const App = () => {
                     minWidth: 800,
                 }}
             >
-                <Viewer hash={hash} />
+                <MainViewer hash={hash} />
             </div>
         </div>
     );
