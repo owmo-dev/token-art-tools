@@ -6,28 +6,27 @@ import HashPairSlider from "../inputs/hashpair-slider.component";
 import SetHash from "../modals/set-hash.component";
 
 const LeftControls = (props) => {
-    const [sliders, setSliders] = useState();
     const [randomHash, triggerRandom] = useState(false);
 
     const { values, setValueAtIndex, setHashValues } = props;
 
-    useEffect(() => {
-        let s = [];
+    function makeSliders() {
+        var s = [];
         for (let i = 0; i < 32; i++) {
-            s = s.concat(
+            s.push(
                 <HashPairSlider
                     key={i}
                     index={i}
-                    id={i}
-                    name={i}
                     value={values[i]}
                     setValueAtIndex={setValueAtIndex}
                     randomHash={randomHash}
                 />
             );
         }
-        setSliders(s);
-    }, [setValueAtIndex, randomHash]);
+        return s;
+    }
+
+    const sliders = makeSliders();
 
     useEffect(() => {
         if (randomHash) triggerRandom(false);
@@ -92,13 +91,7 @@ const LeftControls = (props) => {
                 }}
             >
                 <span style={{ fontFamily: "monospace", fontSize: 11 }}>{props.hash}</span>
-                <Icon
-                    icon
-                    color="grey"
-                    name="copy"
-                    size="small"
-                    style={{ float: "right", marginRight: 10, marginTop: 6 }}
-                />
+                <Icon color="grey" name="copy" size="small" style={{ float: "right", marginRight: 10, marginTop: 6 }} />
             </Segment>
             <Segment
                 inverted
