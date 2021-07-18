@@ -23,6 +23,13 @@ const App = () => {
         }));
     };
 
+    const enterHash = (h) => {
+        var hash = h.substring(2);
+        for (let i = 0; i < 32; i++) {
+            updateHexValue(i, hash[i * 2] + hash[i * 2 + 1]);
+        }
+    };
+
     useEffect(() => {
         var h = "0x";
         for (let i = 0; i < 32; i++) {
@@ -34,7 +41,7 @@ const App = () => {
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
             <div style={{ width: 480, position: "absolute", top: 20, left: 20 }}>
-                <LeftControls hash={hash} update={updateHexValue} />
+                <LeftControls hash={hash} update={updateHexValue} setHash={enterHash} />
             </div>
             <div
                 style={{
