@@ -5,34 +5,20 @@ import { RangeStepInput } from "react-range-step-input";
 import { ValueToHexPair, RandomInt } from "../../helpers/token.helpers";
 
 const HashPairSlider = (props) => {
-    const [hex, setHex] = useState("");
-    const [value, setValue] = useState(0);
     const [locked, setLocked] = useState(false);
 
-    const { index, update, randomHash } = props;
-
-    useEffect(() => {
-        setHex("00");
-    }, []);
+    const { index, value, setValueAtIndex, randomHash } = props;
 
     useEffect(() => {
         if (randomHash && !locked) {
-            const r = RandomInt(255);
-            updateValue(r);
+            const v = RandomInt(255);
+            setValueAtIndex(index, v);
         }
     });
 
     const handleChange = (e) => {
         const v = parseInt(e.target.value);
-        updateValue(v);
-    };
-
-    const updateValue = (v) => {
-        if (value === v) return;
-        setValue(v);
-        var h = ValueToHexPair(v);
-        if (hex !== h) setHex(h);
-        update(index, h);
+        setValueAtIndex(index, v);
     };
 
     const stepValue = (inc) => {
@@ -42,7 +28,7 @@ const HashPairSlider = (props) => {
         } else if (v < 0) {
             v = 0;
         }
-        updateValue(v);
+        setValueAtIndex(index, v);
     };
 
     return (
@@ -90,7 +76,7 @@ const HashPairSlider = (props) => {
                 </Grid.Column>
                 <Grid.Column width={1}>
                     <span style={{ fontFamily: "monospace", fontSize: 16, position: "relative", top: 5, left: -10 }}>
-                        {hex}
+                        {ValueToHexPair(value)}
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>

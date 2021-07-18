@@ -10,6 +10,8 @@ const SetHash = (props) => {
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
+    const { active, close, setHashValues } = props;
+
     const emptyFormData = { hash: "" };
     const [formData, setFormData] = useState(emptyFormData);
 
@@ -28,7 +30,7 @@ const SetHash = (props) => {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-        props.close();
+        close();
     }
 
     function handleSubmit() {
@@ -41,16 +43,22 @@ const SetHash = (props) => {
             return;
         }
 
-        props.setHash(formData.hash);
+        setHashValues(formData.hash);
         closeModal();
     }
 
     return (
-        <Modal size="small" open={props.active}>
-            <Modal.Header>Set Hash</Modal.Header>
+        <Modal size="small" open={active}>
+            <Modal.Header>Enter Hash</Modal.Header>
             <Modal.Content>
                 <Form>
-                    <Form.Input fluid name="hash" label="Hash" value={formData.hash} onChange={onChange} />
+                    <Form.Input
+                        fluid
+                        name="hash"
+                        label="Hash (overrides locks)"
+                        value={formData.hash}
+                        onChange={onChange}
+                    />
                 </Form>
                 {isError ? (
                     <Message error>ERROR: must be a valid 64 character hash, including '0x' at the start</Message>
