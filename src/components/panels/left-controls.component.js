@@ -3,6 +3,7 @@ import { Segment, Grid, Button, Icon } from "semantic-ui-react";
 
 import Title from "../copy/title.component";
 import HashPairSlider from "../inputs/hashpair-slider.component";
+import SetHash from "../modals/set-hash.component";
 
 const LeftControls = (props) => {
     const [sliders, setSliders] = useState();
@@ -22,8 +23,19 @@ const LeftControls = (props) => {
         if (randomHash) triggerRandom(false);
     }, [randomHash]);
 
+    const [isSetHashModalOpen, setSetHashModalState] = useState(false);
+
+    function openSetHashModal() {
+        setSetHashModalState(true);
+    }
+
+    function closeSetHashModal() {
+        setSetHashModalState(false);
+    }
+
     return (
         <>
+            <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHash={props.setHash} />
             <Grid columns="equal">
                 <Grid.Row>
                     <Grid.Column>
@@ -36,9 +48,10 @@ const LeftControls = (props) => {
                         <Button
                             icon
                             color="green"
-                            disabled
                             style={{ float: "right", marginLeft: 15 }}
-                            onClick={() => {}}
+                            onClick={() => {
+                                openSetHashModal();
+                            }}
                         >
                             <Icon name="sign-in" />
                         </Button>
@@ -67,7 +80,7 @@ const LeftControls = (props) => {
                     userSelect: "none",
                 }}
                 onClick={() => {
-                    navigator.clipboard.writeText("test");
+                    navigator.clipboard.writeText(props.hash);
                 }}
             >
                 <span style={{ fontFamily: "monospace", fontSize: 11 }}>{props.hash}</span>
