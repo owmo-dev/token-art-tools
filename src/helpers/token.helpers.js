@@ -6,6 +6,10 @@ export function ValueToHexPair(value) {
     return hex;
 }
 
+export function HexPairToValue(hex) {
+    return parseInt("0x" + hex);
+}
+
 export function SetCharAt(str, index, chr) {
     if (index > str.length - 1) return str;
     return str.substring(0, index) + chr + str.substring(index + 1);

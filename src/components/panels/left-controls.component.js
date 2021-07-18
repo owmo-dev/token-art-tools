@@ -9,15 +9,25 @@ const LeftControls = (props) => {
     const [sliders, setSliders] = useState();
     const [randomHash, triggerRandom] = useState(false);
 
-    const { update } = props;
+    const { values, setValueAtIndex, setHashValues } = props;
 
     useEffect(() => {
         let s = [];
         for (let i = 0; i < 32; i++) {
-            s = s.concat(<HashPairSlider key={i} index={i} id={i} name={i} update={update} randomHash={randomHash} />);
+            s = s.concat(
+                <HashPairSlider
+                    key={i}
+                    index={i}
+                    id={i}
+                    name={i}
+                    value={values[i]}
+                    setValueAtIndex={setValueAtIndex}
+                    randomHash={randomHash}
+                />
+            );
         }
         setSliders(s);
-    }, [update, randomHash]);
+    }, [setValueAtIndex, randomHash]);
 
     useEffect(() => {
         if (randomHash) triggerRandom(false);
@@ -35,38 +45,36 @@ const LeftControls = (props) => {
 
     return (
         <>
-            <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHash={props.setHash} />
+            <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
             <Grid columns="equal">
-                <Grid.Row>
-                    <Grid.Column>
-                        <Title />
-                    </Grid.Column>
-                    <Grid.Column style={{ paddingTop: 11 }}>
-                        <Button icon color="red" disabled style={{ float: "right", marginLeft: 15 }} onClick={() => {}}>
-                            <Icon name="undo" />
-                        </Button>
-                        <Button
-                            icon
-                            color="green"
-                            style={{ float: "right", marginLeft: 15 }}
-                            onClick={() => {
-                                openSetHashModal();
-                            }}
-                        >
-                            <Icon name="sign-in" />
-                        </Button>
-                        <Button
-                            icon
-                            color="blue"
-                            style={{ float: "right" }}
-                            onClick={() => {
-                                triggerRandom(true);
-                            }}
-                        >
-                            <Icon name="random" />
-                        </Button>
-                    </Grid.Column>
-                </Grid.Row>
+                <Grid.Column>
+                    <Title />
+                </Grid.Column>
+                <Grid.Column style={{ paddingTop: 25 }}>
+                    <Button icon color="red" disabled style={{ float: "right", marginLeft: 15 }} onClick={() => {}}>
+                        <Icon name="undo" />
+                    </Button>
+                    <Button
+                        icon
+                        color="green"
+                        style={{ float: "right", marginLeft: 15 }}
+                        onClick={() => {
+                            openSetHashModal();
+                        }}
+                    >
+                        <Icon name="sign-in" />
+                    </Button>
+                    <Button
+                        icon
+                        color="blue"
+                        style={{ float: "right" }}
+                        onClick={() => {
+                            triggerRandom(true);
+                        }}
+                    >
+                        <Icon name="random" />
+                    </Button>
+                </Grid.Column>
             </Grid>
             <Segment
                 style={{
