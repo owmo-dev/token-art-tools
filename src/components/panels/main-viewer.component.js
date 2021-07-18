@@ -49,11 +49,12 @@ const MainViewer = (props) => {
 
     function handleChange(e, d) {
         setResolutionValue(d.value);
+        refresh();
     }
 
-    function refresh() {
+    const refresh = () => {
         setKey(iKey + 1);
-    }
+    };
 
     useEffect(() => {
         switch (resolutionValue) {
@@ -68,7 +69,6 @@ const MainViewer = (props) => {
                 setIFrameResolution({ x: "100%", y: "100%" });
                 break;
         }
-        refresh();
     }, [resolutionValue]);
 
     const [isResolutionModalOpen, setResolutionModalState] = useState(false);
