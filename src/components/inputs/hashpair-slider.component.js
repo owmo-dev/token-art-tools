@@ -36,7 +36,7 @@ const HashPairSlider = (props) => {
             <Grid>
                 <Grid.Column width={1}>
                     <span style={{ fontFamily: "monospace", fontSize: 16, position: "relative", top: 5, left: -3 }}>
-                        {props.index}
+                        {index}
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
