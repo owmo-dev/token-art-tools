@@ -8,7 +8,7 @@ import SetHash from "../modals/set-hash.component";
 const LeftControls = (props) => {
     const [randomHash, triggerRandom] = useState(false);
 
-    const { values, setValueAtIndex, setHashValues } = props;
+    const { values, setValueAtIndex, setHashValues, hashHistory } = props;
 
     function makeSliders() {
         var s = [];
@@ -42,6 +42,10 @@ const LeftControls = (props) => {
         setSetHashModalState(false);
     }
 
+    function goBackOneHash() {
+        setHashValues(hashHistory[hashHistory.length - 1]);
+    }
+
     return (
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
@@ -50,12 +54,18 @@ const LeftControls = (props) => {
                     <Title />
                 </Grid.Column>
                 <Grid.Column style={{ paddingTop: 25 }}>
-                    <Button icon color="red" disabled style={{ float: "right", marginLeft: 15 }} onClick={() => {}}>
+                    <Button
+                        icon
+                        disabled={hashHistory.length === 0}
+                        color="orange"
+                        style={{ float: "right", marginLeft: 15 }}
+                        onClick={goBackOneHash}
+                    >
                         <Icon name="undo" />
                     </Button>
                     <Button
                         icon
-                        color="green"
+                        color="pink"
                         style={{ float: "right", marginLeft: 15 }}
                         onClick={() => {
                             openSetHashModal();
