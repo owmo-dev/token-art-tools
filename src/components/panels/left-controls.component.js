@@ -49,23 +49,33 @@ const LeftControls = (props) => {
     return (
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
-            <Grid columns="equal">
-                <Grid.Column>
+            <Grid>
+                <Grid.Column
+                    style={{
+                        width: 230,
+                        margin: 0,
+                        padding: 15,
+                        paddingRight: 0,
+                    }}
+                >
                     <Title />
                 </Grid.Column>
-                <Grid.Column style={{ paddingTop: 25 }}>
+                <Grid.Column style={{ width: 265, padding: 0, paddingTop: 25 }}>
                     <Button
                         icon
                         disabled={hashHistory.length === 0}
-                        color="orange"
+                        color="purple"
                         style={{ float: "right", marginLeft: 15 }}
                         onClick={goBackOneHash}
                     >
                         <Icon name="undo" />
                     </Button>
+                    <Button icon color="pink" style={{ float: "right", marginLeft: 15 }} onClick={() => {}}>
+                        <Icon name="cog" />
+                    </Button>
                     <Button
                         icon
-                        color="pink"
+                        color="teal"
                         style={{ float: "right", marginLeft: 15 }}
                         onClick={() => {
                             openSetHashModal();
