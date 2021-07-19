@@ -9,8 +9,8 @@ const SetResolution = (props) => {
     const [formData, setFormData] = useState(emptyFormData);
 
     function onChange(e) {
-        setFormData((prevState) => ({
-            ...prevState,
+        setFormData((prev) => ({
+            ...prev,
             [e.target.name]: e.target.value,
         }));
     }
