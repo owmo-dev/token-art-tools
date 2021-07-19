@@ -10,6 +10,7 @@ import { ValueToHexPair, HexPairToValue } from "../helpers/token.helpers";
 
 const App = () => {
     const [hash, setHash] = useState("0x0000000000000000000000000000000000000000000000000000000000000000");
+    const [hashHistory, setHashHistory] = useState([]);
 
     const [values, setValues] = useState(() => {
         var v = {};
@@ -38,8 +39,17 @@ const App = () => {
         for (let i = 0; i < 32; i++) {
             h += ValueToHexPair(values[i]);
         }
-        if (hash !== h) setHash(h);
-    }, [values, hash]);
+        if (hash !== h) {
+            var history = hashHistory;
+            if (history[history.length - 1] === h) {
+                history.pop();
+            } else {
+                if (hash !== undefined) history.push(hash);
+            }
+            setHashHistory(history);
+            setHash(h);
+        }
+    }, [values, hash, hashHistory]);
 
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
@@ -47,6 +57,7 @@ const App = () => {
                 <LeftControls
                     hash={hash}
                     values={values}
+                    hashHistory={hashHistory}
                     setValueAtIndex={setValueAtIndex}
                     setHashValues={setHashValues}
                 />
