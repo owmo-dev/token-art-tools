@@ -8,7 +8,7 @@ import SetHash from "../modals/set-hash.component";
 const LeftControls = (props) => {
     const [randomHash, triggerRandom] = useState(false);
 
-    const { values, setValueAtIndex, setHashValues, hashHistory } = props;
+    const { hash, values, setValueAtIndex, setHashValues, hashHistory } = props;
 
     function makeSliders() {
         var s = [];
@@ -97,10 +97,10 @@ const LeftControls = (props) => {
                     userSelect: "none",
                 }}
                 onClick={() => {
-                    navigator.clipboard.writeText(props.hash);
+                    navigator.clipboard.writeText(hash);
                 }}
             >
-                <span style={{ fontFamily: "monospace", fontSize: 11 }}>{props.hash}</span>
+                <span style={{ fontFamily: "monospace", fontSize: 11 }}>{hash}</span>
                 <Icon color="grey" name="copy" size="small" style={{ float: "right", marginRight: 10, marginTop: 6 }} />
             </Segment>
             <Segment

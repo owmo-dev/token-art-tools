@@ -35,7 +35,16 @@ const HashPairSlider = (props) => {
         <Segment inverted style={{ background: "#222", marginBottom: 8, padding: 0 }}>
             <Grid>
                 <Grid.Column width={1}>
-                    <span style={{ fontFamily: "monospace", fontSize: 16, position: "relative", top: 5, left: -3 }}>
+                    <span
+                        style={{
+                            fontFamily: "monospace",
+                            fontSize: 16,
+                            position: "relative",
+                            top: 5,
+                            left: -3,
+                            userSelect: "none",
+                        }}
+                    >
                         {index}
                     </span>
                 </Grid.Column>
@@ -75,7 +84,16 @@ const HashPairSlider = (props) => {
                     />
                 </Grid.Column>
                 <Grid.Column width={1}>
-                    <span style={{ fontFamily: "monospace", fontSize: 16, position: "relative", top: 5, left: -10 }}>
+                    <span
+                        style={{
+                            fontFamily: "monospace",
+                            fontSize: 16,
+                            position: "relative",
+                            top: 5,
+                            left: -10,
+                            userSelect: "none",
+                        }}
+                    >
                         {ValueToHexPair(value)}
                     </span>
                 </Grid.Column>
