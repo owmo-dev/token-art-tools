@@ -63,8 +63,8 @@ const LeftControls = (props) => {
                 <Grid.Column style={{ width: 265, padding: 0, paddingTop: 25 }}>
                     <Button
                         icon
-                        disabled={hashHistory.length === 0}
                         color="purple"
+                        disabled={hashHistory.length === 0}
                         style={{ float: "right", marginLeft: 15 }}
                         onClick={goBackOneHash}
                     >
