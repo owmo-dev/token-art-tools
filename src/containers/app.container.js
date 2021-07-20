@@ -41,11 +41,13 @@ const App = () => {
     const [run, setRun] = useState(false);
     const [progress, setProgress] = useState(0);
     const [current, setCurrent] = useState(null);
+    const [total, setTotal] = useState(0);
 
     const runAutomation = (count, wait) => {
         var current = 0;
         setProgress(0);
         setRun(true);
+        setTotal(count);
         triggerRandom(true);
         function loop() {
             setTimeout(function () {
@@ -68,8 +70,9 @@ const App = () => {
             return;
         }
         if (current === null || current === 0) return;
-        triggerRandom(true);
         screenshot();
+        if (current === total) return;
+        triggerRandom(true);
     }, [run, current]);
 
     const [iFrameKey, setIframeKey] = useState(0);
