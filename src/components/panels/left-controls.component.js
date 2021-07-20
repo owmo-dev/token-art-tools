@@ -8,7 +8,7 @@ import SetHash from "../modals/set-hash.component";
 const LeftControls = (props) => {
     const [randomHash, triggerRandom] = useState(false);
 
-    const { hash, values, setValueAtIndex, setHashValues, hashHistory } = props;
+    const { hash, values, setValueAtIndex, setHashValues, hashHistory, clearHistory } = props;
 
     function makeSliders() {
         var s = [];
@@ -46,6 +46,10 @@ const LeftControls = (props) => {
         setHashValues(hashHistory[hashHistory.length - 1]);
     }
 
+    function clrHistory() {
+        clearHistory();
+    }
+
     return (
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
@@ -63,20 +67,29 @@ const LeftControls = (props) => {
                 <Grid.Column style={{ width: 265, padding: 0, paddingTop: 25 }}>
                     <Button
                         icon
+                        color="red"
+                        disabled={hashHistory.length === 0}
+                        style={{ float: "right", marginLeft: 12 }}
+                        onClick={clrHistory}
+                    >
+                        <Icon name="x" />
+                    </Button>
+                    <Button
+                        icon
                         color="purple"
                         disabled={hashHistory.length === 0}
-                        style={{ float: "right", marginLeft: 15 }}
+                        style={{ float: "right", marginLeft: 12 }}
                         onClick={goBackOneHash}
                     >
                         <Icon name="undo" />
                     </Button>
-                    <Button icon color="pink" style={{ float: "right", marginLeft: 15 }} onClick={() => {}}>
+                    <Button icon color="pink" style={{ float: "right", marginLeft: 12 }} onClick={() => {}}>
                         <Icon name="cog" />
                     </Button>
                     <Button
                         icon
                         color="teal"
-                        style={{ float: "right", marginLeft: 15 }}
+                        style={{ float: "right", marginLeft: 12 }}
                         onClick={() => {
                             openSetHashModal();
                         }}
@@ -96,24 +109,6 @@ const LeftControls = (props) => {
                 </Grid.Column>
             </Grid>
             <Segment
-                style={{
-                    padding: 0,
-                    margin: 0,
-                    paddingTop: 2,
-                    paddingBottom: 4,
-                    paddingLeft: 15,
-                    marginTop: 15,
-                    cursor: "pointer",
-                    userSelect: "none",
-                }}
-                onClick={() => {
-                    navigator.clipboard.writeText(hash);
-                }}
-            >
-                <span style={{ fontFamily: "monospace", fontSize: 11 }}>{hash}</span>
-                <Icon color="grey" name="copy" size="small" style={{ float: "right", marginRight: 10, marginTop: 6 }} />
-            </Segment>
-            <Segment
                 inverted
                 style={{
                     marginTop: 18,
@@ -124,6 +119,25 @@ const LeftControls = (props) => {
                 }}
             >
                 <Segment.Group>{sliders}</Segment.Group>
+            </Segment>
+            <Segment
+                style={{
+                    padding: 0,
+                    margin: 0,
+                    paddingTop: 2,
+                    paddingBottom: 4,
+                    paddingLeft: 15,
+                    marginTop: 15,
+                    cursor: "pointer",
+                    userSelect: "none",
+                    background: "#CCC",
+                }}
+                onClick={() => {
+                    navigator.clipboard.writeText(hash);
+                }}
+            >
+                <span style={{ fontFamily: "monospace", fontSize: 11 }}>{hash}</span>
+                <Icon color="grey" name="copy" size="small" style={{ float: "right", marginRight: 10, marginTop: 6 }} />
             </Segment>
         </>
     );
