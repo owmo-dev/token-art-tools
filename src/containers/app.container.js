@@ -7,9 +7,15 @@ import LeftControls from "../components/panels/left-controls.component";
 import MainViewer from "../components/panels/main-viewer.component";
 
 import { ValueToHexPair, HexPairToValue } from "../helpers/token.helpers";
+import { ValidateURL } from "../helpers/url.helpers";
+
+const nullHash = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 const App = () => {
-    const [hash, setHash] = useState("0x0000000000000000000000000000000000000000000000000000000000000000");
+    const [url, setUrl] = useState("");
+    const [isValidUrl, setUrlValid] = useState(false);
+
+    const [hash, setHash] = useState(nullHash);
     const [hashHistory, setHashHistory] = useState([]);
 
     const [values, setValues] = useState(() => {
@@ -32,6 +38,12 @@ const App = () => {
         for (let i = 0; i < 32; i++) {
             setValueAtIndex(i, HexPairToValue(h[i * 2] + h[i * 2 + 1]));
         }
+    };
+
+    const setUrlValue = (u) => {
+        if (url === u) return;
+        setUrl(u);
+        setUrlValid(ValidateURL(u));
     };
 
     useEffect(() => {
@@ -71,7 +83,7 @@ const App = () => {
                     minWidth: 800,
                 }}
             >
-                <MainViewer hash={hash} />
+                <MainViewer hash={hash} url={url} isValidUrl={isValidUrl} setUrlValue={setUrlValue} />
             </div>
         </div>
     );
