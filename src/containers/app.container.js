@@ -46,6 +46,11 @@ const App = () => {
         setUrlValid(ValidateURL(u));
     };
 
+    const clearHistory = () => {
+        setHashValues(nullHash);
+        setHashHistory([nullHash]);
+    };
+
     useEffect(() => {
         var h = "0x";
         for (let i = 0; i < 32; i++) {
@@ -72,6 +77,7 @@ const App = () => {
                     hashHistory={hashHistory}
                     setValueAtIndex={setValueAtIndex}
                     setHashValues={setHashValues}
+                    clearHistory={clearHistory}
                 />
             </div>
             <div
