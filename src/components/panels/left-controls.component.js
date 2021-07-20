@@ -4,11 +4,12 @@ import { Segment, Grid, Button, Icon } from "semantic-ui-react";
 import Title from "../copy/title.component";
 import HashPairSlider from "../inputs/hashpair-slider.component";
 import SetHash from "../modals/set-hash.component";
+import InitAutomation from "../modals/init-automation.component";
 
 const LeftControls = (props) => {
     const [randomHash, triggerRandom] = useState(false);
 
-    const { hash, values, setValueAtIndex, setHashValues, hashHistory, clearHistory } = props;
+    const { hash, values, setValueAtIndex, setHashValues, hashHistory, clearHistory, isValidUrl } = props;
 
     function makeSliders() {
         var s = [];
@@ -50,9 +51,20 @@ const LeftControls = (props) => {
         clearHistory();
     }
 
+    const [isInitAutoModalOpen, setInitAutoModalState] = useState(false);
+
+    function openInitAutoModal() {
+        setInitAutoModalState(true);
+    }
+
+    function closeInitAutoModal() {
+        setInitAutoModalState(false);
+    }
+
     return (
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
+            <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
             <Grid>
                 <Grid.Column
                     style={{
@@ -83,7 +95,13 @@ const LeftControls = (props) => {
                     >
                         <Icon name="undo" />
                     </Button>
-                    <Button icon color="pink" style={{ float: "right", marginLeft: 12 }} onClick={() => {}}>
+                    <Button
+                        icon
+                        color="pink"
+                        disabled={!isValidUrl}
+                        style={{ float: "right", marginLeft: 12 }}
+                        onClick={openInitAutoModal}
+                    >
                         <Icon name="cog" />
                     </Button>
                     <Button

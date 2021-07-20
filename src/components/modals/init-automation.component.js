@@ -5,7 +5,7 @@ const InitAutomation = (props) => {
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
-    const emptyFormData = { x: "", y: "" };
+    const emptyFormData = { count: 0, wait: 0 };
     const [formData, setFormData] = useState(emptyFormData);
 
     function onChange(e) {
@@ -45,15 +45,27 @@ const InitAutomation = (props) => {
 
     return (
         <Modal size="tiny" open={props.active}>
-            <Modal.Header>Automate Image Capture</Modal.Header>
+            <Modal.Header>Generate Random Hash Images</Modal.Header>
             <Modal.Content>
                 <Form size="large">
                     <Form.Group widths="equal">
-                        <Form.Input fluid name="x" label="X" value={formData.x} onChange={onChange} />
-                        <Form.Input fluid name="y" label="Y" value={formData.y} onChange={onChange} />
+                        <Form.Input
+                            fluid
+                            name="count"
+                            label="Image Count (1-1000)"
+                            value={formData.x}
+                            onChange={onChange}
+                        />
+                        <Form.Input
+                            fluid
+                            name="wait"
+                            label="Wait in ms / image (100 - 10,000)"
+                            value={formData.y}
+                            onChange={onChange}
+                        />
                     </Form.Group>
                 </Form>
-                {isError ? <Message error>ERROR: numbers only, min 10, max 10,000</Message> : null}
+                {isError ? <Message error>ERROR: Count and Wait numbers only, within ranges specified</Message> : null}
             </Modal.Content>
             <Modal.Actions>
                 <Button secondary disabled={isSubmitting} onClick={cancel}>
