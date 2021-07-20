@@ -5,6 +5,7 @@ import Title from "../copy/title.component";
 import HashPairSlider from "../inputs/hashpair-slider.component";
 import SetHash from "../modals/set-hash.component";
 import InitAutomation from "../modals/init-automation.component";
+import RunAutomation from "../modals/run-automation.component";
 
 const LeftControls = (props) => {
     const [randomHash, triggerRandom] = useState(false);
@@ -57,14 +58,30 @@ const LeftControls = (props) => {
         setInitAutoModalState(true);
     }
 
-    function closeInitAutoModal() {
+    function closeInitAutoModal(r, c, w) {
         setInitAutoModalState(false);
+        setCount(c);
+        setWait(w);
+        if (r) openRunAutomationModal();
+    }
+
+    const [isRunAutomationModalOpen, setRunAutomationModalState] = useState(false);
+    const [count, setCount] = useState(0);
+    const [wait, setWait] = useState(0);
+
+    function openRunAutomationModal() {
+        setRunAutomationModalState(true);
+    }
+
+    function closeRunAutoModal() {
+        setRunAutomationModalState(false);
     }
 
     return (
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
             <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
+            <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} count={count} wait={wait} />
             <Grid>
                 <Grid.Column
                     style={{
