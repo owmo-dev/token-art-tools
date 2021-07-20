@@ -5,12 +5,10 @@ import SetResolution from "../modals/set-resolution.component";
 import Instructions from "../copy/instructions.component";
 
 const MainViewer = (props) => {
-    const [iKey, setKey] = useState(0);
-
     const [resolutionValue, setResolutionValue] = useState("fill");
     const [iframeResolution, setIFrameResolution] = useState({ x: "100%", y: "100%" });
 
-    const { hash, url, isValidUrl, setUrlValue } = props;
+    const { hash, url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot } = props;
 
     function onChange(e) {
         setUrlValue(e.target.value);
@@ -47,10 +45,6 @@ const MainViewer = (props) => {
         setResolutionValue(d.value);
         refresh();
     }
-
-    const refresh = () => {
-        setKey(iKey + 1);
-    };
 
     useEffect(() => {
         if (!isValidUrl) setResolutionValue("fill");
@@ -97,16 +91,7 @@ const MainViewer = (props) => {
         <>
             <SetResolution active={isResolutionModalOpen} close={closeResolutionModal} set={setRes} />
             <div style={{ width: "auto", height: 50, marginBottom: 10, marginTop: 10 }}>
-                <Button
-                    icon
-                    disabled={!isValidUrl}
-                    onClick={() => {
-                        var iframe = window.document.querySelector("iframe").contentWindow;
-                        if (iframe === undefined) return;
-                        iframe.postMessage({ command: "screenshot", token: hash }, "*");
-                    }}
-                    style={{ float: "right", marginLeft: 20 }}
-                >
+                <Button icon disabled={!isValidUrl} onClick={screenshot} style={{ float: "right", marginLeft: 20 }}>
                     <Icon name="camera" />
                 </Button>
                 <Button
@@ -198,7 +183,7 @@ const MainViewer = (props) => {
                                 border: "1px dashed #99999933",
                                 position: "absolute",
                             }}
-                            key={iKey}
+                            key={iFrameKey}
                         />
                     ) : (
                         <div style={{ width: "100%", height: "100%", background: "#555", overflow: "auto" }}>
