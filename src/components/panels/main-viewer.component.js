@@ -5,40 +5,41 @@ import SetResolution from "../modals/set-resolution.component";
 import Instructions from "../copy/instructions.component";
 
 const MainViewer = (props) => {
-    const [url, setUrl] = useState("");
-    const [isUrlValid, setUrlValid] = useState(false);
     const [iKey, setKey] = useState(0);
 
     const [resolutionValue, setResolutionValue] = useState("fill");
     const [iframeResolution, setIFrameResolution] = useState({ x: "100%", y: "100%" });
 
-    const { hash } = props;
+    const { hash, url, isValidUrl, setUrlValue } = props;
 
     function onChange(e) {
-        if (url === e.target.value) return;
-        setUrl(e.target.value);
-        var valid = isValidHttpUrl(e.target.value);
-        setUrlValid(valid);
-        if (!valid) {
-            setResolutionValue("fill");
-        }
+        setUrlValue(e.target.value);
     }
 
     function handleClearURL() {
-        setUrl("");
-        setUrlValid(false);
+        setUrlValue("");
     }
 
     const resolutionOptions = [
         {
             key: "fill",
-            text: "Fill Space",
+            text: "Fill Available",
             value: "fill",
         },
         {
             key: "half",
-            text: "Half Size Preview",
+            text: "Fill Half Sized",
             value: "half",
+        },
+        {
+            key: "ab_thumb",
+            text: "Artblocks Thumb",
+            value: "ab_thumb",
+        },
+        {
+            key: "ab_preview",
+            text: "Artblocks Preview",
+            value: "ab_preview",
         },
         {
             key: "custom",
@@ -57,12 +58,22 @@ const MainViewer = (props) => {
     };
 
     useEffect(() => {
+        if (!isValidUrl) setResolutionValue("fill");
+    }, [isValidUrl]);
+
+    useEffect(() => {
         switch (resolutionValue) {
             case "custom":
                 openResolutionModal();
                 break;
             case "half":
                 setIFrameResolution({ x: "50%", y: "50%" });
+                break;
+            case "ab_thumb":
+                setIFrameResolution({ x: "214px", y: "214px" });
+                break;
+            case "ab_preview":
+                setIFrameResolution({ x: "438px", y: "438px" });
                 break;
             default:
             case "fill":
@@ -96,7 +107,7 @@ const MainViewer = (props) => {
             <div style={{ width: "auto", height: 50, marginBottom: 10, marginTop: 10 }}>
                 <Button
                     icon
-                    disabled={!isUrlValid}
+                    disabled={!isValidUrl}
                     onClick={() => {
                         var iframe = window.document.querySelector("iframe").contentWindow;
                         if (iframe === undefined) return;
@@ -108,7 +119,7 @@ const MainViewer = (props) => {
                 </Button>
                 <Button
                     icon
-                    disabled={!isUrlValid}
+                    disabled={!isValidUrl}
                     floated="right"
                     style={{ float: "right", marginLeft: 20 }}
                     onClick={refresh}
@@ -118,7 +129,7 @@ const MainViewer = (props) => {
                 <Dropdown
                     selection
                     placeholder="Fit Available Space"
-                    disabled={!isUrlValid}
+                    disabled={!isValidUrl}
                     options={resolutionOptions}
                     value={resolutionValue}
                     onChange={handleChange}
@@ -156,7 +167,7 @@ const MainViewer = (props) => {
                 <Button
                     icon
                     inverted
-                    disabled={!isUrlValid}
+                    disabled={!isValidUrl}
                     size="mini"
                     onClick={() => {
                         var iframe = window.document.querySelector("iframe");
@@ -184,7 +195,7 @@ const MainViewer = (props) => {
                         position: "relative",
                     }}
                 >
-                    {isUrlValid && hash !== undefined ? (
+                    {isValidUrl && hash !== undefined ? (
                         <iframe
                             id={new Date().getTime()}
                             title="token art tools viewer"
@@ -207,17 +218,5 @@ const MainViewer = (props) => {
         </>
     );
 };
-
-function isValidHttpUrl(string) {
-    let url;
-
-    try {
-        url = new URL(string);
-    } catch (_) {
-        return false;
-    }
-
-    return url.protocol === "http:" || url.protocol === "https:";
-}
 
 export default MainViewer;
