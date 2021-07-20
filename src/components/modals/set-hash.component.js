@@ -48,7 +48,7 @@ const SetHash = (props) => {
     }
 
     return (
-        <Modal size="small" open={active}>
+        <Modal size="small" open={active} closeOnEscape={true}>
             <Modal.Header>Enter Hash</Modal.Header>
             <Modal.Content>
                 <Form>
