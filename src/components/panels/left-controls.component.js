@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Segment, Grid, Button, Icon } from "semantic-ui-react";
 
 import Title from "../copy/title.component";
@@ -8,9 +8,20 @@ import InitAutomation from "../modals/init-automation.component";
 import RunAutomation from "../modals/run-automation.component";
 
 const LeftControls = (props) => {
-    const [randomHash, triggerRandom] = useState(false);
-
-    const { hash, values, setValueAtIndex, setHashValues, hashHistory, clearHistory, isValidUrl } = props;
+    const {
+        hash,
+        values,
+        setValueAtIndex,
+        setHashValues,
+        hashHistory,
+        clearHistory,
+        isValidUrl,
+        randomHash,
+        triggerRandom,
+        runAutomation,
+        progress,
+        setRun,
+    } = props;
 
     function makeSliders() {
         var s = [];
@@ -29,10 +40,6 @@ const LeftControls = (props) => {
     }
 
     const sliders = makeSliders();
-
-    useEffect(() => {
-        if (randomHash) triggerRandom(false);
-    }, [randomHash]);
 
     const [isSetHashModalOpen, setSetHashModalState] = useState(false);
 
@@ -60,20 +67,20 @@ const LeftControls = (props) => {
 
     function closeInitAutoModal(r, c, w) {
         setInitAutoModalState(false);
-        setCount(c);
-        setWait(w);
-        if (r) openRunAutomationModal();
+        if (r) {
+            openRunAutomationModal();
+            runAutomation(c, w);
+        }
     }
 
     const [isRunAutomationModalOpen, setRunAutomationModalState] = useState(false);
-    const [count, setCount] = useState(0);
-    const [wait, setWait] = useState(0);
 
     function openRunAutomationModal() {
         setRunAutomationModalState(true);
     }
 
     function closeRunAutoModal() {
+        setRun(false);
         setRunAutomationModalState(false);
     }
 
@@ -81,7 +88,7 @@ const LeftControls = (props) => {
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
             <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
-            <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} count={count} wait={wait} />
+            <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} progress={progress} />
             <Grid>
                 <Grid.Column
                     style={{

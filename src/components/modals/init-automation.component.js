@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Modal, Form, Message, Button } from "semantic-ui-react";
 
 const InitAutomation = (props) => {
+    const { active, close } = props;
+
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
@@ -23,7 +25,7 @@ const InitAutomation = (props) => {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-        props.close(r, c, w);
+        close(r, c, w);
     }
 
     function handleSubmit() {
@@ -33,7 +35,7 @@ const InitAutomation = (props) => {
         var c = parseInt(formData.count);
         var w = parseInt(formData.wait);
 
-        if (isNaN(c) || isNaN(w) || c < 1 || c > 1000 || w < 100 || w > 10000) {
+        if (isNaN(c) || isNaN(w) || c < 2 || c > 1000 || w < 1000 || w > 10000) {
             setErrorState(true);
             setSubmitState(false);
             return;
@@ -43,22 +45,22 @@ const InitAutomation = (props) => {
     }
 
     return (
-        <Modal size="tiny" open={props.active}>
-            <Modal.Header>Generate Random Hash Images</Modal.Header>
+        <Modal size="small" open={active}>
+            <Modal.Header>Automatic Random Images</Modal.Header>
             <Modal.Content>
                 <Form size="large">
                     <Form.Group widths="equal">
                         <Form.Input
                             fluid
                             name="count"
-                            label="Image Count (1-1000)"
+                            label="Image Count (2-1000)"
                             value={formData.x}
                             onChange={onChange}
                         />
                         <Form.Input
                             fluid
                             name="wait"
-                            label="Wait in ms / image (100 - 10,000)"
+                            label="Wait in ms / image (1000 - 10,000)"
                             value={formData.y}
                             onChange={onChange}
                         />
