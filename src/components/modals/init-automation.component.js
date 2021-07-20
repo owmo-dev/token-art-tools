@@ -16,31 +16,30 @@ const InitAutomation = (props) => {
     }
 
     function cancel() {
-        closeModal(true);
+        closeModal(false, 0, 0);
     }
 
-    function closeModal(isCancel) {
+    function closeModal(r, c, w) {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-        props.close(isCancel);
+        props.close(r, c, w);
     }
 
     function handleSubmit() {
         setErrorState(false);
         setSubmitState(true);
 
-        var x = parseInt(formData.x);
-        var y = parseInt(formData.y);
+        var c = parseInt(formData.count);
+        var w = parseInt(formData.wait);
 
-        if (isNaN(x) || isNaN(y) || x < 10 || x > 10000 || y < 10 || y > 10000) {
+        if (isNaN(c) || isNaN(w) || c < 1 || c > 1000 || w < 100 || w > 10000) {
             setErrorState(true);
             setSubmitState(false);
             return;
         }
 
-        props.set(x, y);
-        closeModal(false);
+        closeModal(true, c, w);
     }
 
     return (
