@@ -27,11 +27,6 @@ const MainViewer = (props) => {
             value: "fill",
         },
         {
-            key: "half",
-            text: "Fill Half Sized",
-            value: "half",
-        },
-        {
             key: "ab_thumb",
             text: "Artblocks Thumb",
             value: "ab_thumb",
@@ -65,9 +60,6 @@ const MainViewer = (props) => {
         switch (resolutionValue) {
             case "custom":
                 openResolutionModal();
-                break;
-            case "half":
-                setIFrameResolution({ x: "50%", y: "50%" });
                 break;
             case "ab_thumb":
                 setIFrameResolution({ x: "214px", y: "214px" });
