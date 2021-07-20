@@ -78,6 +78,7 @@ const App = () => {
                     setValueAtIndex={setValueAtIndex}
                     setHashValues={setHashValues}
                     clearHistory={clearHistory}
+                    isValidUrl={isValidUrl}
                 />
             </div>
             <div
