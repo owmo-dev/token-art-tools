@@ -35,7 +35,7 @@ const InitAutomation = (props) => {
         var c = parseInt(formData.count);
         var w = parseInt(formData.wait);
 
-        if (isNaN(c) || isNaN(w) || c < 2 || c > 1000 || w < 1000 || w > 10000) {
+        if (isNaN(c) || isNaN(w) || c < 2 || c > 10000 || w < 1000 || w > 10000) {
             setErrorState(true);
             setSubmitState(false);
             return;
@@ -53,7 +53,7 @@ const InitAutomation = (props) => {
                         <Form.Input
                             fluid
                             name="count"
-                            label="Image Count (2-1000)"
+                            label="Image Count (2-10,000)"
                             value={formData.x}
                             onChange={onChange}
                         />
