@@ -13,6 +13,11 @@ Include this in the head of your `index.html` file
 <script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools/providers/artblocks.js"></script>
 ```
 
+Then use the token hash provided by that script to drive features in your artwork
+```javascript
+var hash = tokenData.hash;
+```
+
 Host your generative artwork script via a local HTTP server, for example:
 
 ```python
