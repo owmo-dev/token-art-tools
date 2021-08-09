@@ -18,9 +18,9 @@ const LeftControls = (props) => {
         isValidUrl,
         randomHash,
         triggerRandom,
-        runAutomation,
+        startAutomation,
+        stopAutomation,
         progress,
-        setRun,
     } = props;
 
     function makeSliders() {
@@ -69,7 +69,7 @@ const LeftControls = (props) => {
         setInitAutoModalState(false);
         if (r) {
             openRunAutomationModal();
-            runAutomation(c, w);
+            startAutomation(c, w);
         }
     }
 
@@ -80,7 +80,7 @@ const LeftControls = (props) => {
     }
 
     function closeRunAutoModal() {
-        setRun(false);
+        stopAutomation();
         setRunAutomationModalState(false);
     }
 
@@ -88,7 +88,12 @@ const LeftControls = (props) => {
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
             <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
-            <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} progress={progress} />
+            <RunAutomation
+                active={isRunAutomationModalOpen}
+                close={closeRunAutoModal}
+                progress={progress}
+                stop={stopAutomation}
+            />
             <Grid>
                 <Grid.Column
                     style={{

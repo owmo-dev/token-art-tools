@@ -45,22 +45,22 @@ const InitAutomation = (props) => {
     }
 
     return (
-        <Modal size="small" open={active}>
-            <Modal.Header>Automatic Random Images</Modal.Header>
+        <Modal size="tiny" open={active}>
+            <Modal.Header>Setup Automation</Modal.Header>
             <Modal.Content>
                 <Form size="large">
                     <Form.Group widths="equal">
                         <Form.Input
                             fluid
                             name="count"
-                            label="Image Count (2-10,000)"
+                            label="Count (2-10,000)"
                             value={formData.x}
                             onChange={onChange}
                         />
                         <Form.Input
                             fluid
                             name="wait"
-                            label="Wait in ms / image (1000 - 10,000)"
+                            label="Wait (1000 - 10,000) ms"
                             value={formData.y}
                             onChange={onChange}
                         />
