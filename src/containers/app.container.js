@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 
 import "semantic-ui-css/semantic.min.css";
 import "../css/style.css";
@@ -10,6 +10,18 @@ import { ValueToHexPair, HexPairToValue } from "../helpers/token.helpers";
 import { ValidateURL } from "../helpers/url.helpers";
 
 const nullHash = "0x0000000000000000000000000000000000000000000000000000000000000000";
+
+const loopReducer = (state, action) => {
+    switch (action.type) {
+        case "tick":
+            if (state === false) state = -1;
+            return state + 1;
+        case "reset":
+            return false;
+        default:
+            return state;
+    }
+};
 
 const App = () => {
     const [url, setUrl] = useState("");
@@ -38,42 +50,41 @@ const App = () => {
         iframe.postMessage({ command: "screenshot", token: hash }, "*");
     };
 
-    const [run, setRun] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [current, setCurrent] = useState(null);
+    const [state, dispatch] = useReducer(loopReducer, false);
+    const [tick, setTick] = useState(null);
     const [total, setTotal] = useState(0);
 
-    const runAutomation = (count, wait) => {
-        var current = 0;
+    function startAutomation(t, w) {
+        setTotal(t);
         setProgress(0);
-        setRun(true);
-        setTotal(count);
         triggerRandom(true);
-        function loop() {
-            setTimeout(function () {
-                current++;
-                setProgress((current / count) * 100);
-                setCurrent(current);
-                if (current < count) {
-                    loop();
-                } else {
-                    setRun(false);
-                }
-            }, wait);
-        }
-        loop();
-    };
+        setTick(
+            setInterval(() => {
+                dispatch({ type: "tick" });
+            }, w)
+        );
+    }
+
+    function stopAutomation() {
+        clearInterval(tick);
+        setTick(null);
+        setTotal(0);
+        dispatch({ type: "reset" });
+        setProgress(100);
+    }
 
     useEffect(() => {
-        if (!run) {
-            if (current !== null) setCurrent(null);
+        if (!state || isNaN(state)) return;
+        if (state > total) {
+            stopAutomation();
             return;
         }
-        if (current === null || current === 0) return;
         screenshot();
-        if (current === total) return;
+        setProgress((state / total) * 100);
+        if (state === total) return;
         triggerRandom(true);
-    }, [run, current]);
+    }, [state]);
 
     const [iFrameKey, setIframeKey] = useState(0);
 
@@ -136,9 +147,9 @@ const App = () => {
                     isValidUrl={isValidUrl}
                     randomHash={randomHash}
                     triggerRandom={triggerRandom}
-                    runAutomation={runAutomation}
+                    startAutomation={startAutomation}
+                    stopAutomation={stopAutomation}
                     progress={progress}
-                    setRun={setRun}
                 />
             </div>
             <div
