@@ -25,14 +25,19 @@ const MainViewer = (props) => {
             value: "fill",
         },
         {
-            key: "ab_thumb",
-            text: "Artblocks Thumb",
-            value: "ab_thumb",
+            key: "monitor",
+            text: "Monitor",
+            value: "monitor",
         },
         {
-            key: "ab_preview",
-            text: "Artblocks Preview",
-            value: "ab_preview",
+            key: "preview",
+            text: "Preview",
+            value: "preview",
+        },
+        {
+            key: "thumb",
+            text: "Thumbnail",
+            value: "thumb",
         },
         {
             key: "custom",
@@ -55,11 +60,14 @@ const MainViewer = (props) => {
             case "custom":
                 openResolutionModal();
                 break;
-            case "ab_thumb":
-                setIFrameResolution({ x: "214px", y: "214px" });
+            case "thumb":
+                setIFrameResolution({ x: "256px", y: "256px" });
                 break;
-            case "ab_preview":
-                setIFrameResolution({ x: "438px", y: "438px" });
+            case "preview":
+                setIFrameResolution({ x: "512px", y: "512px" });
+                break;
+            case "monitor":
+                setIFrameResolution({ x: "1024px", y: "1024px" });
                 break;
             default:
             case "fill":
