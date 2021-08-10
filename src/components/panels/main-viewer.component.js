@@ -26,9 +26,9 @@ const MainViewer = (props) => {
             value: "fill",
         },
         {
-            key: "monitor",
-            text: "Monitor",
-            value: "monitor",
+            key: "detailed",
+            text: "Detailed",
+            value: "detailed",
         },
         {
             key: "preview",
@@ -67,7 +67,7 @@ const MainViewer = (props) => {
             case "preview":
                 setIFrameResolution({ x: "512px", y: "512px" });
                 break;
-            case "monitor":
+            case "detailed":
                 setIFrameResolution({ x: "1024px", y: "1024px" });
                 break;
             default:
@@ -183,18 +183,34 @@ const MainViewer = (props) => {
                     }}
                 >
                     {isValidUrl && hash !== undefined ? (
-                        <iframe
-                            id={new Date().getTime()}
-                            title="token art tools viewer"
-                            src={url + "?hash=" + hash}
-                            width={iframeResolution.x}
-                            height={iframeResolution.y}
-                            style={{
-                                border: "1px dashed #99999933",
-                                position: "absolute",
-                            }}
-                            key={iFrameKey}
-                        />
+                        <div
+                            style={
+                                resolutionValue === "fill"
+                                    ? {
+                                          width: "100%",
+                                          height: "100%",
+                                          overflow: "hidden",
+                                      }
+                                    : {
+                                          position: "absolute",
+                                          top: "50%",
+                                          left: "50%",
+                                          transform: "translateX(-50%) translateY(-50%)",
+                                      }
+                            }
+                        >
+                            <iframe
+                                id={new Date().getTime()}
+                                title="token art tools viewer"
+                                src={url + "?hash=" + hash}
+                                width={iframeResolution.x}
+                                height={iframeResolution.y}
+                                style={{
+                                    border: "1px dashed #99999933",
+                                }}
+                                key={iFrameKey}
+                            />
+                        </div>
                     ) : (
                         <div style={{ width: "100%", height: "100%", background: "#555", overflow: "auto" }}>
                             <Instructions />
