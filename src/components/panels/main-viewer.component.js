@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Icon, Dropdown } from "semantic-ui-react";
+import { Input, Button, Icon, Dropdown, Segment } from "semantic-ui-react";
 
 import SetResolution from "../modals/set-resolution.component";
 import Instructions from "../copy/instructions.component";
+import Features from "../info/features.component";
 
 const MainViewer = (props) => {
     const [resolutionValue, setResolutionValue] = useState("fill");
@@ -144,9 +145,10 @@ const MainViewer = (props) => {
             <div
                 style={{
                     width: "100%",
-                    height: "calc(100vh - 105px)",
+                    height: "calc(100vh - 198px)",
                     position: "relative",
                     border: "1px solid #00000044",
+                    marginBottom: 15,
                 }}
             >
                 <Button
@@ -200,6 +202,9 @@ const MainViewer = (props) => {
                     )}
                 </div>
             </div>
+            <Segment inverted style={{ width: "100%", height: 80, padding: 0, paddingBottom: 2 }}>
+                <Features />
+            </Segment>
         </>
     );
 };
