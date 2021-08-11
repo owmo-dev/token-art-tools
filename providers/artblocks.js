@@ -1,3 +1,8 @@
+const params = new URLSearchParams(window.location.search);
+tokenData = { hash: params.get("hash") };
+
+var features = {};
+
 function screenshot(name) {
     const art = document.querySelector("canvas");
     const img = document.createElement("img");
@@ -23,12 +28,12 @@ window.onload = function () {
             case "screenshot":
                 screenshot(e.data["token"]);
                 break;
+            case "getFeatures":
+                window.parent.postMessage({ command: "loadFeatures", features: features }, "*");
+                break;
             default:
                 break;
         }
     }
     window.addEventListener("message", handleMessage);
 };
-
-const params = new URLSearchParams(window.location.search);
-tokenData = { hash: params.get("hash") };
