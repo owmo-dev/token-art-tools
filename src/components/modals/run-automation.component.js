@@ -21,7 +21,7 @@ const RunAutomation = (props) => {
             setMessage(msg_fin);
             setTimeout(() => {
                 close();
-            }, 1000);
+            }, 2000);
         }
     }, [progress, close]);
 

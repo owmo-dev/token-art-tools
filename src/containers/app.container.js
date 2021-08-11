@@ -63,6 +63,11 @@ const App = () => {
     const exportCSV = (list) => {
         let csvContent = "data:text/csv;charset=utf-8,";
 
+        csvContent += Object.keys(features).map((key) => {
+            return key;
+        });
+        csvContent += "\r\n";
+
         list.map((features) => {
             csvContent += Object.keys(features).map((key) => {
                 return features[key];
@@ -101,7 +106,6 @@ const App = () => {
         dispatch({ type: "reset" });
         setProgress(100);
         setStopping(true);
-
         if (doCSVExport) {
             exportCSV(featuresList);
         }
@@ -117,7 +121,7 @@ const App = () => {
         if (doCSVExport) {
             setTimeout(() => {
                 var f = features;
-                f["hash"] = hash;
+                f["Hash"] = hash;
                 setFeaturesList((prev) => [...prev, f]);
             }, 600);
         }
