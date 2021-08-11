@@ -65,11 +65,11 @@ const LeftControls = (props) => {
         setInitAutoModalState(true);
     }
 
-    function closeInitAutoModal(r, c, w) {
+    function closeInitAutoModal(r, total, wait, csv) {
         setInitAutoModalState(false);
         if (r) {
             openRunAutomationModal();
-            startAutomation(c, w);
+            startAutomation(total, wait, csv);
         }
     }
 
@@ -80,7 +80,6 @@ const LeftControls = (props) => {
     }
 
     function closeRunAutoModal() {
-        stopAutomation();
         setRunAutomationModalState(false);
     }
 
