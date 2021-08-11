@@ -31,11 +31,11 @@ const Features = (props) => {
             var iframe = window.document.querySelector("iframe").contentWindow;
             if (iframe === undefined) return;
             iframe.postMessage({ command: "getFeatures" }, "*");
-        }, 500);
+        }, 600);
 
         let timerTimeout = setTimeout(() => {
             setLoading(false);
-        }, 1000);
+        }, 1200);
 
         return () => {
             clearTimeout(timerGet);
