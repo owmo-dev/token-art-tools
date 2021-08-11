@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Icon, Dropdown } from "semantic-ui-react";
+import { Input, Button, Icon, Dropdown, Segment } from "semantic-ui-react";
 
 import SetResolution from "../modals/set-resolution.component";
 import Instructions from "../copy/instructions.component";
+import Features from "../info/features.component";
 
 const MainViewer = (props) => {
     const [resolutionValue, setResolutionValue] = useState("fill");
     const [iframeResolution, setIFrameResolution] = useState({ x: "100%", y: "100%" });
 
-    const { hash, url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot } = props;
+    const { hash, url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot, getFeatures } = props;
 
     function onChange(e) {
         setUrlValue(e.target.value);
@@ -25,9 +26,9 @@ const MainViewer = (props) => {
             value: "fill",
         },
         {
-            key: "monitor",
-            text: "Monitor",
-            value: "monitor",
+            key: "detailed",
+            text: "Detailed",
+            value: "detailed",
         },
         {
             key: "preview",
@@ -66,7 +67,7 @@ const MainViewer = (props) => {
             case "preview":
                 setIFrameResolution({ x: "512px", y: "512px" });
                 break;
-            case "monitor":
+            case "detailed":
                 setIFrameResolution({ x: "1024px", y: "1024px" });
                 break;
             default:
@@ -144,9 +145,10 @@ const MainViewer = (props) => {
             <div
                 style={{
                     width: "100%",
-                    height: "calc(100vh - 105px)",
+                    height: "calc(100vh - 198px)",
                     position: "relative",
                     border: "1px solid #00000044",
+                    marginBottom: 15,
                 }}
             >
                 <Button
@@ -181,18 +183,34 @@ const MainViewer = (props) => {
                     }}
                 >
                     {isValidUrl && hash !== undefined ? (
-                        <iframe
-                            id={new Date().getTime()}
-                            title="token art tools viewer"
-                            src={url + "?hash=" + hash}
-                            width={iframeResolution.x}
-                            height={iframeResolution.y}
-                            style={{
-                                border: "1px dashed #99999933",
-                                position: "absolute",
-                            }}
-                            key={iFrameKey}
-                        />
+                        <div
+                            style={
+                                resolutionValue === "fill"
+                                    ? {
+                                          width: "100%",
+                                          height: "100%",
+                                          overflow: "hidden",
+                                      }
+                                    : {
+                                          position: "absolute",
+                                          top: "50%",
+                                          left: "50%",
+                                          transform: "translateX(-50%) translateY(-50%)",
+                                      }
+                            }
+                        >
+                            <iframe
+                                id={new Date().getTime()}
+                                title="token art tools viewer"
+                                src={url + "?hash=" + hash}
+                                width={iframeResolution.x}
+                                height={iframeResolution.y}
+                                style={{
+                                    border: "1px dashed #99999933",
+                                }}
+                                key={iFrameKey}
+                            />
+                        </div>
                     ) : (
                         <div style={{ width: "100%", height: "100%", background: "#555", overflow: "auto" }}>
                             <Instructions />
@@ -200,6 +218,9 @@ const MainViewer = (props) => {
                     )}
                 </div>
             </div>
+            <Segment inverted style={{ width: "100%", height: 80, padding: 0, paddingBottom: 2 }}>
+                <Features hash={hash} isValidUrl={isValidUrl} iFrameKey={iFrameKey} />
+            </Segment>
         </>
     );
 };
