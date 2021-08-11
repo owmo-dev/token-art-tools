@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form, Message, Button } from "semantic-ui-react";
+import { Modal, Form, Message, Button, Divider, Checkbox } from "semantic-ui-react";
 
 const InitAutomation = (props) => {
     const { active, close } = props;
@@ -7,13 +7,14 @@ const InitAutomation = (props) => {
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
-    const emptyFormData = { count: 0, wait: 0 };
+    const emptyFormData = { count: 0, wait: 0, csv: false };
     const [formData, setFormData] = useState(emptyFormData);
 
-    function onChange(e) {
+    function onChange(e, v) {
+        let data = v.type === "checkbox" ? v.checked : v.value;
         setFormData((prev) => ({
             ...prev,
-            [e.target.name]: e.target.value,
+            [v.name]: data,
         }));
     }
 
@@ -64,6 +65,9 @@ const InitAutomation = (props) => {
                             value={formData.y}
                             onChange={onChange}
                         />
+                    </Form.Group>
+                    <Form.Group widths="equal">
+                        <Form.Checkbox toggle name="csv" label="CSV Features Report" onChange={onChange} />
                     </Form.Group>
                 </Form>
                 {isError ? <Message error>ERROR: Count and Wait numbers only, within ranges specified</Message> : null}
