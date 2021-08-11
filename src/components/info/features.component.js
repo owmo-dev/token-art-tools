@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List, Header, Loader } from "semantic-ui-react";
 
 const Features = (props) => {
-    const { hash, isValidUrl, iFrameKey } = props;
-    const [features, setFeatures] = useState({});
+    const { hash, isValidUrl, iFrameKey, features, setFeatures } = props;
     const [isLoading, setLoading] = useState(false);
     const [list, setList] = useState([]);
 

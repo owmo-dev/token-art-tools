@@ -81,7 +81,7 @@ const App = () => {
             return;
         }
         screenshot();
-        setProgress((state / total) * 100);
+        setProgress(parseInt((state / total) * 100));
         if (state === total) return;
         triggerRandom(true);
     }, [state]);
@@ -134,6 +134,8 @@ const App = () => {
         }
     }, [values, hash, hashHistory]);
 
+    const [features, setFeatures] = useState({});
+
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
             <div style={{ width: 480, position: "absolute", top: 20, left: 20 }}>
@@ -169,6 +171,8 @@ const App = () => {
                     iFrameKey={iFrameKey}
                     refresh={refresh}
                     screenshot={screenshot}
+                    features={features}
+                    setFeatures={setFeatures}
                 />
             </div>
         </div>
