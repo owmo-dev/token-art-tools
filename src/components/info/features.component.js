@@ -47,8 +47,8 @@ const Features = (props) => {
         setList(
             Object.keys(features).map((key) => {
                 return (
-                    <List.Item key={key}>
-                        <Header as="h3">
+                    <List.Item key={key} style={{ marginTop: -2 }}>
+                        <Header as="h4">
                             {features[key]}
                             <Header.Subheader style={{ marginTop: 3, etterSpacing: 1 }}>[ {key} ]</Header.Subheader>
                         </Header>
@@ -72,9 +72,9 @@ const Features = (props) => {
         >
             <center>
                 {!isValidUrl ? (
-                    <Header as="h4" inverted style={{ marginTop: 20 }}>
-                        Features will display if you assign the global variable:
-                        <Header.Subheader style={{ marginTop: 6, font: "monospace" }}>{example}</Header.Subheader>
+                    <Header as="h4" inverted style={{ marginTop: 14 }}>
+                        Set 'features' variable to display results here
+                        <Header.Subheader style={{ marginTop: 5, font: "monospace" }}>{example}</Header.Subheader>
                     </Header>
                 ) : isValidUrl && list.length === 0 ? (
                     isLoading ? (
