@@ -50,28 +50,61 @@ const App = () => {
         iframe.postMessage({ command: "screenshot", token: hash }, "*");
     };
 
+    const [stopping, setStopping] = useState(false);
     const [progress, setProgress] = useState(0);
     const [state, dispatch] = useReducer(loopReducer, false);
     const [tick, setTick] = useState(null);
     const [total, setTotal] = useState(0);
 
-    function startAutomation(t, w) {
-        setTotal(t);
+    const [features, setFeatures] = useState({});
+    const [featuresList, setFeaturesList] = useState([]);
+    const [doCSVExport, setCSVExport] = useState(false);
+
+    const exportCSV = (list) => {
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        list.map((features) => {
+            csvContent += Object.keys(features).map((key) => {
+                return features[key];
+            });
+            csvContent += "\r\n";
+        });
+
+        var encodedUri = encodeURI(csvContent);
+        var hrefElement = document.createElement("a");
+        hrefElement.href = encodedUri;
+        hrefElement.download = `features_${new Date().toJSON().slice(0, 10)}.csv`;
+        document.body.appendChild(hrefElement);
+        hrefElement.click();
+        hrefElement.remove();
+    };
+
+    function startAutomation(total, wait, csv) {
         setProgress(0);
+        setFeaturesList([]);
+        setTotal(total);
+        setCSVExport(csv);
+        setStopping(false);
         triggerRandom(true);
         setTick(
             setInterval(() => {
                 dispatch({ type: "tick" });
-            }, w)
+            }, wait)
         );
     }
 
     function stopAutomation() {
+        if (stopping) return;
         clearInterval(tick);
         setTick(null);
         setTotal(0);
         dispatch({ type: "reset" });
         setProgress(100);
+        setStopping(true);
+
+        if (doCSVExport) {
+            exportCSV(featuresList);
+        }
     }
 
     useEffect(() => {
@@ -81,6 +114,13 @@ const App = () => {
             return;
         }
         screenshot();
+        if (doCSVExport) {
+            setTimeout(() => {
+                var f = features;
+                f["hash"] = hash;
+                setFeaturesList((prev) => [...prev, f]);
+            }, 600);
+        }
         setProgress(parseInt((state / total) * 100));
         if (state === total) return;
         triggerRandom(true);
@@ -133,8 +173,6 @@ const App = () => {
             setHash(h);
         }
     }, [values, hash, hashHistory]);
-
-    const [features, setFeatures] = useState({});
 
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
