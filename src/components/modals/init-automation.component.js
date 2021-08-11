@@ -7,7 +7,7 @@ const InitAutomation = (props) => {
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
-    const emptyFormData = { total: 0, wait: 0, csv: false };
+    const emptyFormData = { total: 0, wait: 2000, csv: false };
     const [formData, setFormData] = useState(emptyFormData);
 
     function onChange(e, v) {
@@ -37,7 +37,7 @@ const InitAutomation = (props) => {
         var w = parseInt(formData.wait);
         var c = formData.csv;
 
-        if (isNaN(t) || isNaN(w) || t < 2 || t > 10000 || w < 1000 || w > 10000) {
+        if (isNaN(t) || isNaN(w) || t < 2 || t > 10000 || w < 2000 || w > 10000) {
             setErrorState(true);
             setSubmitState(false);
             return;
@@ -62,8 +62,9 @@ const InitAutomation = (props) => {
                         <Form.Input
                             fluid
                             name="wait"
-                            label="Wait (1000 - 10,000) ms"
+                            label="Wait (2000 - 10,000) ms"
                             value={formData.y}
+                            defaultValue={2000}
                             onChange={onChange}
                         />
                     </Form.Group>
