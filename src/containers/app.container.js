@@ -123,7 +123,7 @@ const App = () => {
                 var f = features;
                 f["Hash"] = hash;
                 setFeaturesList((prev) => [...prev, f]);
-            }, 800);
+            }, 1000);
         }
         setProgress(parseInt((state / total) * 100));
         if (state === total) return;
