@@ -9,7 +9,7 @@ const MainViewer = (props) => {
     const [resolutionValue, setResolutionValue] = useState("fill");
     const [iframeResolution, setIFrameResolution] = useState({ x: "100%", y: "100%" });
 
-    const { hash, url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot, getFeatures } = props;
+    const { hash, url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot, features, setFeatures } = props;
 
     function onChange(e) {
         setUrlValue(e.target.value);
@@ -219,7 +219,13 @@ const MainViewer = (props) => {
                 </div>
             </div>
             <Segment inverted style={{ width: "100%", height: 80, padding: 0, paddingBottom: 2 }}>
-                <Features hash={hash} isValidUrl={isValidUrl} iFrameKey={iFrameKey} />
+                <Features
+                    hash={hash}
+                    isValidUrl={isValidUrl}
+                    iFrameKey={iFrameKey}
+                    features={features}
+                    setFeatures={setFeatures}
+                />
             </Segment>
         </>
     );
