@@ -73,7 +73,7 @@ const Features = (props) => {
             <center>
                 {!isValidUrl ? (
                     <Header as="h4" inverted style={{ marginTop: 14 }}>
-                        Set 'features' variable to display results here
+                        set the 'features' variable to display results here
                         <Header.Subheader style={{ marginTop: 5, font: "monospace" }}>{example}</Header.Subheader>
                     </Header>
                 ) : isValidUrl && list.length === 0 ? (
