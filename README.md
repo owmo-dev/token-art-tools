@@ -1,5 +1,5 @@
 # token-art-tools
-React Gatsby static web tool for generative artists working on token/hash based NFT artwork (ex: Artblocks)
+React Gatsby static web tool for generative artists working on hash based art (ex: Artblocks)
 
 https://ctrlshiftmake.github.io/token-art-tools/
 
@@ -48,6 +48,26 @@ Please set the following in your script for screenshots to work.
  renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
 
 ```
+
+### Automation Features
+
+#### CSV Features Report 
+
+To use the `CSV Features Report` option, assign a *key-value* pair dictionary to the provided `features` global variable. Do not use `let` or `set` in your script, as it's already defined and will throw an error. This application waits **600 ms** before polling for the features, so it's ideal to set these as early as possible in your script (ex: features first, draw second).
+
+Example features assignment:
+
+```javascript
+features = {
+    Palette: "Blue Sky",
+    Style: "Shadow",
+    Size: 10,
+}
+```
+
+## Usage Tips
+
+- Automation features sometime requiring increasing the `wait` amount to allow the browser time to render to buffers and re-allocate memory. If you get odd results, try increasing this value.
 
 ## Running App Locally
 
