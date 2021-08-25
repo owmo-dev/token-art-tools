@@ -62,13 +62,13 @@ const MainViewer = (props) => {
                 openResolutionModal();
                 break;
             case "thumb":
-                setIFrameResolution({ x: "256px", y: "256px" });
+                setIFrameResolution({ x: "258px", y: "258px" });
                 break;
             case "preview":
-                setIFrameResolution({ x: "512px", y: "512px" });
+                setIFrameResolution({ x: "514px", y: "514px" });
                 break;
             case "detailed":
-                setIFrameResolution({ x: "1024px", y: "1024px" });
+                setIFrameResolution({ x: "1026px", y: "1026px" });
                 break;
             default:
             case "fill":
