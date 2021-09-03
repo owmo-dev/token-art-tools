@@ -49,8 +49,8 @@ const Features = (props) => {
                 return (
                     <List.Item key={key} style={{ marginTop: -2 }}>
                         <Header as="h4">
-                            {features[key]}
-                            <Header.Subheader style={{ marginTop: 3, etterSpacing: 1 }}>[ {key} ]</Header.Subheader>
+                            {features[key].toString()}
+                            <Header.Subheader style={{ marginTop: 3, letterSpacing: 1 }}>[ {key} ]</Header.Subheader>
                         </Header>
                     </List.Item>
                 );
