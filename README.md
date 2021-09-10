@@ -42,11 +42,19 @@ Standard project setup should work.
 
 #### THREE.js
 
-Please set the following in your script for screenshots to work.
+The `preserveDrawingBuffer` must be `true` for screenshots to work.
 
 ```javascript
  renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
 
+```
+
+#### WebGL
+
+The `preserveDrawingBuffer` must be `true` for screenshots to work.
+
+```javascript
+const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true })
 ```
 
 ### Automation Features
