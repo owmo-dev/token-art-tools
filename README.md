@@ -1,7 +1,7 @@
 # token-art-tools
 React Gatsby static web tool for generative artists working on hash based art (ex: Artblocks)
 
-https://ctrlshiftmake.github.io/token-art-tools/
+https://owenmoore.github.io/token-art-tools/
 
 ![screenshot](docs/preview.jpg)
 
@@ -10,7 +10,7 @@ https://ctrlshiftmake.github.io/token-art-tools/
 Include this in the head of your `index.html` file
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/ctrlshiftmake/token-art-tools@main/providers/artblocks.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@main/providers/artblocks.js"></script>
 ```
 
 Then use the token hash provided by that script to drive features in your artwork

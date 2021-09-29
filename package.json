@@ -1,6 +1,6 @@
 {
   "name": "token-art-tools",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "private": true,
   "description": "Token Art Tools",
   "author": "Owen Moore",
@@ -8,19 +8,19 @@
     "gatsby"
   ],
   "dependencies": {
-    "gatsby": "^3.6.2",
-    "gh-pages": "^3.2.2",
+    "gatsby": "^3.14.0",
+    "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.1",
     "react-range-step-input": "^1.3.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.3"
+    "semantic-ui-react": "^2.0.4"
   },
   "scripts": {
     "deploy": "gatsby build --prefix-paths && gh-pages -d public -b deploy"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ctrlshiftmake/token-art-tools"
+    "url": "git+https://github.com/owenmoore/token-art-tools"
   }
 }
