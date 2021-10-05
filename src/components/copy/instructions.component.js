@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Header, Icon, Input, Message } from "semantic-ui-react";
+import { Segment, Header, Icon, Input } from "semantic-ui-react";
 
 const Instructions = () => {
     const script =
@@ -14,18 +14,13 @@ const Instructions = () => {
                 width: "70%",
                 minWidth: 450,
                 maxWidth: 800,
-                height: 540,
+                height: 440,
                 padding: 40,
-                top: "calc(50% - 275px)",
+                top: "calc(50% - 225px)",
                 margin: "auto",
                 boxShadow: "0 3px 3px rgba(0,0,0,0.2)",
             }}
         >
-            <Message warning>
-                <Message.Header>Update your CDN script URL</Message.Header>
-                This repository / hosting has moved; please update the script tag in your projects.
-            </Message>
-
             <Header as="h4">
                 <Icon name="copy" style={{ float: "left" }} />
                 copy/paste this into your index.html header
