@@ -1,73 +1,69 @@
 # token-art-tools
-React Gatsby static web tool for generative artists working on hash based art (ex: Artblocks)
+Static web application for generative artists to automate random hash seed generation, image capture and features analysis. Developed using React, Gatsby and Semantic UI libraries.
 
 https://owenmoore.github.io/token-art-tools/
 
 ![screenshot](docs/preview.jpg)
 
-## Using the Application
+## Project Configuration
 
-Include this in the head of your `index.html` file
+You'll first need to make sure your local development environment is set up to work with this tool.
+
+### Boilerplate Setups
+
+The following boilerplate setups will support Token Art Tools features "out of the box" and are a quick way to get a local web server up and running. I highly recommended trying one or reviewing the setup first.
+
+- **Art Blocks** ~ https://github.com/owenmoore/boilerplate-artblocks-node-setup
+
+### Manual Setup
+
+You must include a provider script in the header of your `index.html` template file. This script enables support for tokenData, screenshots and features capture between your local web server and the hosted web application. Either use this CDN or copy it into your project and link it.
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@main/providers/artblocks.js"></script>
 ```
 
-Then use the token hash provided by that script to drive features in your artwork
-```javascript
-var hash = tokenData.hash;
-```
+#### Canvas is Required
 
-Host your generative artwork script via a local HTTP server, for example:
+Artwork must be displayed within a `canvas` object in the `body` for all features to work. Many libraries will set this up by default, but if you are unable to get screenshots you may not have a `canvas` set up properly.
 
-```python
-python -m http.server 5500
-```
-
-Paste the URL of your local server into the web application
-
-```
-http://localhost:5500
-```
-
-Have fun creating with the available features in the web application!
-
-## Boilerplates
-
-The following official boilerplate setups can be used with Token Art Tools out of the box
-
-- P5.js ~ https://github.com/owenmoore/boilerplate-p5-artblocks-html-setup
-
-### Configuration
-
-Artwork must be displayed within a `canvas` object in the `body` for all features to work.
-
-#### P5.js
-
-Standard project setup should work.
-
-#### THREE.js
+#### preserveDrawingBuffer: true
 
 The `preserveDrawingBuffer` must be `true` for screenshots to work.
+
+##### ThreeJS
 
 ```javascript
  renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
 
 ```
 
-#### WebGL
-
-The `preserveDrawingBuffer` must be `true` for screenshots to work.
+##### WebGL
 
 ```javascript
 const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true })
 ```
 
+#### tokenData in your sketch
+
+The provider script will make a `tokenData` object available for your script to use. It currently contains the hash that is being generated, which you can use to directly access hash pairs or seed RNG functions.
+
+```javascript
+var hash = tokenData.hash;
+```
+
 ### Automation Features
+
+The gear icon in the interface enables two key features: screenshots and feature CSV.
+
+
+#### Screenshot
+
+Simply set the `number` of hashes to generate and `how long in ms` to wait before attempting an image capture. Err on the side of caution by increasing the wait time if you are getting strange results.
 
 #### CSV Features Report 
 
-To use the `CSV Features Report` option, assign a *key-value* pair dictionary to the provided `features` global variable. Do not use `let` or `set` in your script, as it's already defined and will throw an error. This application waits **600 ms** before polling for the features, so it's ideal to set these as early as possible in your script (ex: features first, draw second).
+In order for Features to be displayed and captured in Token Art Tools, you need to populate the `features` variable (in the provider script) with information. **DO NOT** re-define this variable, simply add information to the object. The application will wait **600ms** before polling, so it's ideal to set this as early as possible.
 
 Example features assignment:
 
@@ -79,16 +75,18 @@ features = {
 }
 ```
 
-## Usage Tips
+#### Tips
 
-- Automation features sometime requiring increasing the `wait` amount to allow the browser time to render to buffers and re-allocate memory. If you get odd results, try increasing this value.
+- Always do a short test of automation first (ex: 10) to see if it's working before commiting to more
+- Features capture can sometimes fail or miss generations if the processing is too heavy, try reducing resolution or increasing the wait time betwen generations to minimize dropped information
+- Try using the aforementioned *Boilerplate Setups*, they are optimally designed for automation
 
-## Running App Locally
+## Fork & Run App Locally
 
-1) Clone / fork repository
-2) `npm install`
-3) `make run-server`
-4) Open `http://localhost:8000`
+1. Clone/fork repo
+2. `npm install`
+3. `make run-server`
+4. Open `http://localhost:8000`
 
 ## Feature Suggestions & Bugs
 
