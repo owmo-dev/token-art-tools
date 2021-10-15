@@ -32,9 +32,15 @@ http://localhost:5500
 
 Have fun creating with the available features in the web application!
 
-### Projects Setup
+## Boilerplates
 
-Your `index.html` file must display your work within a single `canvas` tag for all features to work.
+The following official boilerplate setups can be used with Token Art Tools out of the box
+
+- P5.js ~ https://github.com/owenmoore/boilerplate-p5-artblocks-html-setup
+
+### Configuration
+
+Artwork must be displayed within a `canvas` object in the `body` for all features to work.
 
 #### P5.js
 
