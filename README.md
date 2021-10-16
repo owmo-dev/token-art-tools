@@ -88,6 +88,12 @@ features = {
 3. `make run-server`
 4. Open `http://localhost:8000`
 
-## Feature Suggestions & Bugs
+
+
+## Known Issues
+
+- When using a simple web server (ex: `python -m http.server 5500`), a recent Chrome update has started blocking HTML files within iframes and will no longer work. I would either suggest using Firefox (which works at the time of writing) or please explore the Boilerplate project linked above, as a more stable solution.
+
+### Suggestions & Bugs
 
 Please create an issue in this repository if you have any suggestions or discover bugs.
