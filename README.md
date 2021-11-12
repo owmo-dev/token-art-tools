@@ -9,11 +9,11 @@ https://owenmoore.github.io/token-art-tools/
 
 You'll first need to make sure your local development environment is set up to work with this tool.
 
-### Boilerplate Setups
+### Boilerplate Project Setup
 
-The following boilerplate setups will support Token Art Tools features "out of the box" and are a quick way to get a local web server up and running. I highly recommended trying one or reviewing the setup first.
+The following boilerplate `node` project setup fully supports Token Art Tools features.
 
-- **Art Blocks** ~ https://github.com/owenmoore/boilerplate-artblocks-node-setup
+https://github.com/owenmoore/token-art-tools-boilerplate
 
 ### Manual Setup
 
