@@ -8,6 +8,7 @@ import MainViewer from '../components/panels/main-viewer.component';
 
 import {ValueToHexPair, HexPairToValue} from '../helpers/token.helpers';
 import {ValidateURL} from '../helpers/url.helpers';
+import {HashProvider} from '../hooks/useHash';
 
 const nullHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -179,45 +180,47 @@ const App = () => {
     }, [values, hash, hashHistory]);
 
     return (
-        <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
-            <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
-                <LeftControls
-                    hash={hash}
-                    values={values}
-                    hashHistory={hashHistory}
-                    setValueAtIndex={setValueAtIndex}
-                    setHashValues={setHashValues}
-                    clearHistory={clearHistory}
-                    isValidUrl={isValidUrl}
-                    randomHash={randomHash}
-                    triggerRandom={triggerRandom}
-                    startAutomation={startAutomation}
-                    stopAutomation={stopAutomation}
-                    progress={progress}
-                />
+        <HashProvider>
+            <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
+                <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
+                    <LeftControls
+                        hash={hash}
+                        values={values}
+                        hashHistory={hashHistory}
+                        setValueAtIndex={setValueAtIndex}
+                        setHashValues={setHashValues}
+                        clearHistory={clearHistory}
+                        isValidUrl={isValidUrl}
+                        randomHash={randomHash}
+                        triggerRandom={triggerRandom}
+                        startAutomation={startAutomation}
+                        stopAutomation={stopAutomation}
+                        progress={progress}
+                    />
+                </div>
+                <div
+                    style={{
+                        marginLeft: 500,
+                        padding: 20,
+                        height: '100vh',
+                        width: 'auto',
+                        minWidth: 800,
+                    }}
+                >
+                    <MainViewer
+                        hash={hash}
+                        url={url}
+                        isValidUrl={isValidUrl}
+                        setUrlValue={setUrlValue}
+                        iFrameKey={iFrameKey}
+                        refresh={refresh}
+                        screenshot={screenshot}
+                        features={features}
+                        setFeatures={setFeatures}
+                    />
+                </div>
             </div>
-            <div
-                style={{
-                    marginLeft: 500,
-                    padding: 20,
-                    height: '100vh',
-                    width: 'auto',
-                    minWidth: 800,
-                }}
-            >
-                <MainViewer
-                    hash={hash}
-                    url={url}
-                    isValidUrl={isValidUrl}
-                    setUrlValue={setUrlValue}
-                    iFrameKey={iFrameKey}
-                    refresh={refresh}
-                    screenshot={screenshot}
-                    features={features}
-                    setFeatures={setFeatures}
-                />
-            </div>
-        </div>
+        </HashProvider>
     );
 };
 
