@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 
+import {useHash} from '../../hooks/useHash';
+
 import SetResolution from '../modals/set-resolution.component';
 import Instructions from '../copy/instructions.component';
 import Features from '../info/features.component';
 
 const MainViewer = props => {
+    const [state] = useHash();
+
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
 
@@ -154,7 +158,7 @@ const MainViewer = props => {
                         var iframe = window.document.querySelector('iframe');
                         const w = iframe.clientWidth;
                         const h = iframe.clientHeight;
-                        window.open(url + '?hash=' + hash, '', `top=100, width=${w}, height=${h}`);
+                        window.open(url + '?hash=' + state.hash, '', `top=100, width=${w}, height=${h}`);
                     }}
                     style={{
                         position: 'absolute',
@@ -176,7 +180,7 @@ const MainViewer = props => {
                         position: 'relative',
                     }}
                 >
-                    {isValidUrl && hash !== undefined ? (
+                    {isValidUrl && state.hash !== undefined ? (
                         <div
                             style={
                                 resolutionValue === 'fill'
@@ -196,7 +200,7 @@ const MainViewer = props => {
                             <iframe
                                 id={new Date().getTime()}
                                 title="token art tools viewer"
-                                src={url + '?hash=' + hash}
+                                src={url + '?hash=' + state.hash}
                                 width={iframeResolution.x}
                                 height={iframeResolution.y}
                                 style={{
@@ -213,7 +217,7 @@ const MainViewer = props => {
                 </div>
             </div>
             <Segment inverted style={{width: '100%', height: 70, padding: 0, paddingBottom: 2}}>
-                <Features hash={hash} isValidUrl={isValidUrl} iFrameKey={iFrameKey} features={features} setFeatures={setFeatures} />
+                <Features hash={state.hash} isValidUrl={isValidUrl} iFrameKey={iFrameKey} features={features} setFeatures={setFeatures} />
             </Segment>
         </>
     );

@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 
+import {useHash} from '../../hooks/useHash';
+
 import Title from '../copy/title.component';
 import HashPairSlider from '../inputs/hashpair-slider.component';
 import SetHash from '../modals/set-hash.component';
@@ -8,6 +10,8 @@ import InitAutomation from '../modals/init-automation.component';
 import RunAutomation from '../modals/run-automation.component';
 
 const LeftControls = props => {
+    const [state, dispatch] = useHash();
+
     const {
         hash,
         values,
@@ -116,7 +120,8 @@ const LeftControls = props => {
                         color="blue"
                         style={{float: 'right'}}
                         onClick={() => {
-                            triggerRandom(true);
+                            dispatch({type: 'random'});
+                            // triggerRandom(true); !!! REMOVE
                         }}
                     >
                         <Icon name="random" />
