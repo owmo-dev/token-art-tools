@@ -1,13 +1,13 @@
 export function ValueToHexPair(value) {
     var hex = Number(value).toString(16);
     if (hex.length < 2) {
-        hex = "0" + hex;
+        hex = '0' + hex;
     }
     return hex;
 }
 
 export function HexPairToValue(hex) {
-    return parseInt("0x" + hex);
+    return parseInt('0x' + hex);
 }
 
 export function SetCharAt(str, index, chr) {

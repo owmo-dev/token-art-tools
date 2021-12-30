@@ -7,5 +7,5 @@ export function ValidateURL(string) {
         return false;
     }
 
-    return url.protocol === "http:" || url.protocol === "https:";
+    return url.protocol === 'http:' || url.protocol === 'https:';
 }

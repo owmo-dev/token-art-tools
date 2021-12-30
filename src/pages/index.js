@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import App from "../containers/app.container";
+import App from '../containers/app.container';
 
 const Index = () => {
     return <App />;

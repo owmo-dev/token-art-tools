@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Segment, Grid, Button, Icon } from "semantic-ui-react";
+import React, {useState} from 'react';
+import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 
-import Title from "../copy/title.component";
-import HashPairSlider from "../inputs/hashpair-slider.component";
-import SetHash from "../modals/set-hash.component";
-import InitAutomation from "../modals/init-automation.component";
-import RunAutomation from "../modals/run-automation.component";
+import Title from '../copy/title.component';
+import HashPairSlider from '../inputs/hashpair-slider.component';
+import SetHash from '../modals/set-hash.component';
+import InitAutomation from '../modals/init-automation.component';
+import RunAutomation from '../modals/run-automation.component';
 
-const LeftControls = (props) => {
+const LeftControls = props => {
     const {
         hash,
         values,
@@ -26,15 +26,7 @@ const LeftControls = (props) => {
     function makeSliders() {
         var s = [];
         for (let i = 0; i < 32; i++) {
-            s.push(
-                <HashPairSlider
-                    key={i}
-                    index={i}
-                    value={values[i]}
-                    setValueAtIndex={setValueAtIndex}
-                    randomHash={randomHash}
-                />
-            );
+            s.push(<HashPairSlider key={i} index={i} value={values[i]} setValueAtIndex={setValueAtIndex} randomHash={randomHash} />);
         }
         return s;
     }
@@ -87,12 +79,7 @@ const LeftControls = (props) => {
         <>
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
             <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
-            <RunAutomation
-                active={isRunAutomationModalOpen}
-                close={closeRunAutoModal}
-                progress={progress}
-                stop={stopAutomation}
-            />
+            <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} progress={progress} stop={stopAutomation} />
             <Grid>
                 <Grid.Column
                     style={{
@@ -104,38 +91,20 @@ const LeftControls = (props) => {
                 >
                     <Title />
                 </Grid.Column>
-                <Grid.Column style={{ width: 265, padding: 0, paddingTop: 25 }}>
-                    <Button
-                        icon
-                        color="red"
-                        disabled={hashHistory.length === 0}
-                        style={{ float: "right", marginLeft: 12 }}
-                        onClick={clrHistory}
-                    >
+                <Grid.Column style={{width: 265, padding: 0, paddingTop: 25}}>
+                    <Button icon color="red" disabled={hashHistory.length === 0} style={{float: 'right', marginLeft: 12}} onClick={clrHistory}>
                         <Icon name="x" />
                     </Button>
-                    <Button
-                        icon
-                        color="purple"
-                        disabled={hashHistory.length === 0}
-                        style={{ float: "right", marginLeft: 12 }}
-                        onClick={goBackOneHash}
-                    >
+                    <Button icon color="purple" disabled={hashHistory.length === 0} style={{float: 'right', marginLeft: 12}} onClick={goBackOneHash}>
                         <Icon name="undo" />
                     </Button>
-                    <Button
-                        icon
-                        color="pink"
-                        disabled={!isValidUrl}
-                        style={{ float: "right", marginLeft: 12 }}
-                        onClick={openInitAutoModal}
-                    >
+                    <Button icon color="pink" disabled={!isValidUrl} style={{float: 'right', marginLeft: 12}} onClick={openInitAutoModal}>
                         <Icon name="cog" />
                     </Button>
                     <Button
                         icon
                         color="teal"
-                        style={{ float: "right", marginLeft: 12 }}
+                        style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
                             openSetHashModal();
                         }}
@@ -145,7 +114,7 @@ const LeftControls = (props) => {
                     <Button
                         icon
                         color="blue"
-                        style={{ float: "right" }}
+                        style={{float: 'right'}}
                         onClick={() => {
                             triggerRandom(true);
                         }}
@@ -158,9 +127,9 @@ const LeftControls = (props) => {
                 inverted
                 style={{
                     marginTop: 18,
-                    maxHeight: "calc(100vh - 150px)",
-                    overflow: "auto",
-                    background: "#222",
+                    maxHeight: 'calc(100vh - 150px)',
+                    overflow: 'auto',
+                    background: '#222',
                     padding: 20,
                 }}
             >
@@ -174,16 +143,16 @@ const LeftControls = (props) => {
                     paddingBottom: 4,
                     paddingLeft: 15,
                     marginTop: 15,
-                    cursor: "pointer",
-                    userSelect: "none",
-                    background: "#CCC",
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    background: '#CCC',
                 }}
                 onClick={() => {
                     navigator.clipboard.writeText(hash);
                 }}
             >
-                <span style={{ fontFamily: "monospace", fontSize: 11 }}>{hash}</span>
-                <Icon color="grey" name="copy" size="small" style={{ float: "right", marginRight: 10, marginTop: 6 }} />
+                <span style={{fontFamily: 'monospace', fontSize: 11}}>{hash}</span>
+                <Icon color="grey" name="copy" size="small" style={{float: 'right', marginRight: 10, marginTop: 6}} />
             </Segment>
         </>
     );
