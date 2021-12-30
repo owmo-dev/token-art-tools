@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal, Progress, Icon, Loader, Grid } from "semantic-ui-react";
+import React, {useState, useEffect} from 'react';
+import {Button, Modal, Progress, Icon, Loader, Grid} from 'semantic-ui-react';
 
-const RunAutomation = (props) => {
-    const msg_gen = "Generating Hashes";
-    const msg_fin = "Finishing Export";
+const RunAutomation = props => {
+    const msg_gen = 'Generating Hashes';
+    const msg_fin = 'Finishing Export';
 
-    const { active, progress, close, stop } = props;
+    const {active, progress, close, stop} = props;
     const [isSubmitting, setSubmitState] = useState(false);
     const [message, setMessage] = useState(msg_gen);
 

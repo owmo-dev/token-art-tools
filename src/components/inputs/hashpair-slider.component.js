@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Segment, Grid, Button } from "semantic-ui-react";
-import { RangeStepInput } from "react-range-step-input";
+import React, {useState, useEffect} from 'react';
+import {Segment, Grid, Button} from 'semantic-ui-react';
+import {RangeStepInput} from 'react-range-step-input';
 
-import { ValueToHexPair, RandomInt } from "../../helpers/token.helpers";
+import {ValueToHexPair, RandomInt} from '../../helpers/token.helpers';
 
-const HashPairSlider = (props) => {
+const HashPairSlider = props => {
     const [locked, setLocked] = useState(false);
 
-    const { index, value, setValueAtIndex, randomHash } = props;
+    const {index, value, setValueAtIndex, randomHash} = props;
 
     useEffect(() => {
         if (randomHash && !locked) {
@@ -16,12 +16,12 @@ const HashPairSlider = (props) => {
         }
     });
 
-    const handleChange = (e) => {
+    const handleChange = e => {
         const v = parseInt(e.target.value);
         setValueAtIndex(index, v);
     };
 
-    const stepValue = (inc) => {
+    const stepValue = inc => {
         var v = value + parseInt(inc);
         if (v > 255) {
             v = 255;
@@ -32,17 +32,17 @@ const HashPairSlider = (props) => {
     };
 
     return (
-        <Segment inverted style={{ background: "#222", marginBottom: 8, padding: 0 }}>
+        <Segment inverted style={{background: '#222', marginBottom: 8, padding: 0}}>
             <Grid>
                 <Grid.Column width={1}>
                     <span
                         style={{
-                            fontFamily: "monospace",
+                            fontFamily: 'monospace',
                             fontSize: 16,
-                            position: "relative",
+                            position: 'relative',
                             top: 5,
                             left: -3,
-                            userSelect: "none",
+                            userSelect: 'none',
                         }}
                     >
                         {index}
@@ -60,16 +60,8 @@ const HashPairSlider = (props) => {
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
-                    <span style={{ top: 4, position: "relative" }}>
-                        <RangeStepInput
-                            min={0}
-                            max={255}
-                            step={1}
-                            onChange={handleChange}
-                            value={value}
-                            style={{ width: "100%" }}
-                            disabled={locked}
-                        />
+                    <span style={{top: 4, position: 'relative'}}>
+                        <RangeStepInput min={0} max={255} step={1} onChange={handleChange} value={value} style={{width: '100%'}} disabled={locked} />
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
@@ -86,12 +78,12 @@ const HashPairSlider = (props) => {
                 <Grid.Column width={1}>
                     <span
                         style={{
-                            fontFamily: "monospace",
+                            fontFamily: 'monospace',
                             fontSize: 16,
-                            position: "relative",
+                            position: 'relative',
                             top: 5,
                             left: -10,
-                            userSelect: "none",
+                            userSelect: 'none',
                         }}
                     >
                         {ValueToHexPair(value)}
@@ -100,11 +92,11 @@ const HashPairSlider = (props) => {
                 <Grid.Column width={2}>
                     <Button
                         size="tiny"
-                        icon={locked ? "lock" : "unlock"}
+                        icon={locked ? 'lock' : 'unlock'}
                         onClick={() => {
                             setLocked(!locked);
                         }}
-                        color={locked ? "red" : null}
+                        color={locked ? 'red' : null}
                     />
                 </Grid.Column>
             </Grid>
