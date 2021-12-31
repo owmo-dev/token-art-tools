@@ -10,13 +10,11 @@ import SetHash from '../modals/set-hash';
 import InitAutomation from '../modals/init-automation';
 import RunAutomation from '../modals/run-automation';
 
-const Controls = props => {
+const Controls = () => {
     const [url] = useURL();
     const [hash, hashAction] = useHash();
 
     const [sliders, setSliders] = useState([]);
-
-    const {startAutomation, stopAutomation, progress} = props;
 
     useLayoutEffect(() => {
         let sliders = [];
@@ -42,14 +40,17 @@ const Controls = props => {
         setInitAutoModalState(true);
     }
 
-    function closeInitAutoModal(r, total, wait, csv) {
+    function closeInitAutoModal() {
         setInitAutoModalState(false);
-        if (r) {
-            openRunAutomationModal();
-            startAutomation(total, wait, csv);
+        /*
+        if (run) {
+            //openRunAutomationModal(); !!!
+            //startAutomation(total, wait, csv); !!!
         }
+        */
     }
 
+    /*
     const [isRunAutomationModalOpen, setRunAutomationModalState] = useState(false);
 
     function openRunAutomationModal() {
@@ -59,12 +60,13 @@ const Controls = props => {
     function closeRunAutoModal() {
         setRunAutomationModalState(false);
     }
+    */
 
     return (
         <>
+            <RunAutomation />
             <SetHash active={isSetHashModalOpen} close={closeSetHashModal} />
             <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
-            <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} progress={progress} stop={stopAutomation} />
             <Grid>
                 <Grid.Column
                     style={{

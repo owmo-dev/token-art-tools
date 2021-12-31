@@ -1,8 +1,12 @@
 import React, {useState} from 'react';
 import {Modal, Form, Message, Button} from 'semantic-ui-react';
 
+import {useAutomation} from '../../hooks/useAutomation';
+
 const InitAutomation = props => {
     const {active, close} = props;
+
+    const [, automationAction] = useAutomation();
 
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
@@ -18,15 +22,12 @@ const InitAutomation = props => {
         }));
     }
 
-    function cancel() {
-        closeModal(false, 0, 0);
-    }
-
-    function closeModal(r, total, wait, csv) {
+    function closeModal() {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-        close(r, total, wait, csv);
+
+        close();
     }
 
     function handleSubmit() {
@@ -43,7 +44,15 @@ const InitAutomation = props => {
             return;
         }
 
-        closeModal(true, t, w, c);
+        closeModal();
+
+        automationAction({
+            type: 'start',
+            total: t,
+            doScreenshot: true,
+            doCSVExport: c,
+            waitTime: w,
+        });
     }
 
     return (
@@ -62,7 +71,7 @@ const InitAutomation = props => {
                 {isError ? <Message error>ERROR: Total and Wait numbers only, within ranges specified</Message> : null}
             </Modal.Content>
             <Modal.Actions>
-                <Button secondary disabled={isSubmitting} onClick={cancel}>
+                <Button secondary disabled={isSubmitting} onClick={closeModal}>
                     Cancel
                 </Button>
                 <Button primary loading={isSubmitting} disabled={isSubmitting} onClick={handleSubmit}>
