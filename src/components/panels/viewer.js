@@ -4,6 +4,7 @@ import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 import {useHash} from '../../hooks/useHash';
 import {useURL} from '../../hooks/useURL';
 import {useFeatures} from '../../hooks/useFeatures';
+import {useAutomation} from '../../hooks/useAutomation';
 
 import SetResolution from '../modals/set-resolution';
 import Instructions from '../copy/instructions';
@@ -15,6 +16,7 @@ const Viewer = () => {
     const [hash, hashAction] = useHash();
     const [url, urlAction] = useURL();
     const [, featuresAction] = useFeatures();
+    const [automation] = useAutomation();
 
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
@@ -108,7 +110,7 @@ const Viewer = () => {
             <div style={{width: 'auto', height: 50, marginBottom: 10, marginTop: 10}}>
                 <Button
                     icon
-                    disabled={!url.isValid}
+                    disabled={!url.isValid || automation.status !== 'idle'}
                     style={{float: 'right', marginLeft: 20}}
                     onClick={() => {
                         screenshot(hash.hash);
@@ -118,7 +120,7 @@ const Viewer = () => {
                 </Button>
                 <Button
                     icon
-                    disabled={!url.isValid}
+                    disabled={!url.isValid || automation.status !== 'idle'}
                     floated="right"
                     style={{float: 'right', marginLeft: 20}}
                     onClick={() => {
@@ -130,7 +132,7 @@ const Viewer = () => {
                 <Dropdown
                     selection
                     placeholder="Fit Available Space"
-                    disabled={!url.isValid}
+                    disabled={!url.isValid || automation.status !== 'idle'}
                     options={resolutionOptions}
                     value={resolutionValue}
                     onChange={handleChange}
@@ -141,6 +143,7 @@ const Viewer = () => {
                     fluid
                     placeholder="http://127.0.0.1:5500"
                     onChange={onChange}
+                    disabled={automation.status !== 'idle'}
                     value={url.url}
                     style={{height: 38}}
                     icon={
@@ -168,7 +171,7 @@ const Viewer = () => {
                 <Button
                     icon
                     inverted
-                    disabled={!url.isValid}
+                    disabled={!url.isValid || automation.status !== 'idle'}
                     size="mini"
                     onClick={() => {
                         var iframe = window.document.querySelector('iframe');
