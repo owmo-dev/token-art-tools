@@ -12,7 +12,6 @@ function init(type) {
                 type: type,
                 hash: convertValuesToHash(type, values),
                 values: values,
-                // !!! store hex values here
                 history: [],
             };
         default:

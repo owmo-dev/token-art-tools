@@ -4,7 +4,6 @@ import {RangeStepInput} from 'react-range-step-input';
 
 import {clamp} from '../../helpers/math.helpers';
 import {useHash} from '../../hooks/useHash';
-import {ValueToHexPair} from '../../helpers/token.helpers';
 
 const HashPairSlider = props => {
     const [state, dispatch] = useHash();
@@ -89,7 +88,7 @@ const HashPairSlider = props => {
                             userSelect: 'none',
                         }}
                     >
-                        {ValueToHexPair(value)}
+                        {state.hash !== undefined ? state.hash[index * 2 + 2] + state.hash[index * 2 + 3] : '--'}
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
