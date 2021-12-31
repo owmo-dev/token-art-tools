@@ -28,6 +28,12 @@ const HashPairSlider = props => {
         }
     }, [value]);
 
+    useEffect(() => {
+        if (locked !== hash.locked[index]) {
+            setLocked(hash.locked[index]);
+        }
+    });
+
     const handleChange = e => {
         const v = parseInt(e.target.value);
         setValue(v);
@@ -108,7 +114,7 @@ const HashPairSlider = props => {
                         size="tiny"
                         icon={locked ? 'lock' : 'unlock'}
                         onClick={() => {
-                            setLocked(!locked);
+                            hashAction({type: 'toggle-locked', index: index});
                         }}
                         disabled={!url.isValid}
                         color={locked ? 'red' : null}
