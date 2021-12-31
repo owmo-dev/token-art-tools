@@ -48,7 +48,7 @@ function hashReducer(state, dispatch) {
             let data = {hash: hash, values: values, history: history};
             return {...state, ...data};
         }
-        case 'reset': {
+        case 'clear': {
             return {...state, ...init(state.type)};
         }
         case 'setValue': {

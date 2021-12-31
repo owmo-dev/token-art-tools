@@ -19,11 +19,11 @@ const SetResolution = props => {
         closeModal(true);
     }
 
-    function closeModal(isCancel) {
+    function closeModal() {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-        props.close(isCancel);
+        props.close();
     }
 
     function handleSubmit() {
@@ -40,7 +40,7 @@ const SetResolution = props => {
         }
 
         props.set(x, y);
-        closeModal(false);
+        closeModal();
     }
 
     return (
