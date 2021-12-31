@@ -1,6 +1,6 @@
 {
   "name": "token-art-tools",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "private": true,
   "description": "Token Art Tools",
   "author": "Owen Moore",
@@ -8,7 +8,8 @@
     "gatsby"
   ],
   "dependencies": {
-    "gatsby": "^4.1.0",
+    "fomantic-ui-css": "^2.8.8",
+    "gatsby": "^4.4.0",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -22,5 +23,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/owenmoore/token-art-tools"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-plugin-react": "^7.28.0"
   }
 }
