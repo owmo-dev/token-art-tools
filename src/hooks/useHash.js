@@ -23,6 +23,10 @@ function hashReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'random':
             return {...state, ...getRandomHashValues(state.type)};
+        case 'setHash':
+            return {...state, hash: dispatch.hash};
+        case 'clearHistory':
+            return {...state}; // !!! IMPLEMENT
         case 'setValue':
             var values = state.values;
             values[dispatch.index] = dispatch.value;
@@ -35,9 +39,9 @@ function hashReducer(state, dispatch) {
 function getRandomHashValues(type) {
     switch (type) {
         case HASH_0x32:
-            const values = Array.from({length: 32}, () => Math.floor(Math.random() * 255));
+            var values = Array.from({length: 32}, () => Math.floor(Math.random() * 255));
             return {
-                hash: '0x' + values.map(x => Number(x).toString(16)).join(''),
+                hash: getHashFromValues(type, values),
                 values: values,
             };
         default:
@@ -48,7 +52,7 @@ function getRandomHashValues(type) {
 function getHashFromValues(type, values) {
     switch (type) {
         case HASH_0x32:
-            return '0x' + values.map(x => Number(x).toString(16)).join('');
+            return '0x' + values.map(x => Number(x).toString(16).padStart(2, '0')).join('');
         default:
             throw new Error(`getHashFromValues type '${type}' not supported`);
     }

@@ -12,20 +12,7 @@ import RunAutomation from '../modals/run-automation.component';
 const LeftControls = props => {
     const [state, dispatch] = useHash();
 
-    const {
-        hash,
-        values,
-        setValueAtIndex,
-        setHashValues,
-        hashHistory,
-        clearHistory,
-        isValidUrl,
-        randomHash,
-        triggerRandom,
-        startAutomation,
-        stopAutomation,
-        progress,
-    } = props;
+    const {setHashValues, hashHistory, clearHistory, isValidUrl, startAutomation, stopAutomation, progress} = props;
 
     function makeSliders() {
         var s = [];
@@ -121,7 +108,6 @@ const LeftControls = props => {
                         style={{float: 'right'}}
                         onClick={() => {
                             dispatch({type: 'random'});
-                            // triggerRandom(true); !!! REMOVE
                         }}
                     >
                         <Icon name="random" />
