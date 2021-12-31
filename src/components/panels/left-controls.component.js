@@ -34,16 +34,6 @@ const LeftControls = props => {
         setSetHashModalState(false);
     }
 
-    function goBackOneHash() {
-        // !!! replace with dispatch to useHash
-        //setHashValues(hashHistory[hashHistory.length - 1]);
-    }
-
-    function clrHistory() {
-        // !!! replace with dispatch to useHash
-        //clearHistory();
-    }
-
     const [isInitAutoModalOpen, setInitAutoModalState] = useState(false);
 
     function openInitAutoModal() {
@@ -85,10 +75,26 @@ const LeftControls = props => {
                     <Title />
                 </Grid.Column>
                 <Grid.Column style={{width: 265, padding: 0, paddingTop: 25}}>
-                    <Button icon color="red" disabled={state.history.length === 0} style={{float: 'right', marginLeft: 12}} onClick={clrHistory}>
+                    <Button
+                        icon
+                        color="red"
+                        disabled={state.history.length === 0}
+                        style={{float: 'right', marginLeft: 12}}
+                        onClick={() => {
+                            dispatch({type: 'reset'});
+                        }}
+                    >
                         <Icon name="x" />
                     </Button>
-                    <Button icon color="purple" disabled={state.history.length === 0} style={{float: 'right', marginLeft: 12}} onClick={goBackOneHash}>
+                    <Button
+                        icon
+                        color="purple"
+                        disabled={state.history.length === 0}
+                        style={{float: 'right', marginLeft: 12}}
+                        onClick={() => {
+                            dispatch({type: 'back'});
+                        }}
+                    >
                         <Icon name="undo" />
                     </Button>
                     <Button icon color="pink" disabled={!isValidUrl} style={{float: 'right', marginLeft: 12}} onClick={openInitAutoModal}>
