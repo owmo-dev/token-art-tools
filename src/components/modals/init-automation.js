@@ -26,7 +26,6 @@ const InitAutomation = props => {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-
         close();
     }
 

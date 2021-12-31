@@ -22,19 +22,26 @@ function automationReducer(state, dispatch) {
                 doScreenshot: dispatch.doScreenshot,
                 doCSVExport: dispatch.doCSVExport,
                 waitTime: dispatch.waitTime,
+                progress: 0,
                 tick: 0,
             };
         }
         case 'tick': {
+            let tick = state.tick + 1;
+            let progress = parseInt((tick / state.total) * 100);
             return {
                 ...state,
                 status: 'active',
+                progress: progress,
+                tick: tick,
             };
         }
         case 'stop': {
             return {
                 ...state,
                 status: 'stopping',
+                progress: 100,
+                tick: state.total,
             };
         }
         case 'reset': {
