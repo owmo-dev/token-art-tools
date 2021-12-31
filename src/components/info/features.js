@@ -18,7 +18,6 @@ const Features = () => {
             switch (e.data['command']) {
                 case 'loadFeatures':
                     {
-                        console.log(e.data['features']);
                         featuresAction({type: 'set', data: e.data['features']});
                     }
                     break;

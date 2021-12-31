@@ -3,21 +3,21 @@ import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 
 import {useHash} from '../../hooks/useHash';
 import {useURL} from '../../hooks/useURL';
+import {useFeatures} from '../../hooks/useFeatures';
 
 import SetResolution from '../modals/set-resolution';
 import Instructions from '../copy/instructions';
 import Features from '../info/features';
-import {useFeatures} from '../../hooks/useFeatures';
 
-const Viewer = props => {
+import {screenshot} from '../../helpers/screenshot';
+
+const Viewer = () => {
     const [hash, hashAction] = useHash();
     const [url, urlAction] = useURL();
     const [, featuresAction] = useFeatures();
 
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
-
-    const {screenshot} = props;
 
     function onChange(e) {
         urlAction({type: 'set', url: e.target.value});
@@ -106,7 +106,14 @@ const Viewer = props => {
         <>
             <SetResolution active={isResolutionModalOpen} close={closeResolutionModal} set={setRes} />
             <div style={{width: 'auto', height: 50, marginBottom: 10, marginTop: 10}}>
-                <Button icon disabled={!url.isValid} onClick={screenshot} style={{float: 'right', marginLeft: 20}}>
+                <Button
+                    icon
+                    disabled={!url.isValid}
+                    style={{float: 'right', marginLeft: 20}}
+                    onClick={() => {
+                        screenshot(hash.hash);
+                    }}
+                >
                     <Icon name="camera" />
                 </Button>
                 <Button
