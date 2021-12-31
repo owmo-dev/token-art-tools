@@ -8,6 +8,7 @@
     "gatsby"
   ],
   "dependencies": {
+    "fomantic-ui-css": "^2.8.8",
     "gatsby": "^4.4.0",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
