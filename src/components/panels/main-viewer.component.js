@@ -2,25 +2,27 @@ import React, {useState, useEffect} from 'react';
 import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 
 import {useHash} from '../../hooks/useHash';
+import {useURL} from '../../hooks/useURL';
 
 import SetResolution from '../modals/set-resolution.component';
 import Instructions from '../copy/instructions.component';
 import Features from '../info/features.component';
 
 const MainViewer = props => {
-    const [state] = useHash();
+    const [hash] = useHash();
+    const [url, urlAction] = useURL();
 
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
 
-    const {url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot, features, setFeatures} = props;
+    const {iFrameKey, refresh, screenshot, features, setFeatures} = props;
 
     function onChange(e) {
-        setUrlValue(e.target.value);
+        urlAction({type: 'set', url: e.target.value});
     }
 
     function handleClearURL() {
-        setUrlValue('');
+        urlAction({type: 'clear'});
     }
 
     const resolutionOptions = [
@@ -57,8 +59,8 @@ const MainViewer = props => {
     }
 
     useEffect(() => {
-        if (!isValidUrl) setResolutionValue('fill');
-    }, [isValidUrl]);
+        if (!url.isValid) setResolutionValue('fill');
+    }, [url.isValid]);
 
     useEffect(() => {
         switch (resolutionValue) {
@@ -104,16 +106,16 @@ const MainViewer = props => {
         <>
             <SetResolution active={isResolutionModalOpen} close={closeResolutionModal} set={setRes} />
             <div style={{width: 'auto', height: 50, marginBottom: 10, marginTop: 10}}>
-                <Button icon disabled={!isValidUrl} onClick={screenshot} style={{float: 'right', marginLeft: 20}}>
+                <Button icon disabled={!url.isValid} onClick={screenshot} style={{float: 'right', marginLeft: 20}}>
                     <Icon name="camera" />
                 </Button>
-                <Button icon disabled={!isValidUrl} floated="right" style={{float: 'right', marginLeft: 20}} onClick={refresh}>
+                <Button icon disabled={!url.isValid} floated="right" style={{float: 'right', marginLeft: 20}} onClick={refresh}>
                     <Icon name="refresh" />
                 </Button>
                 <Dropdown
                     selection
                     placeholder="Fit Available Space"
-                    disabled={!isValidUrl}
+                    disabled={!url.isValid}
                     options={resolutionOptions}
                     value={resolutionValue}
                     onChange={handleChange}
@@ -124,10 +126,10 @@ const MainViewer = props => {
                     fluid
                     placeholder="http://127.0.0.1:5500"
                     onChange={onChange}
-                    value={url}
+                    value={url.url}
                     style={{height: 38}}
                     icon={
-                        url !== '' ? (
+                        url.url !== '' ? (
                             <Icon
                                 name="delete"
                                 link
@@ -152,13 +154,13 @@ const MainViewer = props => {
                 <Button
                     icon
                     inverted
-                    disabled={!isValidUrl}
+                    disabled={!url.isValid}
                     size="mini"
                     onClick={() => {
                         var iframe = window.document.querySelector('iframe');
                         const w = iframe.clientWidth;
                         const h = iframe.clientHeight;
-                        window.open(url + '?hash=' + state.hash, '', `top=100, width=${w}, height=${h}`);
+                        window.open(url.url + '?hash=' + hash.hash, '', `top=100, width=${w}, height=${h}`);
                     }}
                     style={{
                         position: 'absolute',
@@ -180,7 +182,7 @@ const MainViewer = props => {
                         position: 'relative',
                     }}
                 >
-                    {isValidUrl && state.hash !== undefined ? (
+                    {url.isValid && hash.hash !== undefined ? (
                         <div
                             style={
                                 resolutionValue === 'fill'
@@ -200,7 +202,7 @@ const MainViewer = props => {
                             <iframe
                                 id={new Date().getTime()}
                                 title="token art tools viewer"
-                                src={url + '?hash=' + state.hash}
+                                src={url.url + '?hash=' + hash.hash}
                                 width={iframeResolution.x}
                                 height={iframeResolution.y}
                                 style={{
@@ -217,7 +219,7 @@ const MainViewer = props => {
                 </div>
             </div>
             <Segment inverted style={{width: '100%', height: 70, padding: 0, paddingBottom: 2}}>
-                <Features hash={state.hash} isValidUrl={isValidUrl} iFrameKey={iFrameKey} features={features} setFeatures={setFeatures} />
+                <Features iFrameKey={iFrameKey} features={features} setFeatures={setFeatures} />
             </Segment>
         </>
     );

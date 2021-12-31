@@ -2,25 +2,29 @@ import React, {useState, useEffect} from 'react';
 import {Segment, Grid, Button} from 'semantic-ui-react';
 import {RangeStepInput} from 'react-range-step-input';
 
-import {clamp} from '../../helpers/math.helpers';
+import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
 
+import {clamp} from '../../helpers/math.helpers';
+
 const HashPairSlider = props => {
-    const [state, dispatch] = useHash();
+    const [url] = useURL();
+    const [hash, hashAction] = useHash();
+
     const [value, setValue] = useState(0);
     const [locked, setLocked] = useState(false);
 
-    const {index, isValidUrl} = props;
+    const {index} = props;
 
     useEffect(() => {
-        if (state.values[index] !== value) {
-            setValue(state.values[index]);
+        if (hash.values[index] !== value) {
+            setValue(hash.values[index]);
         }
-    }, [state]);
+    }, [hash]);
 
     useEffect(() => {
-        if (value !== state.values[index]) {
-            dispatch({type: 'setValue', index: index, value: value});
+        if (value !== hash.values[index]) {
+            hashAction({type: 'setValue', index: index, value: value});
         }
     }, [value]);
 
@@ -58,19 +62,19 @@ const HashPairSlider = props => {
                         onClick={() => {
                             stepValue(-16);
                         }}
-                        disabled={locked || !isValidUrl}
+                        disabled={locked || !url.isValid}
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <span style={{top: 4, position: 'relative'}}>
                         <RangeStepInput
-                            min={state.params.min}
-                            max={state.params.max}
-                            step={state.params.step}
+                            min={hash.params.min}
+                            max={hash.params.max}
+                            step={hash.params.step}
                             onChange={handleChange}
                             value={value}
                             style={{width: '100%'}}
-                            disabled={locked || !isValidUrl}
+                            disabled={locked || !url.isValid}
                         />
                     </span>
                 </Grid.Column>
@@ -82,7 +86,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             stepValue(16);
                         }}
-                        disabled={locked || !isValidUrl}
+                        disabled={locked || !url.isValid}
                     />
                 </Grid.Column>
                 <Grid.Column width={1}>
@@ -96,7 +100,7 @@ const HashPairSlider = props => {
                             userSelect: 'none',
                         }}
                     >
-                        {state.hash !== undefined ? state.hash[index * 2 + 2] + state.hash[index * 2 + 3] : '--'}
+                        {hash.hash !== undefined ? hash.hash[index * 2 + 2] + hash.hash[index * 2 + 3] : '--'}
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
@@ -106,7 +110,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             setLocked(!locked);
                         }}
-                        disabled={!isValidUrl}
+                        disabled={!url.isValid}
                         color={locked ? 'red' : null}
                     />
                 </Grid.Column>
