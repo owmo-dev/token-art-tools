@@ -1,8 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {List, Header, Loader} from 'semantic-ui-react';
 
+import {useURL} from '../../hooks/useURL';
+import {useHash} from '../../hooks/useHash';
+
 const Features = props => {
-    const {hash, isValidUrl, iFrameKey, features, setFeatures} = props;
+    const [url] = useURL();
+    const [hash] = useHash();
+
+    const {iFrameKey, features, setFeatures} = props;
     const [isLoading, setLoading] = useState(false);
     const [list, setList] = useState([]);
 
@@ -20,7 +26,7 @@ const Features = props => {
 
     useEffect(() => {
         setFeatures({});
-        if (!isValidUrl) {
+        if (!url.isValid) {
             setList([]);
             return;
         }
@@ -41,7 +47,7 @@ const Features = props => {
             clearTimeout(timerGet);
             clearTimeout(timerTimeout);
         };
-    }, [hash, isValidUrl, iFrameKey]);
+    }, [hash.hash, url.isValid, iFrameKey]);
 
     useEffect(() => {
         setList(
@@ -71,12 +77,12 @@ const Features = props => {
             }}
         >
             <center>
-                {!isValidUrl ? (
+                {!url.isValid ? (
                     <Header as="h4" inverted style={{marginTop: 14}}>
                         {'set the "features" variable to display results here'}
                         <Header.Subheader style={{marginTop: 5, font: 'monospace'}}>{example}</Header.Subheader>
                     </Header>
-                ) : isValidUrl && list.length === 0 ? (
+                ) : url.isValid && list.length === 0 ? (
                     isLoading ? (
                         <Loader active />
                     ) : (

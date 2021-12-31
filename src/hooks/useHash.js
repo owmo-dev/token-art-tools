@@ -6,8 +6,8 @@ const HashContext = createContext();
 
 function init(type) {
     switch (type) {
-        case HASH_0x32:
-            const values = new Array(32).fill(0);
+        case HASH_0x32: {
+            let values = new Array(32).fill(0);
             return {
                 type: type,
                 hash: convertValuesToHash(type, values),
@@ -20,6 +20,7 @@ function init(type) {
                     count: 32,
                 },
             };
+        }
         default:
             throw new Error(`useHash type '${type}' not supported`);
     }

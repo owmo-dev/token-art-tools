@@ -1,6 +1,7 @@
 import React, {useLayoutEffect, useState} from 'react';
 import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 
+import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
 
 import Title from '../copy/title.component';
@@ -10,18 +11,20 @@ import InitAutomation from '../modals/init-automation.component';
 import RunAutomation from '../modals/run-automation.component';
 
 const LeftControls = props => {
-    const [state, dispatch] = useHash();
+    const [url] = useURL();
+    const [hash, hashAction] = useHash();
+
     const [sliders, setSliders] = useState([]);
 
-    const {isValidUrl, startAutomation, stopAutomation, progress} = props;
+    const {startAutomation, stopAutomation, progress} = props;
 
     useLayoutEffect(() => {
         let sliders = [];
-        for (let i = 0; i < state.params.count; i++) {
-            sliders.push(<HashPairSlider key={i} index={i} isValidUrl={isValidUrl} />);
+        for (let i = 0; i < hash.params.count; i++) {
+            sliders.push(<HashPairSlider key={i} index={i} />);
         }
         setSliders(sliders);
-    }, [isValidUrl]);
+    }, [url.isValid]);
 
     const [isSetHashModalOpen, setSetHashModalState] = useState(false);
 
@@ -77,10 +80,10 @@ const LeftControls = props => {
                     <Button
                         icon
                         color="red"
-                        disabled={state.history.length === 0}
+                        disabled={hash.history.length === 0}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
-                            dispatch({type: 'reset'});
+                            hashAction({type: 'reset'});
                         }}
                     >
                         <Icon name="x" />
@@ -88,21 +91,21 @@ const LeftControls = props => {
                     <Button
                         icon
                         color="purple"
-                        disabled={state.history.length === 0}
+                        disabled={hash.history.length === 0}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
-                            dispatch({type: 'back'});
+                            hashAction({type: 'back'});
                         }}
                     >
                         <Icon name="undo" />
                     </Button>
-                    <Button icon color="pink" disabled={!isValidUrl} style={{float: 'right', marginLeft: 12}} onClick={openInitAutoModal}>
+                    <Button icon color="pink" disabled={!url.isValid} style={{float: 'right', marginLeft: 12}} onClick={openInitAutoModal}>
                         <Icon name="cog" />
                     </Button>
                     <Button
                         icon
                         color="teal"
-                        disabled={!isValidUrl}
+                        disabled={!url.isValid}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
                             openSetHashModal();
@@ -113,10 +116,10 @@ const LeftControls = props => {
                     <Button
                         icon
                         color="blue"
-                        disabled={!isValidUrl}
+                        disabled={!url.isValid}
                         style={{float: 'right'}}
                         onClick={() => {
-                            dispatch({type: 'random'});
+                            hashAction({type: 'random'});
                         }}
                     >
                         <Icon name="random" />
@@ -148,10 +151,10 @@ const LeftControls = props => {
                     background: '#CCC',
                 }}
                 onClick={() => {
-                    navigator.clipboard.writeText(state.hash);
+                    navigator.clipboard.writeText(hash.hash);
                 }}
             >
-                <span style={{fontFamily: 'monospace', fontSize: 11}}>{state.hash}</span>
+                <span style={{fontFamily: 'monospace', fontSize: 11}}>{hash.hash}</span>
                 <Icon color="grey" name="copy" size="small" style={{float: 'right', marginRight: 10, marginTop: 6}} />
             </Segment>
         </>

@@ -3,8 +3,8 @@ import React, {useState, useEffect, useReducer} from 'react';
 import LeftControls from '../components/panels/left-controls.component';
 import MainViewer from '../components/panels/main-viewer.component';
 
+import {URLProvider} from '../hooks/useURL';
 import {useHash} from '../hooks/useHash';
-import {ValidateURL} from '../helpers/url.helpers';
 
 // !!! slider locks do not work
 // !!! UX for disable / enable sidebar strange
@@ -23,16 +23,18 @@ const loopReducer = (state, dispatch) => {
 };
 
 const App = () => {
-    const [state, dispatch] = useHash();
+    const [hash, hashAction] = useHash();
     const [loop, loopAction] = useReducer(loopReducer, false);
 
+    /*
     const [url, setUrl] = useState('');
     const [isValidUrl, setUrlValid] = useState(false);
+    */
 
     const screenshot = () => {
         var iframe = window.document.querySelector('iframe').contentWindow;
         if (iframe === undefined) return;
-        iframe.postMessage({command: 'screenshot', token: state.hash}, '*');
+        iframe.postMessage({command: 'screenshot', token: hash.hash}, '*');
     };
 
     const [stopping, setStopping] = useState(false);
@@ -76,7 +78,7 @@ const App = () => {
         setTotal(total);
         setCSVExport(csv);
         setStopping(false);
-        dispatch({type: 'random'});
+        hashAction({type: 'random'});
         setTick(
             setInterval(() => {
                 loopAction({type: 'tick'});
@@ -107,20 +109,22 @@ const App = () => {
         if (doCSVExport) {
             setTimeout(() => {
                 var f = features;
-                f['Hash'] = state.hash;
+                f['Hash'] = hash.hash;
                 setFeaturesList(prev => [...prev, f]);
             }, 1000);
         }
         setProgress(parseInt((loop / total) * 100));
         if (loop === total) return;
-        dispatch({type: 'random'});
+        hashAction({type: 'random'});
     }, [loop]);
 
+    /*
     const setUrlValue = u => {
         if (url === u) return;
         setUrl(u);
         setUrlValid(ValidateURL(u));
     };
+    */
 
     const [iFrameKey, setIframeKey] = useState(0);
     const refresh = () => {
@@ -128,31 +132,24 @@ const App = () => {
     };
 
     return (
-        <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
-            <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
-                <LeftControls isValidUrl={isValidUrl} startAutomation={startAutomation} stopAutomation={stopAutomation} progress={progress} />
+        <URLProvider>
+            <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
+                <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
+                    <LeftControls startAutomation={startAutomation} stopAutomation={stopAutomation} progress={progress} />
+                </div>
+                <div
+                    style={{
+                        marginLeft: 500,
+                        padding: 20,
+                        height: '100vh',
+                        width: 'auto',
+                        minWidth: 800,
+                    }}
+                >
+                    <MainViewer iFrameKey={iFrameKey} refresh={refresh} screenshot={screenshot} features={features} setFeatures={setFeatures} />
+                </div>
             </div>
-            <div
-                style={{
-                    marginLeft: 500,
-                    padding: 20,
-                    height: '100vh',
-                    width: 'auto',
-                    minWidth: 800,
-                }}
-            >
-                <MainViewer
-                    url={url}
-                    isValidUrl={isValidUrl}
-                    setUrlValue={setUrlValue}
-                    iFrameKey={iFrameKey}
-                    refresh={refresh}
-                    screenshot={screenshot}
-                    features={features}
-                    setFeatures={setFeatures}
-                />
-            </div>
-        </div>
+        </URLProvider>
     );
 };
 
