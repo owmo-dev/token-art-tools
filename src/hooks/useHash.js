@@ -22,17 +22,32 @@ function init(type) {
 function hashReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'random':
-            return {...state, ...getRandomHashValues(state.type)};
+            var data = getRandomHashValues(state.type);
+            data['history'] = [...state.history, state.hash];
+            return {...state, ...data};
         case 'setHash':
-            return {...state, hash: dispatch.hash};
-        case 'goBackOne':
-            return {...state}; // !!! IMPLEMENT
-        case 'clearHistory':
+            var data = {hash: dispatch.hash};
+            data['history'] = [...state.history, state.hash];
+            // !!! need to update values based on hash
+            return {...state, ...data};
+        case 'back':
+            var lastHash = state.history[state.history.length - 1];
+            var history = state.history;
+            history.pop();
+            var data = {hash: lastHash, history: history};
+            // need to update values based on hash
+            return {...state, ...data};
+        case 'reset':
             return {...state, ...init(state.type)};
         case 'setValue':
             var values = state.values;
             values[dispatch.index] = dispatch.value;
-            return {...state, values: values, hash: convertValuesToHash(state.type, values)};
+            var data = {
+                hash: convertValuesToHash(state.type, values),
+                values: values,
+            };
+            data['history'] = [...state.history, state.hash];
+            return {...state, ...data};
         default:
             throw new Error(`hashReducer type '${dispatch.type}' not supported`);
     }
