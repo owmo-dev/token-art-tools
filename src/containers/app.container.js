@@ -184,15 +184,10 @@ const App = () => {
             <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
                 <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
                     <LeftControls
-                        hash={hash}
-                        values={values}
                         hashHistory={hashHistory}
-                        setValueAtIndex={setValueAtIndex}
                         setHashValues={setHashValues}
                         clearHistory={clearHistory}
                         isValidUrl={isValidUrl}
-                        randomHash={randomHash}
-                        triggerRandom={triggerRandom}
                         startAutomation={startAutomation}
                         stopAutomation={stopAutomation}
                         progress={progress}

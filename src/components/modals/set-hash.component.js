@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Modal, Form, Message, Button} from 'semantic-ui-react';
+import {useHash} from '../../hooks/useHash';
 
 function isValidHash(str) {
     const regexExp = /^0x[a-f0-9]{64}$/gi;
@@ -7,10 +8,12 @@ function isValidHash(str) {
 }
 
 const SetHash = props => {
+    const [, dispatch] = useHash();
+
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
-    const {active, close, setHashValues} = props;
+    const {active, close} = props;
 
     const emptyFormData = {hash: ''};
     const [formData, setFormData] = useState(emptyFormData);
@@ -43,7 +46,7 @@ const SetHash = props => {
             return;
         }
 
-        setHashValues(formData.hash);
+        dispatch({type: 'setHash', hash: formData.hash});
         closeModal();
     }
 
