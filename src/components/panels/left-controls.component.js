@@ -30,7 +30,7 @@ const LeftControls = props => {
     function makeSliders() {
         var s = [];
         for (let i = 0; i < 32; i++) {
-            s.push(<HashPairSlider key={i} index={i} value={values[i]} setValueAtIndex={setValueAtIndex} randomHash={randomHash} />);
+            s.push(<HashPairSlider key={i} index={i} />);
         }
         return s;
     }
@@ -153,10 +153,10 @@ const LeftControls = props => {
                     background: '#CCC',
                 }}
                 onClick={() => {
-                    navigator.clipboard.writeText(hash);
+                    navigator.clipboard.writeText(state.hash);
                 }}
             >
-                <span style={{fontFamily: 'monospace', fontSize: 11}}>{hash}</span>
+                <span style={{fontFamily: 'monospace', fontSize: 11}}>{state.hash}</span>
                 <Icon color="grey" name="copy" size="small" style={{float: 'right', marginRight: 10, marginTop: 6}} />
             </Segment>
         </>

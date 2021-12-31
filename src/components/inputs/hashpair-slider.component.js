@@ -2,33 +2,36 @@ import React, {useState, useEffect} from 'react';
 import {Segment, Grid, Button} from 'semantic-ui-react';
 import {RangeStepInput} from 'react-range-step-input';
 
-import {ValueToHexPair, RandomInt} from '../../helpers/token.helpers';
+import {clamp} from '../../helpers/math.helpers';
+import {useHash} from '../../hooks/useHash';
+import {ValueToHexPair} from '../../helpers/token.helpers';
 
 const HashPairSlider = props => {
+    const [state, dispatch] = useHash();
+    const [value, setValue] = useState(0);
     const [locked, setLocked] = useState(false);
 
-    const {index, value, setValueAtIndex, randomHash} = props;
+    const {index} = props;
 
     useEffect(() => {
-        if (randomHash && !locked) {
-            const v = RandomInt(255);
-            setValueAtIndex(index, v);
+        if (state.values[index] !== value) {
+            setValue(state.values[index]);
         }
-    });
+    }, [state]);
+
+    useEffect(() => {
+        if (value !== state.values[index]) {
+            dispatch({type: 'setValue', index: index, value: value});
+        }
+    }, [value]);
 
     const handleChange = e => {
         const v = parseInt(e.target.value);
-        setValueAtIndex(index, v);
+        setValue(v);
     };
 
     const stepValue = inc => {
-        var v = value + parseInt(inc);
-        if (v > 255) {
-            v = 255;
-        } else if (v < 0) {
-            v = 0;
-        }
-        setValueAtIndex(index, v);
+        setValue(clamp(value + inc, 0, 255));
     };
 
     return (

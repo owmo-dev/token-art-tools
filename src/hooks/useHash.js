@@ -23,6 +23,10 @@ function hashReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'random':
             return {...state, ...getRandomHashValues(state.type)};
+        case 'setValue':
+            var values = state.values;
+            values[dispatch.index] = dispatch.value;
+            return {...state, values: values, hash: getHashFromValues(state.type, values)};
         default:
             throw new Error(`hashReducer type '${dispatch.type}' not supported`);
     }
@@ -38,6 +42,15 @@ function getRandomHashValues(type) {
             };
         default:
             throw new Error(`getRandomHash type '${type}' not supported`);
+    }
+}
+
+function getHashFromValues(type, values) {
+    switch (type) {
+        case HASH_0x32:
+            return '0x' + values.map(x => Number(x).toString(16)).join('');
+        default:
+            throw new Error(`getHashFromValues type '${type}' not supported`);
     }
 }
 
