@@ -22,33 +22,39 @@ function init(type) {
 
 function hashReducer(state, dispatch) {
     switch (dispatch.type) {
-        case 'random':
-            var data = getRandomHashValues(state.type);
+        case 'random': {
+            let data = getRandomHashValues(state.type);
             data['history'] = [...state.history, state.hash];
             return {...state, ...data};
-        case 'setHash':
-            var data = {hash: dispatch.hash};
-            data['history'] = [...state.history, state.hash];
-            // !!! need to update values based on hash
+        }
+        case 'setHash': {
+            let hash = dispatch.hash;
+            let history = [...state.history, hash];
+            let values = convertHashToValues(state.type, hash);
+            let data = {hash: hash, values: values, history: history};
             return {...state, ...data};
-        case 'back':
-            var lastHash = state.history[state.history.length - 1];
-            var history = state.history;
+        }
+        case 'back': {
+            let hash = state.history[state.history.length - 1];
+            let history = state.history;
             history.pop();
-            var data = {hash: lastHash, history: history};
-            // need to update values based on hash
+            let values = convertHashToValues(state.type, hash);
+            let data = {hash: hash, values: values, history: history};
             return {...state, ...data};
-        case 'reset':
+        }
+        case 'reset': {
             return {...state, ...init(state.type)};
-        case 'setValue':
-            var values = state.values;
+        }
+        case 'setValue': {
+            let values = state.values;
             values[dispatch.index] = dispatch.value;
-            var data = {
+            let data = {
                 hash: convertValuesToHash(state.type, values),
                 values: values,
             };
             data['history'] = [...state.history, state.hash];
             return {...state, ...data};
+        }
         default:
             throw new Error(`hashReducer type '${dispatch.type}' not supported`);
     }
@@ -56,21 +62,38 @@ function hashReducer(state, dispatch) {
 
 function getRandomHashValues(type) {
     switch (type) {
-        case HASH_0x32:
-            var values = Array.from({length: 32}, () => Math.floor(Math.random() * 255));
+        case HASH_0x32: {
+            let values = Array.from({length: 32}, () => Math.floor(Math.random() * 255));
             return {
                 hash: convertValuesToHash(type, values),
                 values: values,
             };
+        }
         default:
             throw new Error(`getRandomHash type '${type}' not supported`);
     }
 }
 
+function convertHashToValues(type, hash) {
+    switch (type) {
+        case HASH_0x32: {
+            let values = [];
+            hash = hash.substring(2);
+            for (let i = 0; i < hash.length; i += 2) {
+                values.push(parseInt('0x' + hash[i] + hash[i + 1]));
+            }
+            return values;
+        }
+        default:
+            throw new Error(`convertHashToValues type '${type}' not supported`);
+    }
+}
+
 function convertValuesToHash(type, values) {
     switch (type) {
-        case HASH_0x32:
+        case HASH_0x32: {
             return '0x' + values.map(x => Number(x).toString(16).padStart(2, '0')).join('');
+        }
         default:
             throw new Error(`convertValuesToHash type '${type}' not supported`);
     }
