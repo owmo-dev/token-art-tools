@@ -1,6 +1,4 @@
 export function exportCSV(features) {
-    console.log(features);
-
     let csvContent = 'data:text/csv;charset=utf-8,';
 
     let keys = Object.keys(features[0]);
@@ -9,7 +7,6 @@ export function exportCSV(features) {
 
     features.map(feature => {
         csvContent += Object.keys(feature).map(key => {
-            console.log(feature[key]);
             return feature[key];
         });
         csvContent += '\r\n';
