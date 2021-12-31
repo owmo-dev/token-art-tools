@@ -15,7 +15,7 @@ const Viewer = props => {
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
 
-    const {iFrameKey, refresh, screenshot, features, setFeatures} = props;
+    const {screenshot} = props;
 
     function onChange(e) {
         urlAction({type: 'set', url: e.target.value});
@@ -57,7 +57,7 @@ const Viewer = props => {
 
     function handleChange(e, d) {
         setResolutionValue(d.value);
-        refresh();
+        urlAction({type: 'refresh'});
     }
 
     useEffect(() => {
@@ -96,7 +96,7 @@ const Viewer = props => {
             x: x + 2 + 'px',
             y: y + 2 + 'px',
         });
-        refresh();
+        urlAction({type: 'refresh'});
     }
 
     return (
@@ -106,7 +106,15 @@ const Viewer = props => {
                 <Button icon disabled={!url.isValid} onClick={screenshot} style={{float: 'right', marginLeft: 20}}>
                     <Icon name="camera" />
                 </Button>
-                <Button icon disabled={!url.isValid} floated="right" style={{float: 'right', marginLeft: 20}} onClick={refresh}>
+                <Button
+                    icon
+                    disabled={!url.isValid}
+                    floated="right"
+                    style={{float: 'right', marginLeft: 20}}
+                    onClick={() => {
+                        urlAction({type: 'refresh'});
+                    }}
+                >
                     <Icon name="refresh" />
                 </Button>
                 <Dropdown
@@ -204,7 +212,7 @@ const Viewer = props => {
                                 style={{
                                     border: '1px dashed #99999933',
                                 }}
-                                key={iFrameKey}
+                                key={url.iframeKey}
                             />
                         </div>
                     ) : (
@@ -215,7 +223,7 @@ const Viewer = props => {
                 </div>
             </div>
             <Segment inverted style={{width: '100%', height: 70, padding: 0, paddingBottom: 2}}>
-                <Features iFrameKey={iFrameKey} features={features} setFeatures={setFeatures} />
+                <Features />
             </Segment>
         </>
     );

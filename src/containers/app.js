@@ -1,13 +1,19 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React from 'react';
 
 import Viewer from '../components/panels/viewer';
 import Controls from '../components/panels/controls';
 
+import 'semantic-ui-css/semantic.min.css';
+import '../css/style.css';
+
+import {HashProvider} from '../hooks/useHash';
 import {URLProvider} from '../hooks/useURL';
-import {useHash} from '../hooks/useHash';
+import {FeaturesProvider} from '../hooks/useFeatures';
+import {AutomationProvider} from '../hooks/useAutomation';
 
 // !!! automation is broken on second run
 
+/*
 const loopReducer = (state, dispatch) => {
     switch (dispatch.type) {
         case 'tick':
@@ -19,17 +25,20 @@ const loopReducer = (state, dispatch) => {
             return state;
     }
 };
+*/
 
 const App = () => {
-    const [hash, hashAction] = useHash();
-    const [loop, loopAction] = useReducer(loopReducer, false);
+    //const [hash] = useHash();
+    //const [loop, loopAction] = useReducer(loopReducer, false);
 
+    /*
     const screenshot = () => {
         var iframe = window.document.querySelector('iframe').contentWindow;
         if (iframe === undefined) return;
         iframe.postMessage({command: 'screenshot', token: hash.hash}, '*');
     };
 
+    
     const [stopping, setStopping] = useState(false);
     const [progress, setProgress] = useState(0);
 
@@ -64,7 +73,9 @@ const App = () => {
         hrefElement.click();
         hrefElement.remove();
     };
+    */
 
+    /*
     function startAutomation(total, wait, csv) {
         setProgress(0);
         setFeaturesList([]);
@@ -110,30 +121,38 @@ const App = () => {
         if (loop === total) return;
         hashAction({type: 'random'});
     }, [loop]);
+    
 
     const [iFrameKey, setIframeKey] = useState(0);
     const refresh = () => {
         setIframeKey(iFrameKey + 1);
     };
+    */
 
     return (
         <URLProvider>
-            <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
-                <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
-                    <Controls startAutomation={startAutomation} stopAutomation={stopAutomation} progress={progress} />
-                </div>
-                <div
-                    style={{
-                        marginLeft: 500,
-                        padding: 20,
-                        height: '100vh',
-                        width: 'auto',
-                        minWidth: 800,
-                    }}
-                >
-                    <Viewer iFrameKey={iFrameKey} refresh={refresh} screenshot={screenshot} features={features} setFeatures={setFeatures} />
-                </div>
-            </div>
+            <HashProvider>
+                <FeaturesProvider>
+                    <AutomationProvider>
+                        <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
+                            <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
+                                <Controls />
+                            </div>
+                            <div
+                                style={{
+                                    marginLeft: 500,
+                                    padding: 20,
+                                    height: '100vh',
+                                    width: 'auto',
+                                    minWidth: 800,
+                                }}
+                            >
+                                <Viewer />
+                            </div>
+                        </div>
+                    </AutomationProvider>
+                </FeaturesProvider>
+            </HashProvider>
         </URLProvider>
     );
 };
