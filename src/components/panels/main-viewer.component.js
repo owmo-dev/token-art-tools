@@ -13,7 +13,7 @@ const MainViewer = props => {
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
 
-    const {hash, url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot, features, setFeatures} = props;
+    const {url, isValidUrl, setUrlValue, iFrameKey, refresh, screenshot, features, setFeatures} = props;
 
     function onChange(e) {
         setUrlValue(e.target.value);

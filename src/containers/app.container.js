@@ -6,14 +6,12 @@ import '../css/style.css';
 import LeftControls from '../components/panels/left-controls.component';
 import MainViewer from '../components/panels/main-viewer.component';
 
-import {ValueToHexPair, HexPairToValue} from '../helpers/token.helpers';
+import {useHash} from '../hooks/useHash';
 import {ValidateURL} from '../helpers/url.helpers';
-import {HashProvider} from '../hooks/useHash';
 
-const nullHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
-
-const loopReducer = (state, action) => {
-    switch (action.type) {
+// !!! convert to useAutomation
+const loopReducer = (state, dispatch) => {
+    switch (dispatch.type) {
         case 'tick':
             if (state === false) state = -1;
             return state + 1;
@@ -25,35 +23,21 @@ const loopReducer = (state, action) => {
 };
 
 const App = () => {
+    const [state, dispatch] = useHash();
+    const [loop, loopAction] = useReducer(loopReducer, false);
+
     const [url, setUrl] = useState('');
     const [isValidUrl, setUrlValid] = useState(false);
-
-    const [hash, setHash] = useState(nullHash);
-    const [hashHistory, setHashHistory] = useState([]);
-
-    const [values, setValues] = useState(() => {
-        var v = {};
-        for (let i = 0; i < 32; i++) {
-            v[i] = 0;
-        }
-        return v;
-    });
-
-    const [randomHash, triggerRandom] = useState(false);
-
-    useEffect(() => {
-        if (randomHash) triggerRandom(false);
-    }, [randomHash]);
 
     const screenshot = () => {
         var iframe = window.document.querySelector('iframe').contentWindow;
         if (iframe === undefined) return;
-        iframe.postMessage({command: 'screenshot', token: hash}, '*');
+        iframe.postMessage({command: 'screenshot', token: state.hash}, '*');
     };
 
     const [stopping, setStopping] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [state, dispatch] = useReducer(loopReducer, false);
+
     const [tick, setTick] = useState(null);
     const [total, setTotal] = useState(0);
 
@@ -91,10 +75,10 @@ const App = () => {
         setTotal(total);
         setCSVExport(csv);
         setStopping(false);
-        triggerRandom(true);
+        dispatch({type: 'random'});
         setTick(
             setInterval(() => {
-                dispatch({type: 'tick'});
+                loopAction({type: 'tick'});
             }, wait),
         );
     }
@@ -104,7 +88,7 @@ const App = () => {
         clearInterval(tick);
         setTick(null);
         setTotal(0);
-        dispatch({type: 'reset'});
+        loopAction({type: 'reset'});
         setProgress(100);
         setStopping(true);
         if (doCSVExport) {
@@ -113,8 +97,8 @@ const App = () => {
     }
 
     useEffect(() => {
-        if (!state || isNaN(state)) return;
-        if (state > total) {
+        if (!loop || isNaN(loop)) return;
+        if (loop > total) {
             stopAutomation();
             return;
         }
@@ -122,30 +106,21 @@ const App = () => {
         if (doCSVExport) {
             setTimeout(() => {
                 var f = features;
-                f['Hash'] = hash;
+                f['Hash'] = state.hash;
                 setFeaturesList(prev => [...prev, f]);
             }, 1000);
         }
-        setProgress(parseInt((state / total) * 100));
-        if (state === total) return;
-        triggerRandom(true);
-    }, [state]);
+        setProgress(parseInt((loop / total) * 100));
+        if (loop === total) return;
+        dispatch({type: 'random'});
+    }, [loop]);
 
-    const [iFrameKey, setIframeKey] = useState(0);
-
-    const setValueAtIndex = (i, v) => {
-        setValues(prev => ({
-            ...prev,
-            [i]: v,
-        }));
+    /*
+    const clearHistory = () => {
+        setHashValues(nullHash);
+        setHashHistory([nullHash]);
     };
-
-    const setHashValues = h => {
-        h = h.substring(2);
-        for (let i = 0; i < 32; i++) {
-            setValueAtIndex(i, HexPairToValue(h[i * 2] + h[i * 2 + 1]));
-        }
-    };
+        */
 
     const setUrlValue = u => {
         if (url === u) return;
@@ -153,69 +128,37 @@ const App = () => {
         setUrlValid(ValidateURL(u));
     };
 
-    const clearHistory = () => {
-        setHashValues(nullHash);
-        setHashHistory([nullHash]);
-    };
-
+    const [iFrameKey, setIframeKey] = useState(0);
     const refresh = () => {
         setIframeKey(iFrameKey + 1);
     };
 
-    useEffect(() => {
-        var h = '0x';
-        for (let i = 0; i < 32; i++) {
-            h += ValueToHexPair(values[i]);
-        }
-        if (hash !== h) {
-            var history = hashHistory;
-            if (history[history.length - 1] === h) {
-                history.pop();
-            } else {
-                if (hash !== undefined) history.push(hash);
-            }
-            setHashHistory(history);
-            setHash(h);
-        }
-    }, [values, hash, hashHistory]);
-
     return (
-        <HashProvider>
-            <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
-                <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
-                    <LeftControls
-                        hashHistory={hashHistory}
-                        setHashValues={setHashValues}
-                        clearHistory={clearHistory}
-                        isValidUrl={isValidUrl}
-                        startAutomation={startAutomation}
-                        stopAutomation={stopAutomation}
-                        progress={progress}
-                    />
-                </div>
-                <div
-                    style={{
-                        marginLeft: 500,
-                        padding: 20,
-                        height: '100vh',
-                        width: 'auto',
-                        minWidth: 800,
-                    }}
-                >
-                    <MainViewer
-                        hash={hash}
-                        url={url}
-                        isValidUrl={isValidUrl}
-                        setUrlValue={setUrlValue}
-                        iFrameKey={iFrameKey}
-                        refresh={refresh}
-                        screenshot={screenshot}
-                        features={features}
-                        setFeatures={setFeatures}
-                    />
-                </div>
+        <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
+            <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
+                <LeftControls isValidUrl={isValidUrl} startAutomation={startAutomation} stopAutomation={stopAutomation} progress={progress} />
             </div>
-        </HashProvider>
+            <div
+                style={{
+                    marginLeft: 500,
+                    padding: 20,
+                    height: '100vh',
+                    width: 'auto',
+                    minWidth: 800,
+                }}
+            >
+                <MainViewer
+                    url={url}
+                    isValidUrl={isValidUrl}
+                    setUrlValue={setUrlValue}
+                    iFrameKey={iFrameKey}
+                    refresh={refresh}
+                    screenshot={screenshot}
+                    features={features}
+                    setFeatures={setFeatures}
+                />
+            </div>
+        </div>
     );
 };
 
