@@ -3,7 +3,7 @@ import React from 'react';
 import Viewer from '../components/panels/viewer';
 import Controls from '../components/panels/controls';
 
-import 'semantic-ui-css/semantic.min.css';
+import 'fomantic-ui-css/semantic.css';
 import '../css/style.css';
 
 import {HashProvider} from '../hooks/useHash';

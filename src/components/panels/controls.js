@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 
 import {useURL} from '../../hooks/useURL';
@@ -16,15 +16,15 @@ const Controls = () => {
     const [hash, hashAction] = useHash();
     const [automation] = useAutomation();
 
-    const [sliders, setSliders] = useState([]);
-
-    useLayoutEffect(() => {
+    function makeSliders() {
         let sliders = [];
         for (let i = 0; i < hash.params.count; i++) {
             sliders.push(<HashPairSlider key={i} index={i} />);
         }
-        setSliders(sliders);
-    }, [url.isValid]);
+        return sliders;
+    }
+
+    const sliders = makeSliders();
 
     const [isSetHashModalOpen, setSetHashModalState] = useState(false);
 
@@ -103,7 +103,7 @@ const Controls = () => {
                             openSetHashModal();
                         }}
                     >
-                        <Icon name="sign-in" />
+                        <Icon name="sign in alternate" />
                     </Button>
                     <Button
                         icon
