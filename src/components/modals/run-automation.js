@@ -6,6 +6,7 @@ import {useAutomation} from '../../hooks/useAutomation';
 import {useFeatures} from '../../hooks/useFeatures';
 
 import {screenshot} from '../../helpers/screenshot';
+import {exportCSV} from '../../helpers/csv';
 
 const RunAutomation = () => {
     const [hash, hashAction] = useHash();
@@ -55,6 +56,7 @@ const RunAutomation = () => {
                     setTimeout(() => {
                         let f = features.data;
                         if (f !== undefined) {
+                            f['hash'] = hash.hash;
                             setFeaturesList(prev => [...prev, f]);
                         }
                     }, 900);
@@ -89,8 +91,7 @@ const RunAutomation = () => {
 
     useEffect(() => {
         if (automation.status === 'exporting') {
-            // save the CSV !!!
-            console.log(featuresList);
+            exportCSV(featuresList);
             setTimeout(() => {
                 automationAction({type: 'reset'});
             }, 500);

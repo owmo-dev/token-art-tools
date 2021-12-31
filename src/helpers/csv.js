@@ -1,15 +1,16 @@
-/*
-export function exportCSV(list) {
+export function exportCSV(features) {
+    console.log(features);
+
     let csvContent = 'data:text/csv;charset=utf-8,';
 
-    csvContent += Object.keys(features).map(key => {
-        return key;
-    });
+    let keys = Object.keys(features[0]);
+    csvContent += keys;
     csvContent += '\r\n';
 
-    list.map(features => {
-        csvContent += Object.keys(features).map(key => {
-            return features[key];
+    features.map(feature => {
+        csvContent += Object.keys(feature).map(key => {
+            console.log(feature[key]);
+            return feature[key];
         });
         csvContent += '\r\n';
         return null;
@@ -23,4 +24,3 @@ export function exportCSV(list) {
     hrefElement.click();
     hrefElement.remove();
 }
-*/
