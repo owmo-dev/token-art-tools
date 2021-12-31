@@ -22,5 +22,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/owenmoore/token-art-tools"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-plugin-react": "^7.28.0"
   }
 }

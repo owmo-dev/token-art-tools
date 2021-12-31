@@ -1,15 +1,15 @@
 import React, {useState, useEffect, useReducer} from 'react';
 
-import 'semantic-ui-css/semantic.min.css';
-import '../css/style.css';
-
 import LeftControls from '../components/panels/left-controls.component';
 import MainViewer from '../components/panels/main-viewer.component';
 
 import {useHash} from '../hooks/useHash';
 import {ValidateURL} from '../helpers/url.helpers';
 
-// !!! convert to useAutomation
+// !!! slider locks do not work
+// !!! UX for disable / enable sidebar strange
+// !!! automation is broken on second run
+
 const loopReducer = (state, dispatch) => {
     switch (dispatch.type) {
         case 'tick':
@@ -58,6 +58,7 @@ const App = () => {
                 return features[key];
             });
             csvContent += '\r\n';
+            return null;
         });
 
         var encodedUri = encodeURI(csvContent);
