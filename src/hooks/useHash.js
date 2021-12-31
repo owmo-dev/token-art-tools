@@ -8,10 +8,12 @@ function init(type) {
     switch (type) {
         case HASH_0x32: {
             let values = new Array(32).fill(0);
+            let locked = new Array(32).fill(false);
             return {
                 type: type,
                 hash: convertValuesToHash(type, values),
                 values: values,
+                locked: locked,
                 history: [],
                 params: {
                     min: 0,
@@ -29,7 +31,7 @@ function init(type) {
 function hashReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'random': {
-            let data = getRandomHashValues(state.type);
+            let data = getRandomHashValues(state);
             data['history'] = [...state.history, state.hash];
             return {...state, ...data};
         }
@@ -61,22 +63,30 @@ function hashReducer(state, dispatch) {
             data['history'] = [...state.history, state.hash];
             return {...state, ...data};
         }
+        case 'toggle-locked': {
+            let locked = state.locked;
+            locked[dispatch.index] = !locked[dispatch.index];
+            return {...state, ...{locked: locked}};
+        }
         default:
             throw new Error(`hashReducer type '${dispatch.type}' not supported`);
     }
 }
 
-function getRandomHashValues(type) {
-    switch (type) {
+function getRandomHashValues(state) {
+    switch (state.type) {
         case HASH_0x32: {
-            let values = Array.from({length: 32}, () => Math.floor(Math.random() * 255));
+            let values = state.values;
+            for (let i = 0; i < 32; i++) {
+                if (!state.locked[i]) values[i] = Math.floor(Math.random() * 255);
+            }
             return {
-                hash: convertValuesToHash(type, values),
+                hash: convertValuesToHash(state.type, values),
                 values: values,
             };
         }
         default:
-            throw new Error(`getRandomHash type '${type}' not supported`);
+            throw new Error(`getRandomHash type '${state.type}' not supported`);
     }
 }
 

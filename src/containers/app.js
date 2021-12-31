@@ -6,7 +6,6 @@ import Controls from '../components/panels/controls';
 import {URLProvider} from '../hooks/useURL';
 import {useHash} from '../hooks/useHash';
 
-// !!! slider locks do not work
 // !!! automation is broken on second run
 
 const loopReducer = (state, dispatch) => {
