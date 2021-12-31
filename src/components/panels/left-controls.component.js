@@ -12,7 +12,7 @@ import RunAutomation from '../modals/run-automation.component';
 const LeftControls = props => {
     const [state, dispatch] = useHash();
 
-    const {setHashValues, hashHistory, clearHistory, isValidUrl, startAutomation, stopAutomation, progress} = props;
+    const {isValidUrl, startAutomation, stopAutomation, progress} = props;
 
     function makeSliders() {
         var s = [];
@@ -35,11 +35,13 @@ const LeftControls = props => {
     }
 
     function goBackOneHash() {
-        setHashValues(hashHistory[hashHistory.length - 1]);
+        // !!! replace with dispatch to useHash
+        //setHashValues(hashHistory[hashHistory.length - 1]);
     }
 
     function clrHistory() {
-        clearHistory();
+        // !!! replace with dispatch to useHash
+        //clearHistory();
     }
 
     const [isInitAutoModalOpen, setInitAutoModalState] = useState(false);
@@ -68,7 +70,7 @@ const LeftControls = props => {
 
     return (
         <>
-            <SetHash active={isSetHashModalOpen} close={closeSetHashModal} setHashValues={setHashValues} />
+            <SetHash active={isSetHashModalOpen} close={closeSetHashModal} />
             <InitAutomation active={isInitAutoModalOpen} close={closeInitAutoModal} />
             <RunAutomation active={isRunAutomationModalOpen} close={closeRunAutoModal} progress={progress} stop={stopAutomation} />
             <Grid>
@@ -83,10 +85,10 @@ const LeftControls = props => {
                     <Title />
                 </Grid.Column>
                 <Grid.Column style={{width: 265, padding: 0, paddingTop: 25}}>
-                    <Button icon color="red" disabled={hashHistory.length === 0} style={{float: 'right', marginLeft: 12}} onClick={clrHistory}>
+                    <Button icon color="red" disabled={state.history.length === 0} style={{float: 'right', marginLeft: 12}} onClick={clrHistory}>
                         <Icon name="x" />
                     </Button>
-                    <Button icon color="purple" disabled={hashHistory.length === 0} style={{float: 'right', marginLeft: 12}} onClick={goBackOneHash}>
+                    <Button icon color="purple" disabled={state.history.length === 0} style={{float: 'right', marginLeft: 12}} onClick={goBackOneHash}>
                         <Icon name="undo" />
                     </Button>
                     <Button icon color="pink" disabled={!isValidUrl} style={{float: 'right', marginLeft: 12}} onClick={openInitAutoModal}>
