@@ -37,7 +37,6 @@ const App = () => {
         if (iframe === undefined) return;
         iframe.postMessage({command: 'screenshot', token: hash.hash}, '*');
     };
-
     
     const [stopping, setStopping] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -45,8 +44,6 @@ const App = () => {
     const [tick, setTick] = useState(null);
     const [total, setTotal] = useState(0);
 
-    const [features, setFeatures] = useState({});
-    const [featuresList, setFeaturesList] = useState([]);
     const [doCSVExport, setCSVExport] = useState(false);
 
     const exportCSV = list => {
@@ -121,12 +118,6 @@ const App = () => {
         if (loop === total) return;
         hashAction({type: 'random'});
     }, [loop]);
-    
-
-    const [iFrameKey, setIframeKey] = useState(0);
-    const refresh = () => {
-        setIframeKey(iFrameKey + 1);
-    };
     */
 
     return (

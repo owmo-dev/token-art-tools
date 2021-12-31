@@ -3,13 +3,16 @@ import React, {createContext, useContext, useReducer} from 'react';
 const FeaturesContext = createContext();
 
 const init = {
-    list: [],
+    data: {},
 };
 
 function automationReducer(state, dispatch) {
     switch (dispatch.type) {
-        case 'get': {
-            return {...state};
+        case 'set': {
+            return {...state, data: dispatch.data};
+        }
+        case 'clear': {
+            return init;
         }
         default:
             throw new Error(`automationReducer type '${dispatch.type}' not supported`);

@@ -7,10 +7,12 @@ import {useURL} from '../../hooks/useURL';
 import SetResolution from '../modals/set-resolution';
 import Instructions from '../copy/instructions';
 import Features from '../info/features';
+import {useFeatures} from '../../hooks/useFeatures';
 
 const Viewer = props => {
     const [hash, hashAction] = useHash();
     const [url, urlAction] = useURL();
+    const [, featuresAction] = useFeatures();
 
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
@@ -24,6 +26,7 @@ const Viewer = props => {
     function handleClearURL() {
         urlAction({type: 'clear'});
         hashAction({type: 'clear'});
+        featuresAction({type: 'clear'});
         setResolutionValue('fill');
     }
 
