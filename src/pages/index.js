@@ -1,8 +1,8 @@
 import React from 'react';
-import Main from '../containers/main';
+import App from '../containers/app';
 
 const Index = () => {
-    return <Main />;
+    return <App />;
 };
 
 export default Index;

@@ -5,15 +5,21 @@ const URLContext = createContext();
 const init = {
     url: '',
     isValid: false,
+    iframeKey: '',
 };
 
 function urlReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'set': {
             return {
+                ...state,
                 url: dispatch.url,
                 isValid: validateURL(dispatch.url),
+                iframeKey: getRandomString(),
             };
+        }
+        case 'refresh': {
+            return {...state, iframeKey: getRandomString()};
         }
         case 'clear': {
             return init;
@@ -21,6 +27,10 @@ function urlReducer(state, dispatch) {
         default:
             throw new Error(`urlReducer type '${dispatch.type}' not supported`);
     }
+}
+
+function getRandomString() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
 function validateURL(string) {

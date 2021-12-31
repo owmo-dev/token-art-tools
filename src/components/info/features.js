@@ -4,11 +4,12 @@ import {List, Header, Loader} from 'semantic-ui-react';
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
 
-const Features = props => {
+const Features = () => {
     const [url] = useURL();
     const [hash] = useHash();
 
-    const {iFrameKey, features, setFeatures} = props;
+    const [features, setFeatures] = useState([]);
+
     const [isLoading, setLoading] = useState(false);
     const [list, setList] = useState([]);
 
@@ -16,7 +17,7 @@ const Features = props => {
         window.addEventListener('message', e => {
             switch (e.data['command']) {
                 case 'loadFeatures':
-                    setFeatures(e.data['features']);
+                    //setFeatures(e.data['features']);
                     break;
                 default:
                     break;
@@ -25,7 +26,7 @@ const Features = props => {
     }, []);
 
     useEffect(() => {
-        setFeatures({});
+        //setFeatures({});
         if (!url.isValid) {
             setList([]);
             return;
@@ -47,7 +48,7 @@ const Features = props => {
             clearTimeout(timerGet);
             clearTimeout(timerTimeout);
         };
-    }, [hash.hash, url.isValid, iFrameKey]);
+    }, [hash.hash, url.isValid, url.iframeKey]);
 
     useEffect(() => {
         setList(
