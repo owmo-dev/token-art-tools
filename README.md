@@ -3,7 +3,7 @@ Static web application for generative artists to automate random hash seed gener
 
 https://owenmoore.github.io/token-art-tools/
 
-![screenshot](docs/preview.jpg)
+![screenshot](assets/preview.jpg)
 
 ## Project Configuration
 

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Modal, Form, Message, Button } from "semantic-ui-react";
+import React, {useState} from 'react';
+import {Modal, Form, Message, Button} from 'semantic-ui-react';
 
-const SetResolution = (props) => {
+const SetResolution = props => {
     const [isError, setErrorState] = useState(false);
     const [isSubmitting, setSubmitState] = useState(false);
 
-    const emptyFormData = { x: "", y: "" };
+    const emptyFormData = {x: '', y: ''};
     const [formData, setFormData] = useState(emptyFormData);
 
     function onChange(e) {
-        setFormData((prev) => ({
+        setFormData(prev => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
@@ -19,11 +19,11 @@ const SetResolution = (props) => {
         closeModal(true);
     }
 
-    function closeModal(isCancel) {
+    function closeModal() {
         setErrorState(false);
         setSubmitState(false);
         setFormData(emptyFormData);
-        props.close(isCancel);
+        props.close();
     }
 
     function handleSubmit() {
@@ -40,7 +40,7 @@ const SetResolution = (props) => {
         }
 
         props.set(x, y);
-        closeModal(false);
+        closeModal();
     }
 
     return (
