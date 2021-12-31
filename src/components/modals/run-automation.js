@@ -3,23 +3,28 @@ import {Button, Modal, Progress, Icon} from 'semantic-ui-react';
 
 import {useHash} from '../../hooks/useHash';
 import {useAutomation} from '../../hooks/useAutomation';
+import {useFeatures} from '../../hooks/useFeatures';
 
 import {screenshot} from '../../helpers/screenshot';
 
 const RunAutomation = () => {
     const [hash, hashAction] = useHash();
     const [automation, automationAction] = useAutomation();
+    const [features] = useFeatures();
 
-    const msg_gen = 'Generating Hashes';
-    const msg_fin = 'Finishing Export';
+    const [featuresList, setFeaturesList] = useState([]);
+
+    const msg_cap = 'Generating & Capturing Images';
+    const msg_exp = 'Exporting CSV Features List';
 
     const [isSubmitting, setSubmitState] = useState(false);
-    const [message, setMessage] = useState(msg_gen);
+    const [message, setMessage] = useState(msg_cap);
 
     const [runner, setRunner] = useState(null);
 
     useEffect(() => {
         if (automation.status === 'active' && runner === null) {
+            setFeaturesList([]);
             hashAction({type: 'random'});
             setRunner(
                 setInterval(() => {
@@ -40,13 +45,20 @@ const RunAutomation = () => {
     useEffect(() => {
         if (automation.status === 'active') {
             if (automation.tick > 0 && automation.tick <= automation.total) {
-                if (message !== msg_gen) setMessage(msg_gen);
+                if (message !== msg_cap) setMessage(msg_cap);
 
                 if (automation.doScreenshot) {
                     screenshot(hash.hash);
                 }
 
-                // if doCSVExport, capture features.... !!!
+                if (automation.doCSVExport) {
+                    setTimeout(() => {
+                        let f = features.data;
+                        if (f !== undefined) {
+                            setFeaturesList(prev => [...prev, f]);
+                        }
+                    }, 900);
+                }
             }
 
             if (automation.tick === automation.total) {
@@ -62,18 +74,31 @@ const RunAutomation = () => {
             clearInterval(runner);
             setRunner(null);
 
-            if (message !== msg_fin) setMessage(msg_fin);
+            if (automation.doCSVExport) {
+                if (message !== msg_exp) setMessage(msg_exp);
+                setTimeout(() => {
+                    automationAction({type: 'export'});
+                }, automation.waitTime);
+            } else {
+                setTimeout(() => {
+                    automationAction({type: 'reset'});
+                }, 500);
+            }
+        }
+    }, [automation.status]);
 
-            // if doCSVExport, wait and gather features into CSV
-
+    useEffect(() => {
+        if (automation.status === 'exporting') {
+            // save the CSV !!!
+            console.log(featuresList);
             setTimeout(() => {
                 automationAction({type: 'reset'});
             }, 500);
         }
-    }, [automation.status]);
+    });
 
     return (
-        <Modal size="tiny" open={automation.status === 'active' || automation.status === 'stopping'}>
+        <Modal size="tiny" open={automation.status === 'active' || automation.status === 'stopping' || automation.status === 'exporting'}>
             <Modal.Header>Running Automation</Modal.Header>
             <Modal.Content>
                 <Progress percent={automation.progress} progress indicating>
@@ -87,7 +112,6 @@ const RunAutomation = () => {
                     disabled={isSubmitting}
                     onClick={() => {
                         setSubmitState(true);
-                        setMessage(msg_fin);
                         automationAction({type: 'stop'});
                     }}
                 >

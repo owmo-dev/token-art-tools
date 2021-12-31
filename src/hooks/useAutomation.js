@@ -1,5 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 
+import {clamp} from '../helpers/math';
+
 const AutomationContext = createContext();
 
 const init = {
@@ -28,7 +30,7 @@ function automationReducer(state, dispatch) {
         }
         case 'tick': {
             let tick = state.tick + 1;
-            let progress = parseInt((tick / state.total) * 100);
+            let progress = clamp(parseInt((tick / state.total) * 100), 0, 100);
             return {
                 ...state,
                 status: 'active',
@@ -40,6 +42,14 @@ function automationReducer(state, dispatch) {
             return {
                 ...state,
                 status: 'stopping',
+                progress: 100,
+                tick: state.total,
+            };
+        }
+        case 'export': {
+            return {
+                ...state,
+                status: 'exporting',
                 progress: 100,
                 tick: state.total,
             };
