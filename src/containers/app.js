@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useReducer} from 'react';
 
-import LeftControls from '../components/panels/left-controls.component';
-import MainViewer from '../components/panels/main-viewer.component';
+import Viewer from '../components/panels/viewer';
+import Controls from '../components/panels/controls';
 
 import {URLProvider} from '../hooks/useURL';
 import {useHash} from '../hooks/useHash';
@@ -25,11 +25,6 @@ const loopReducer = (state, dispatch) => {
 const App = () => {
     const [hash, hashAction] = useHash();
     const [loop, loopAction] = useReducer(loopReducer, false);
-
-    /*
-    const [url, setUrl] = useState('');
-    const [isValidUrl, setUrlValid] = useState(false);
-    */
 
     const screenshot = () => {
         var iframe = window.document.querySelector('iframe').contentWindow;
@@ -118,14 +113,6 @@ const App = () => {
         hashAction({type: 'random'});
     }, [loop]);
 
-    /*
-    const setUrlValue = u => {
-        if (url === u) return;
-        setUrl(u);
-        setUrlValid(ValidateURL(u));
-    };
-    */
-
     const [iFrameKey, setIframeKey] = useState(0);
     const refresh = () => {
         setIframeKey(iFrameKey + 1);
@@ -135,7 +122,7 @@ const App = () => {
         <URLProvider>
             <div style={{width: '100%', height: '100%', overflow: 'hidden'}}>
                 <div style={{width: 480, position: 'absolute', top: 20, left: 20}}>
-                    <LeftControls startAutomation={startAutomation} stopAutomation={stopAutomation} progress={progress} />
+                    <Controls startAutomation={startAutomation} stopAutomation={stopAutomation} progress={progress} />
                 </div>
                 <div
                     style={{
@@ -146,7 +133,7 @@ const App = () => {
                         minWidth: 800,
                     }}
                 >
-                    <MainViewer iFrameKey={iFrameKey} refresh={refresh} screenshot={screenshot} features={features} setFeatures={setFeatures} />
+                    <Viewer iFrameKey={iFrameKey} refresh={refresh} screenshot={screenshot} features={features} setFeatures={setFeatures} />
                 </div>
             </div>
         </URLProvider>

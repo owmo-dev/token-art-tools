@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Modal, Progress, Icon, Loader, Grid} from 'semantic-ui-react';
+import {Button, Modal, Progress, Icon} from 'semantic-ui-react';
 
 const RunAutomation = props => {
     const msg_gen = 'Generating Hashes';

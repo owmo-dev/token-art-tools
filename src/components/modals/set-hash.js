@@ -57,7 +57,7 @@ const SetHash = props => {
                 <Form>
                     <Form.Input fluid name="hash" label="Hash (overrides locks)" value={formData.hash} onChange={onChange} />
                 </Form>
-                {isError ? <Message error>ERROR: must be a valid 64 character hash, including '0x' at the start</Message> : null}
+                {isError ? <Message error>{"ERROR: must be a valid 64 character hash, including '0x' at the start"}</Message> : null}
             </Modal.Content>
             <Modal.Actions>
                 <Button secondary disabled={isSubmitting} onClick={cancel}>

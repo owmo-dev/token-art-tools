@@ -5,7 +5,7 @@ import {RangeStepInput} from 'react-range-step-input';
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
 
-import {clamp} from '../../helpers/math.helpers';
+import {clamp} from '../../helpers/math';
 
 const HashPairSlider = props => {
     const [url] = useURL();
