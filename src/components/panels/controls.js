@@ -3,6 +3,7 @@ import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
+import {useAutomation} from '../../hooks/useAutomation';
 
 import Title from '../copy/title';
 import HashPairSlider from '../inputs/hashpair-slider';
@@ -13,6 +14,7 @@ import RunAutomation from '../modals/run-automation';
 const Controls = () => {
     const [url] = useURL();
     const [hash, hashAction] = useHash();
+    const [automation] = useAutomation();
 
     const [sliders, setSliders] = useState([]);
 
@@ -42,25 +44,7 @@ const Controls = () => {
 
     function closeInitAutoModal() {
         setInitAutoModalState(false);
-        /*
-        if (run) {
-            //openRunAutomationModal(); !!!
-            //startAutomation(total, wait, csv); !!!
-        }
-        */
     }
-
-    /*
-    const [isRunAutomationModalOpen, setRunAutomationModalState] = useState(false);
-
-    function openRunAutomationModal() {
-        setRunAutomationModalState(true);
-    }
-
-    function closeRunAutoModal() {
-        setRunAutomationModalState(false);
-    }
-    */
 
     return (
         <>
@@ -82,7 +66,7 @@ const Controls = () => {
                     <Button
                         icon
                         color="red"
-                        disabled={hash.history.length === 0}
+                        disabled={hash.history.length === 0 || automation.status !== 'idle'}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
                             hashAction({type: 'clear'});
@@ -93,7 +77,7 @@ const Controls = () => {
                     <Button
                         icon
                         color="purple"
-                        disabled={hash.history.length === 0}
+                        disabled={hash.history.length === 0 || automation.status !== 'idle'}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
                             hashAction({type: 'back'});
@@ -101,13 +85,19 @@ const Controls = () => {
                     >
                         <Icon name="undo" />
                     </Button>
-                    <Button icon color="pink" disabled={!url.isValid} style={{float: 'right', marginLeft: 12}} onClick={openInitAutoModal}>
+                    <Button
+                        icon
+                        color="pink"
+                        disabled={!url.isValid || automation.status !== 'idle'}
+                        style={{float: 'right', marginLeft: 12}}
+                        onClick={openInitAutoModal}
+                    >
                         <Icon name="cog" />
                     </Button>
                     <Button
                         icon
                         color="teal"
-                        disabled={!url.isValid}
+                        disabled={!url.isValid || automation.status !== 'idle'}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
                             openSetHashModal();
@@ -118,7 +108,7 @@ const Controls = () => {
                     <Button
                         icon
                         color="blue"
-                        disabled={!url.isValid}
+                        disabled={!url.isValid || automation.status !== 'idle'}
                         style={{float: 'right'}}
                         onClick={() => {
                             hashAction({type: 'random'});

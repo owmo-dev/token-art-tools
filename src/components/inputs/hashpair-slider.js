@@ -4,12 +4,14 @@ import {RangeStepInput} from 'react-range-step-input';
 
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
+import {useAutomation} from '../../hooks/useAutomation';
 
 import {clamp} from '../../helpers/math';
 
 const HashPairSlider = props => {
     const [url] = useURL();
     const [hash, hashAction] = useHash();
+    const [automation] = useAutomation();
 
     const [value, setValue] = useState(0);
     const [locked, setLocked] = useState(false);
@@ -68,7 +70,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             stepValue(-16);
                         }}
-                        disabled={locked || !url.isValid}
+                        disabled={locked || !url.isValid || automation.status !== 'idle'}
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
@@ -80,7 +82,7 @@ const HashPairSlider = props => {
                             onChange={handleChange}
                             value={value}
                             style={{width: '100%'}}
-                            disabled={locked || !url.isValid}
+                            disabled={locked || !url.isValid || automation.status !== 'idle'}
                         />
                     </span>
                 </Grid.Column>
@@ -92,7 +94,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             stepValue(16);
                         }}
-                        disabled={locked || !url.isValid}
+                        disabled={locked || !url.isValid || automation.status !== 'idle'}
                     />
                 </Grid.Column>
                 <Grid.Column width={1}>
@@ -116,7 +118,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             hashAction({type: 'toggle-locked', index: index});
                         }}
-                        disabled={!url.isValid}
+                        disabled={!url.isValid || automation.status !== 'idle'}
                         color={locked ? 'red' : null}
                     />
                 </Grid.Column>
