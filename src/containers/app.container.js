@@ -115,13 +115,6 @@ const App = () => {
         dispatch({type: 'random'});
     }, [loop]);
 
-    /*
-    const clearHistory = () => {
-        setHashValues(nullHash);
-        setHashHistory([nullHash]);
-    };
-        */
-
     const setUrlValue = u => {
         if (url === u) return;
         setUrl(u);
