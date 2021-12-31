@@ -3,12 +3,12 @@ import {List, Header, Loader} from 'semantic-ui-react';
 
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
+import {useFeatures} from '../../hooks/useFeatures';
 
 const Features = () => {
     const [url] = useURL();
     const [hash] = useHash();
-
-    const [features, setFeatures] = useState([]);
+    const [features, featuresAction] = useFeatures();
 
     const [isLoading, setLoading] = useState(false);
     const [list, setList] = useState([]);
@@ -17,7 +17,10 @@ const Features = () => {
         window.addEventListener('message', e => {
             switch (e.data['command']) {
                 case 'loadFeatures':
-                    //setFeatures(e.data['features']);
+                    {
+                        console.log(e.data['features']);
+                        featuresAction({type: 'set', data: e.data['features']});
+                    }
                     break;
                 default:
                     break;
@@ -26,7 +29,7 @@ const Features = () => {
     }, []);
 
     useEffect(() => {
-        //setFeatures({});
+        featuresAction({type: 'clear'});
         if (!url.isValid) {
             setList([]);
             return;
@@ -52,18 +55,18 @@ const Features = () => {
 
     useEffect(() => {
         setList(
-            Object.keys(features).map(key => {
+            Object.keys(features.data).map(key => {
                 return (
                     <List.Item key={key} style={{marginTop: -2}}>
                         <Header as="h4">
-                            {features[key].toString()}
+                            {features.data[key].toString()}
                             <Header.Subheader style={{marginTop: 3, letterSpacing: 1}}>[ {key} ]</Header.Subheader>
                         </Header>
                     </List.Item>
                 );
             }),
         );
-    }, [features]);
+    }, [features.data]);
 
     const example = `features = { Feature: "Value of Feature"}`;
 
