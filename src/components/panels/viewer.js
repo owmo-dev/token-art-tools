@@ -4,11 +4,11 @@ import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 import {useHash} from '../../hooks/useHash';
 import {useURL} from '../../hooks/useURL';
 
-import SetResolution from '../modals/set-resolution.component';
-import Instructions from '../copy/instructions.component';
-import Features from '../info/features.component';
+import SetResolution from '../modals/set-resolution';
+import Instructions from '../copy/instructions';
+import Features from '../info/features';
 
-const MainViewer = props => {
+const Viewer = props => {
     const [hash] = useHash();
     const [url, urlAction] = useURL();
 
@@ -225,4 +225,4 @@ const MainViewer = props => {
     );
 };
 
-export default MainViewer;
+export default Viewer;

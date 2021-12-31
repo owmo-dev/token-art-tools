@@ -4,13 +4,13 @@ import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
 
-import Title from '../copy/title.component';
-import HashPairSlider from '../inputs/hashpair-slider.component';
-import SetHash from '../modals/set-hash.component';
-import InitAutomation from '../modals/init-automation.component';
-import RunAutomation from '../modals/run-automation.component';
+import Title from '../copy/title';
+import HashPairSlider from '../inputs/hashpair-slider';
+import SetHash from '../modals/set-hash';
+import InitAutomation from '../modals/init-automation';
+import RunAutomation from '../modals/run-automation';
 
-const LeftControls = props => {
+const Controls = props => {
     const [url] = useURL();
     const [hash, hashAction] = useHash();
 
@@ -161,4 +161,4 @@ const LeftControls = props => {
     );
 };
 
-export default LeftControls;
+export default Controls;
