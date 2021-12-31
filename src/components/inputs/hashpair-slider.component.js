@@ -10,7 +10,7 @@ const HashPairSlider = props => {
     const [value, setValue] = useState(0);
     const [locked, setLocked] = useState(false);
 
-    const {index} = props;
+    const {index, isValidUrl} = props;
 
     useEffect(() => {
         if (state.values[index] !== value) {
@@ -58,12 +58,20 @@ const HashPairSlider = props => {
                         onClick={() => {
                             stepValue(-16);
                         }}
-                        disabled={locked}
+                        disabled={locked || !isValidUrl}
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <span style={{top: 4, position: 'relative'}}>
-                        <RangeStepInput min={0} max={255} step={1} onChange={handleChange} value={value} style={{width: '100%'}} disabled={locked} />
+                        <RangeStepInput
+                            min={state.params.min}
+                            max={state.params.max}
+                            step={state.params.step}
+                            onChange={handleChange}
+                            value={value}
+                            style={{width: '100%'}}
+                            disabled={locked || !isValidUrl}
+                        />
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
@@ -74,7 +82,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             stepValue(16);
                         }}
-                        disabled={locked}
+                        disabled={locked || !isValidUrl}
                     />
                 </Grid.Column>
                 <Grid.Column width={1}>
@@ -98,6 +106,7 @@ const HashPairSlider = props => {
                         onClick={() => {
                             setLocked(!locked);
                         }}
+                        disabled={!isValidUrl}
                         color={locked ? 'red' : null}
                     />
                 </Grid.Column>

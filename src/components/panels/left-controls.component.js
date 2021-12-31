@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
 
 import {useHash} from '../../hooks/useHash';
@@ -11,18 +11,17 @@ import RunAutomation from '../modals/run-automation.component';
 
 const LeftControls = props => {
     const [state, dispatch] = useHash();
+    const [sliders, setSliders] = useState([]);
 
     const {isValidUrl, startAutomation, stopAutomation, progress} = props;
 
-    function makeSliders() {
-        var s = [];
-        for (let i = 0; i < 32; i++) {
-            s.push(<HashPairSlider key={i} index={i} />);
+    useLayoutEffect(() => {
+        let sliders = [];
+        for (let i = 0; i < state.params.count; i++) {
+            sliders.push(<HashPairSlider key={i} index={i} isValidUrl={isValidUrl} />);
         }
-        return s;
-    }
-
-    const sliders = makeSliders();
+        setSliders(sliders);
+    }, [isValidUrl]);
 
     const [isSetHashModalOpen, setSetHashModalState] = useState(false);
 
@@ -103,6 +102,7 @@ const LeftControls = props => {
                     <Button
                         icon
                         color="teal"
+                        disabled={!isValidUrl}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
                             openSetHashModal();
@@ -113,6 +113,7 @@ const LeftControls = props => {
                     <Button
                         icon
                         color="blue"
+                        disabled={!isValidUrl}
                         style={{float: 'right'}}
                         onClick={() => {
                             dispatch({type: 'random'});

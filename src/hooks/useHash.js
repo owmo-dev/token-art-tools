@@ -13,6 +13,12 @@ function init(type) {
                 hash: convertValuesToHash(type, values),
                 values: values,
                 history: [],
+                params: {
+                    min: 0,
+                    max: 255,
+                    step: 1,
+                    count: 32,
+                },
             };
         default:
             throw new Error(`useHash type '${type}' not supported`);

@@ -1,14 +1,8 @@
 import React from 'react';
-
-import {HashProvider} from '../hooks/useHash';
-import App from '../containers/app.container';
+import Main from '../containers/main';
 
 const Index = () => {
-    return (
-        <HashProvider>
-            <App />
-        </HashProvider>
-    );
+    return <Main />;
 };
 
 export default Index;
