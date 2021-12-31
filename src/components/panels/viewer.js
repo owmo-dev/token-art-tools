@@ -9,7 +9,7 @@ import Instructions from '../copy/instructions';
 import Features from '../info/features';
 
 const Viewer = props => {
-    const [hash] = useHash();
+    const [hash, hashAction] = useHash();
     const [url, urlAction] = useURL();
 
     const [resolutionValue, setResolutionValue] = useState('fill');
@@ -23,6 +23,8 @@ const Viewer = props => {
 
     function handleClearURL() {
         urlAction({type: 'clear'});
+        hashAction({type: 'clear'});
+        setResolutionValue('fill');
     }
 
     const resolutionOptions = [
@@ -59,10 +61,6 @@ const Viewer = props => {
     }
 
     useEffect(() => {
-        if (!url.isValid) setResolutionValue('fill');
-    }, [url.isValid]);
-
-    useEffect(() => {
         switch (resolutionValue) {
             case 'custom':
                 openResolutionModal();
@@ -89,9 +87,8 @@ const Viewer = props => {
         setResolutionModalState(true);
     }
 
-    function closeResolutionModal(isCancel) {
+    function closeResolutionModal() {
         setResolutionModalState(false);
-        if (isCancel) setResolutionValue('fill');
     }
 
     function setRes(x, y) {
@@ -135,7 +132,6 @@ const Viewer = props => {
                                 link
                                 onClick={() => {
                                     handleClearURL();
-                                    setResolutionValue('fill');
                                 }}
                             />
                         ) : null

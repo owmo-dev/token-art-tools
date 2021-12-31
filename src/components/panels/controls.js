@@ -83,7 +83,7 @@ const Controls = props => {
                         disabled={hash.history.length === 0}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
-                            hashAction({type: 'reset'});
+                            hashAction({type: 'clear'});
                         }}
                     >
                         <Icon name="x" />

@@ -7,7 +7,6 @@ import {URLProvider} from '../hooks/useURL';
 import {useHash} from '../hooks/useHash';
 
 // !!! slider locks do not work
-// !!! UX for disable / enable sidebar strange
 // !!! automation is broken on second run
 
 const loopReducer = (state, dispatch) => {
