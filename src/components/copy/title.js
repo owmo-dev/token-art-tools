@@ -7,7 +7,7 @@ const Title = () => {
             Token Art Tools
             <Header.Subheader style={{color: 'white'}}>
                 created by
-                <a href="https://www.owenmoore.art/" target="_blank" rel="noreferrer" style={{marginLeft: 5}}>
+                <a href="https://www.owenmoore.xyz/" target="_blank" rel="noreferrer" style={{marginLeft: 5}}>
                     Owen Moore
                 </a>
                 <a href="https://github.com/owenmoore/token-art-tools" target="_blank" rel="noreferrer" style={{marginLeft: 5}}>
