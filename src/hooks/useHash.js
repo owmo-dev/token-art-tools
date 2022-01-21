@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useReducer} from 'react';
+import React, {createContext, useContext, useReducer, useMemo} from 'react';
 
 const HASH_0x32 = 0;
 
@@ -117,7 +117,7 @@ function convertValuesToHash(type, values) {
 
 function HashProvider(props) {
     const [state, dispatch] = useReducer(hashReducer, HASH_0x32, init);
-    const value = [state, dispatch];
+    const value = useMemo(() => [state, dispatch], [state]);
     return <HashContext.Provider value={value} {...props} />;
 }
 

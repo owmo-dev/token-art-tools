@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useReducer} from 'react';
+import React, {createContext, useContext, useReducer, useMemo} from 'react';
 
 const FeaturesContext = createContext();
 
@@ -21,7 +21,7 @@ function automationReducer(state, dispatch) {
 
 function FeaturesProvider(props) {
     const [state, dispatch] = useReducer(automationReducer, init);
-    const value = [state, dispatch];
+    const value = useMemo(() => [state, dispatch], [state]);
     return <FeaturesContext.Provider value={value} {...props} />;
 }
 

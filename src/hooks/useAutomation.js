@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useReducer} from 'react';
+import React, {createContext, useContext, useReducer, useMemo} from 'react';
 
 import {clamp} from '../helpers/math';
 
@@ -64,7 +64,7 @@ function automationReducer(state, dispatch) {
 
 function AutomationProvider(props) {
     const [state, dispatch] = useReducer(automationReducer, init);
-    const value = [state, dispatch];
+    const value = useMemo(() => [state, dispatch], [state]);
     return <AutomationContext.Provider value={value} {...props} />;
 }
 
