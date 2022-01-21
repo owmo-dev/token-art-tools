@@ -20,7 +20,7 @@ https://github.com/owenmoore/token-art-tools-boilerplate
 You must include a provider script in the header of your `index.html` template file. This script enables support for tokenData, screenshots and features capture between your local web server and the hosted web application. Either use this CDN or copy it into your project and link it.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@main/providers/artblocks.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.5.1/providers/artblocks.js"></script>
 ```
 
 #### Canvas is Required
