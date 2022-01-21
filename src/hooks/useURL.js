@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useReducer} from 'react';
+import React, {createContext, useContext, useReducer, useMemo} from 'react';
 
 const URLContext = createContext();
 
@@ -47,7 +47,7 @@ function validateURL(string) {
 
 function URLProvider(props) {
     const [state, dispatch] = useReducer(urlReducer, init);
-    const value = [state, dispatch];
+    const value = useMemo(() => [state, dispatch], [state]);
     return <URLContext.Provider value={value} {...props} />;
 }
 
