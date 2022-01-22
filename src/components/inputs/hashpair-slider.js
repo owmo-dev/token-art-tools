@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, memo, forwardRef} from 'react';
 import {Segment, Grid, Button} from 'semantic-ui-react';
 import {RangeStepInput} from 'react-range-step-input';
 
@@ -8,15 +8,23 @@ import {useAutomation} from '../../hooks/useAutomation';
 
 import {clamp} from '../../helpers/math';
 
-const HashPairSlider = props => {
+function withStateSlice(Comp, slice) {
+    const MemoComp = memo(Comp);
+    function Wrapper(props, ref) {
+        const state = useHash();
+        return <MemoComp ref={ref} state={slice(state, props)} {...props} />;
+    }
+    Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`;
+    return memo(forwardRef(Wrapper));
+}
+
+function Slider({index}) {
     const [url] = useURL();
     const [hash, hashAction] = useHash();
     const [automation] = useAutomation();
 
     const [value, setValue] = useState(0);
     const [locked, setLocked] = useState(false);
-
-    const {index} = props;
 
     useEffect(() => {
         if (hash.values[index] !== value) {
@@ -125,6 +133,7 @@ const HashPairSlider = props => {
             </Grid>
         </Segment>
     );
-};
+}
+const HashPairSlider = withStateSlice(Slider, (state, {index}) => state.values[index]);
 
 export default HashPairSlider;
