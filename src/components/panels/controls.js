@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
-import {Segment, Grid, Button, Icon} from 'semantic-ui-react';
+import React, {useState, useCallback} from 'react';
+import {Segment, Grid, Button, Icon, Divider} from 'semantic-ui-react';
 
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
 import {useAutomation} from '../../hooks/useAutomation';
 
 import Title from '../copy/title';
-import HashPairSlider from '../inputs/hashpair-slider';
+import RangeSlider from '../inputs/range-slider';
+import {TYPE_HASH, TYPE_NUMBER} from '../inputs/range-slider';
 import SetHash from '../modals/set-hash';
 import InitAutomation from '../modals/init-automation';
 import RunAutomation from '../modals/run-automation';
@@ -16,15 +17,15 @@ const Controls = () => {
     const [hash, hashAction] = useHash();
     const [automation] = useAutomation();
 
-    function makeSliders() {
+    function createHashSliders({count, min, max, step}) {
         let sliders = [];
-        for (let i = 0; i < hash.params.count; i++) {
-            sliders.push(<HashPairSlider key={i} index={i} />);
+        for (let i = 0; i < count; i++) {
+            sliders.push(<RangeSlider key={i} index={i} min={min} max={max} step={step} type={TYPE_HASH} />);
         }
         return sliders;
     }
 
-    const sliders = makeSliders();
+    const hashSliders = useCallback(createHashSliders({...hash.params}), [hash.params]);
 
     const [isSetHashModalOpen, setSetHashModalState] = useState(false);
 
@@ -128,7 +129,9 @@ const Controls = () => {
                     padding: 20,
                 }}
             >
-                <Segment.Group>{sliders}</Segment.Group>
+                <RangeSlider key={'N'} index={'N'} min={0} max={1000} step={1} type={TYPE_NUMBER} />
+                <Divider />
+                <Segment.Group>{hashSliders}</Segment.Group>
             </Segment>
             <Segment
                 style={{

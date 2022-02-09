@@ -7,6 +7,9 @@ import {useHash} from '../../hooks/useHash';
 import {useAutomation} from '../../hooks/useAutomation';
 
 import {clamp} from '../../helpers/math';
+import {iota} from '../../helpers/iota';
+
+const {TYPE_HASH, TYPE_NUMBER} = iota();
 
 function withStateSlice(Comp, slice) {
     const MemoComp = memo(Comp);
@@ -18,7 +21,7 @@ function withStateSlice(Comp, slice) {
     return memo(forwardRef(Wrapper));
 }
 
-function Slider({index}) {
+function SliderControl({index, min, max, step, type}) {
     const [url] = useURL();
     const [hash, hashAction] = useHash();
     const [automation] = useAutomation();
@@ -27,14 +30,22 @@ function Slider({index}) {
     const [locked, setLocked] = useState(false);
 
     useEffect(() => {
-        if (hash.values[index] !== value) {
-            setValue(hash.values[index]);
+        if (type === TYPE_HASH) {
+            if (hash.values[index] !== value) {
+                setValue(hash.values[index]);
+            }
         }
     }, [hash]);
 
     useEffect(() => {
-        if (value !== hash.values[index]) {
-            hashAction({type: 'setValue', index: index, value: value});
+        if (type === TYPE_HASH) {
+            if (value !== hash.values[index]) {
+                hashAction({type: 'setValue', index: index, value: value});
+            }
+        } else if (type === TYPE_NUMBER) {
+            if (value !== hash.number) {
+                hashAction({type: 'setNumber', value: value});
+            }
         }
     }, [value]);
 
@@ -84,9 +95,9 @@ function Slider({index}) {
                 <Grid.Column width={8}>
                     <span style={{top: 4, position: 'relative'}}>
                         <RangeStepInput
-                            min={hash.params.min}
-                            max={hash.params.max}
-                            step={hash.params.step}
+                            min={min}
+                            max={max}
+                            step={step}
                             onChange={handleChange}
                             value={value}
                             style={{width: '100%'}}
@@ -116,7 +127,13 @@ function Slider({index}) {
                             userSelect: 'none',
                         }}
                     >
-                        {hash.hash !== undefined ? hash.hash[index * 2 + 2] + hash.hash[index * 2 + 3] : '--'}
+                        {hash.hash !== undefined
+                            ? type === TYPE_HASH
+                                ? hash.hash[index * 2 + 2] + hash.hash[index * 2 + 3]
+                                : type === TYPE_NUMBER
+                                ? hash.number
+                                : '-'
+                            : 'ER'}
                     </span>
                 </Grid.Column>
                 <Grid.Column width={2}>
@@ -134,6 +151,7 @@ function Slider({index}) {
         </Segment>
     );
 }
-const HashPairSlider = withStateSlice(Slider, (state, {index}) => state.values[index]);
+const RangeSlider = withStateSlice(SliderControl, (state, {index}) => state.values[index]);
 
-export default HashPairSlider;
+export default RangeSlider;
+export {TYPE_HASH, TYPE_NUMBER};
