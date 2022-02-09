@@ -1,5 +1,7 @@
 const params = new URLSearchParams(window.location.search);
-tokenData = {hash: params.get('hash')};
+
+// eslint-disable-next-line no-unused-vars
+var tokenData = {hash: params.get('hash'), tokenId: 1000000 + params.get('number')};
 
 var features = {};
 

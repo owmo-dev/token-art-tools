@@ -177,7 +177,7 @@ const Viewer = () => {
                         var iframe = window.document.querySelector('iframe');
                         const w = iframe.clientWidth;
                         const h = iframe.clientHeight;
-                        window.open(url.url + '?hash=' + hash.hash, '', `top=100, width=${w}, height=${h}`);
+                        window.open(url.url + '?hash=' + hash.hash + '&number=' + hash.number, '', `top=100, width=${w}, height=${h}`);
                     }}
                     style={{
                         position: 'absolute',
@@ -219,7 +219,7 @@ const Viewer = () => {
                             <iframe
                                 id={new Date().getTime()}
                                 title="token art tools viewer"
-                                src={url.url + '?hash=' + hash.hash}
+                                src={url.url + '?hash=' + hash.hash + '&number=' + hash.number}
                                 width={iframeResolution.x}
                                 height={iframeResolution.y}
                                 style={{
