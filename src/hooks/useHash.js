@@ -27,22 +27,24 @@ function hashReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'random': {
             let data = generateRandomValues(state);
-            data['history'] = [...state.history, state.hash];
+            data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
         case 'setHash': {
             let hash = dispatch.hash;
-            let history = [...state.history, hash];
-            let values = convertHashToValues(state.type, hash);
+            let history = [...state.history, {hash: hash, number: state.number}];
+            let values = convertHashToValues(hash);
             let data = {hash: hash, values: values, history: history};
             return {...state, ...data};
         }
         case 'back': {
-            let hash = state.history[state.history.length - 1];
+            let last = state.history[state.history.length - 1];
+            let hash = last.hash;
+            let number = last.number;
             let history = state.history;
             history.pop();
-            let values = convertHashToValues(state.type, hash);
-            let data = {hash: hash, values: values, history: history};
+            let values = convertHashToValues(hash);
+            let data = {hash: hash, number: number, values: values, history: history};
             return {...state, ...data};
         }
         case 'clear': {
@@ -55,13 +57,13 @@ function hashReducer(state, dispatch) {
                 hash: convertValuesToHash(values),
                 values: values,
             };
-            data['history'] = [...state.history, state.hash];
+            data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
         case 'setNumber': {
-            let data = {
-                number: dispatch.value,
-            };
+            let number = dispatch.value;
+            let history = [...state.history, {hash: state.hash, number: number}];
+            let data = {number: number, history: history};
             return {...state, ...data};
         }
         case 'toggle-locked': {
