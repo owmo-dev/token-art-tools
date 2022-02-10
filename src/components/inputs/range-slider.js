@@ -71,7 +71,11 @@ function SliderControl({index, min, max, step, type}) {
     };
 
     const stepValue = inc => {
-        setValue(clamp(value + inc, 0, 255));
+        if (type === TYPE_HASH) {
+            setValue(clamp(value + inc, hash.params.min, hash.params.max));
+        } else {
+            setValue(clamp(value + inc, hash.params.start, hash.params.editions));
+        }
     };
 
     return (
@@ -97,7 +101,7 @@ function SliderControl({index, min, max, step, type}) {
                         icon="minus"
                         size="mini"
                         onClick={() => {
-                            stepValue(-16);
+                            stepValue(type === TYPE_HASH ? -16 : type === TYPE_NUMBER ? -10 : 0);
                         }}
                         disabled={locked || !url.isValid || automation.status !== 'idle'}
                     />
@@ -121,21 +125,34 @@ function SliderControl({index, min, max, step, type}) {
                         icon="plus"
                         size="mini"
                         onClick={() => {
-                            stepValue(16);
+                            stepValue(type === TYPE_HASH ? 16 : type === TYPE_NUMBER ? 10 : 0);
                         }}
                         disabled={locked || !url.isValid || automation.status !== 'idle'}
                     />
                 </Grid.Column>
                 <Grid.Column width={1}>
                     <span
-                        style={{
-                            fontFamily: 'monospace',
-                            fontSize: 16,
-                            position: 'relative',
-                            top: 5,
-                            left: -10,
-                            userSelect: 'none',
-                        }}
+                        style={
+                            type === TYPE_HASH
+                                ? {
+                                      fontFamily: 'monospace',
+                                      fontSize: 16,
+                                      position: 'relative',
+                                      top: 5,
+                                      left: -10,
+                                      userSelect: 'none',
+                                  }
+                                : {
+                                      fontFamily: 'monospace',
+                                      fontSize: 16,
+                                      position: 'absolute',
+                                      width: 50,
+                                      height: 20,
+                                      top: 18,
+                                      left: -10,
+                                      textAlign: 'center',
+                                  }
+                        }
                     >
                         {hash.hash !== undefined
                             ? type === TYPE_HASH
