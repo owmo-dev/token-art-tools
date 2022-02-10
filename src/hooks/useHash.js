@@ -6,10 +6,10 @@ function init() {
     let values = new Array(32).fill(0);
     let locked = new Array(32).fill(false);
     return {
+        number: 0,
         hash: convertValuesToHash(values),
         values: values,
         locked: locked,
-        number: 0,
         numberLocked: false,
         history: [],
         params: {
@@ -30,11 +30,12 @@ function hashReducer(state, dispatch) {
             data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
-        case 'setHash': {
-            let hash = dispatch.hash;
-            let history = [...state.history, {hash: hash, number: state.number}];
+        case 'set': {
+            let hash = dispatch?.hash ?? state.hash;
+            let number = dispatch?.number ?? state.number;
             let values = convertHashToValues(hash);
-            let data = {hash: hash, values: values, history: history};
+            let history = [...state.history, {hash: state.hash, number: state.number}];
+            let data = {hash: hash, number: number, values: values, history: history};
             return {...state, ...data};
         }
         case 'back': {
@@ -58,12 +59,6 @@ function hashReducer(state, dispatch) {
                 values: values,
             };
             data['history'] = [...state.history, {hash: state.hash, number: state.number}];
-            return {...state, ...data};
-        }
-        case 'setNumber': {
-            let number = dispatch.value;
-            let history = [...state.history, {hash: state.hash, number: number}];
-            let data = {number: number, history: history};
             return {...state, ...data};
         }
         case 'toggle-locked': {

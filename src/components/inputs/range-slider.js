@@ -48,7 +48,7 @@ function SliderControl({index, min, max, step, type}) {
             }
         } else if (type === TYPE_NUMBER) {
             if (value !== hash.number) {
-                hashAction({type: 'setNumber', value: value});
+                hashAction({type: 'set', number: value});
             }
         }
     }, [value]);

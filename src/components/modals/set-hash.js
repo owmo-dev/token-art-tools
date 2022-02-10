@@ -8,14 +8,15 @@ function isValidHash(str) {
 }
 
 const SetHash = props => {
-    const [, dispatch] = useHash();
+    const [hash, dispatch] = useHash();
 
     const [isError, setErrorState] = useState(false);
+    const [error, setError] = useState('');
     const [isSubmitting, setSubmitState] = useState(false);
 
     const {active, close} = props;
 
-    const emptyFormData = {hash: ''};
+    const emptyFormData = {hash: '', number: ''};
     const [formData, setFormData] = useState(emptyFormData);
 
     function onChange(e) {
@@ -40,24 +41,52 @@ const SetHash = props => {
         setErrorState(false);
         setSubmitState(true);
 
-        if (!isValidHash(formData.hash)) {
+        if (formData.hash === '' && formData.number === '') {
+            setError('ERROR: To submit you must provide either an Edition number or Hash string (or both at once)');
             setErrorState(true);
             setSubmitState(false);
             return;
         }
 
-        dispatch({type: 'setHash', hash: formData.hash});
+        let h = formData.hash !== '' ? formData.hash : undefined;
+        console.log(h);
+
+        if (h) {
+            if (!isValidHash(h)) {
+                setError("ERROR: Hash string must be a valid 64 character hash, including '0x' at the start");
+                setErrorState(true);
+                setSubmitState(false);
+                return;
+            }
+        }
+
+        let n = formData.number !== '' ? Number(formData.number) : undefined;
+        console.log(n);
+
+        if (n) {
+            if (n < hash.params.start || n > hash.params.editions || !Number.isInteger(n)) {
+                setError(`ERROR: Edition number must be an integer within ${hash.params.start} and ${hash.params.editions}`);
+                setErrorState(true);
+                setSubmitState(false);
+                return;
+            }
+        }
+
+        dispatch({type: 'set', hash: h, number: n});
         closeModal();
     }
 
     return (
         <Modal size="small" open={active} closeOnEscape={true}>
-            <Modal.Header>Enter Hash</Modal.Header>
+            <Modal.Header>Set an Edition and/or Hash (overrides locks)</Modal.Header>
             <Modal.Content>
                 <Form>
-                    <Form.Input fluid name="hash" label="Hash (overrides locks)" value={formData.hash} onChange={onChange} />
+                    <Form.Group>
+                        <Form.Input width={2} name="number" label="Edition" value={formData.number} onChange={onChange} />
+                        <Form.Input width={14} name="hash" label="Hash" value={formData.hash} onChange={onChange} />
+                    </Form.Group>
                 </Form>
-                {isError ? <Message error>{"ERROR: must be a valid 64 character hash, including '0x' at the start"}</Message> : null}
+                {isError ? <Message error>{error}</Message> : null}
             </Modal.Content>
             <Modal.Actions>
                 <Button secondary disabled={isSubmitting} onClick={cancel}>
