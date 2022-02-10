@@ -2,7 +2,7 @@ import React from 'react';
 import {Segment, Header, Icon, Input} from 'semantic-ui-react';
 
 const Instructions = () => {
-    const script = '<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.5.2/providers/artblocks.js"></script>';
+    const script = '<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.6.0/lib/connector.js"></script>';
     const code = 'var hash = tokenData.hash;';
     const localhost = 'python -m http.server 5500';
     const localURL = 'http://127.0.0.1:5500';
