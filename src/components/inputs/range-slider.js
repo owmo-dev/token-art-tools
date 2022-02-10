@@ -3,13 +3,13 @@ import {Segment, Grid, Button} from 'semantic-ui-react';
 import {RangeStepInput} from 'react-range-step-input';
 
 import {useURL} from '../../hooks/useURL';
-import {useHash} from '../../hooks/useHash';
+import {H_LOCK, H_LOCK_NUM, H_SET, H_SET_VALUE, useHash} from '../../hooks/useHash';
 import {useAutomation} from '../../hooks/useAutomation';
 
 import {clamp} from '../../helpers/math';
 import {iota} from '../../helpers/iota';
 
-const {TYPE_HASH, TYPE_NUMBER} = iota();
+export const {TYPE_HASH, TYPE_NUMBER} = iota();
 
 function withStateSlice(Comp, slice) {
     const MemoComp = memo(Comp);
@@ -44,11 +44,11 @@ function SliderControl({index, min, max, step, type}) {
     useEffect(() => {
         if (type === TYPE_HASH) {
             if (value !== hash.values[index]) {
-                hashAction({type: 'setValue', index: index, value: value});
+                hashAction({type: H_SET_VALUE, index: index, value: value});
             }
         } else if (type === TYPE_NUMBER) {
             if (value !== hash.number) {
-                hashAction({type: 'set', number: value});
+                hashAction({type: H_SET, number: value});
             }
         }
     }, [value]);
@@ -168,8 +168,8 @@ function SliderControl({index, min, max, step, type}) {
                         size="tiny"
                         icon={locked ? 'lock' : 'unlock'}
                         onClick={() => {
-                            if (type === TYPE_HASH) hashAction({type: 'toggle-locked', index: index});
-                            if (type === TYPE_NUMBER) hashAction({type: 'toggle-number-locked'});
+                            if (type === TYPE_HASH) hashAction({type: H_LOCK, index: index});
+                            if (type === TYPE_NUMBER) hashAction({type: H_LOCK_NUM});
                         }}
                         disabled={!url.isValid || automation.status !== 'idle'}
                         color={locked ? 'red' : null}
@@ -182,4 +182,3 @@ function SliderControl({index, min, max, step, type}) {
 const RangeSlider = withStateSlice(SliderControl, (state, {index}) => state.values[index]);
 
 export default RangeSlider;
-export {TYPE_HASH, TYPE_NUMBER};
