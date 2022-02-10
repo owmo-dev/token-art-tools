@@ -34,6 +34,10 @@ function SliderControl({index, min, max, step, type}) {
             if (hash.values[index] !== value) {
                 setValue(hash.values[index]);
             }
+        } else if (type === TYPE_NUMBER) {
+            if (hash.number !== value) {
+                setValue(hash.number);
+            }
         }
     }, [hash]);
 
@@ -50,8 +54,14 @@ function SliderControl({index, min, max, step, type}) {
     }, [value]);
 
     useEffect(() => {
-        if (locked !== hash.locked[index]) {
-            setLocked(hash.locked[index]);
+        if (type === TYPE_HASH) {
+            if (locked !== hash.locked[index]) {
+                setLocked(hash.locked[index]);
+            }
+        } else if (type === TYPE_NUMBER) {
+            if (locked !== hash.numberLocked) {
+                setLocked(hash.numberLocked);
+            }
         }
     });
 
@@ -141,7 +151,8 @@ function SliderControl({index, min, max, step, type}) {
                         size="tiny"
                         icon={locked ? 'lock' : 'unlock'}
                         onClick={() => {
-                            hashAction({type: 'toggle-locked', index: index});
+                            if (type === TYPE_HASH) hashAction({type: 'toggle-locked', index: index});
+                            if (type === TYPE_NUMBER) hashAction({type: 'toggle-number-locked'});
                         }}
                         disabled={!url.isValid || automation.status !== 'idle'}
                         color={locked ? 'red' : null}

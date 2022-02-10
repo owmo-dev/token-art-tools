@@ -7,10 +7,11 @@ import {useAutomation} from '../../hooks/useAutomation';
 
 import Title from '../copy/title';
 import RangeSlider from '../inputs/range-slider';
-import {TYPE_HASH, TYPE_NUMBER} from '../inputs/range-slider';
 import SetHash from '../modals/set-hash';
 import InitAutomation from '../modals/init-automation';
 import RunAutomation from '../modals/run-automation';
+
+import {TYPE_HASH, TYPE_NUMBER} from '../inputs/range-slider';
 
 const Controls = () => {
     const [url] = useURL();
@@ -26,6 +27,12 @@ const Controls = () => {
     }
 
     const hashSliders = useCallback(createHashSliders({...hash.params}), [hash.params]);
+
+    function createNumberSlider({start, editions}) {
+        return <RangeSlider key={'N'} index={'N'} min={start} max={editions} step={1} type={TYPE_NUMBER} />;
+    }
+
+    const numberSlider = useCallback(createNumberSlider({...hash.params}), [hash.params]);
 
     const [isSetHashModalOpen, setSetHashModalState] = useState(false);
 
@@ -129,7 +136,7 @@ const Controls = () => {
                     padding: 20,
                 }}
             >
-                <RangeSlider key={'N'} index={'N'} min={0} max={1000} step={1} type={TYPE_NUMBER} />
+                {numberSlider}
                 <Divider />
                 <Segment.Group>{hashSliders}</Segment.Group>
             </Segment>
