@@ -20,7 +20,7 @@ https://github.com/owenmoore/token-art-tools-boilerplate
 The `lib/connector.js` script must be referenced in your project's index before your artwork sketch executes. Either copy it directly into your project or simply use the following CDN.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.6.0/lib/connector.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.6.1/lib/connector.js"></script>
 ```
 
 ## Host Locally
