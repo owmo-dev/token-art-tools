@@ -1,8 +1,10 @@
 import React, {createContext, useContext, useReducer, useMemo} from 'react';
-
+import {iota} from '../helpers/iota';
 import {clamp} from '../helpers/math';
 
 const AutomationContext = createContext();
+
+export const {A_START, A_TICK, A_STOP, A_EXPORT, A_RESET} = iota();
 
 const init = {
     status: 'idle',
@@ -16,7 +18,7 @@ const init = {
 
 function automationReducer(state, dispatch) {
     switch (dispatch.type) {
-        case 'start': {
+        case A_START: {
             return {
                 ...state,
                 status: 'active',
@@ -28,7 +30,7 @@ function automationReducer(state, dispatch) {
                 tick: 0,
             };
         }
-        case 'tick': {
+        case A_TICK: {
             let tick = state.tick + 1;
             let progress = clamp(parseInt((tick / state.total) * 100), 0, 100);
             return {
@@ -38,7 +40,7 @@ function automationReducer(state, dispatch) {
                 tick: tick,
             };
         }
-        case 'stop': {
+        case A_STOP: {
             return {
                 ...state,
                 status: 'stopping',
@@ -46,7 +48,7 @@ function automationReducer(state, dispatch) {
                 tick: state.total,
             };
         }
-        case 'export': {
+        case A_EXPORT: {
             return {
                 ...state,
                 status: 'exporting',
@@ -54,7 +56,7 @@ function automationReducer(state, dispatch) {
                 tick: state.total,
             };
         }
-        case 'reset': {
+        case A_RESET: {
             return init;
         }
         default:

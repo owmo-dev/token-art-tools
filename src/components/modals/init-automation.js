@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal, Form, Message, Button} from 'semantic-ui-react';
 
-import {useAutomation} from '../../hooks/useAutomation';
+import {A_START, useAutomation} from '../../hooks/useAutomation';
 
 const InitAutomation = props => {
     const {active, close} = props;
@@ -46,7 +46,7 @@ const InitAutomation = props => {
         closeModal();
 
         automationAction({
-            type: 'start',
+            type: A_START,
             total: t,
             doScreenshot: true,
             doCSVExport: c,

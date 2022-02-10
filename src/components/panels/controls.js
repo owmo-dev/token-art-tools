@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {Segment, Grid, Button, Icon, Divider} from 'semantic-ui-react';
 
 import {useURL} from '../../hooks/useURL';
-import {useHash} from '../../hooks/useHash';
+import {H_BACK, H_CLEAR, H_RANDOM, useHash} from '../../hooks/useHash';
 import {useAutomation} from '../../hooks/useAutomation';
 
 import Title from '../copy/title';
@@ -77,7 +77,7 @@ const Controls = () => {
                         disabled={hash.history.length === 0 || automation.status !== 'idle'}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
-                            hashAction({type: 'clear'});
+                            hashAction({type: H_CLEAR});
                         }}
                     >
                         <Icon name="x" />
@@ -88,7 +88,7 @@ const Controls = () => {
                         disabled={hash.history.length === 0 || automation.status !== 'idle'}
                         style={{float: 'right', marginLeft: 12}}
                         onClick={() => {
-                            hashAction({type: 'back'});
+                            hashAction({type: H_BACK});
                         }}
                     >
                         <Icon name="undo" />
@@ -119,7 +119,7 @@ const Controls = () => {
                         disabled={!url.isValid || automation.status !== 'idle'}
                         style={{float: 'right'}}
                         onClick={() => {
-                            hashAction({type: 'random'});
+                            hashAction({type: H_RANDOM});
                         }}
                     >
                         <Icon name="random" />

@@ -1,6 +1,11 @@
 import React, {createContext, useContext, useReducer, useMemo} from 'react';
+import {iota} from '../helpers/iota';
 
 const HashContext = createContext();
+
+export const {H_RANDOM, H_SET, H_BACK, H_CLEAR, H_SET_VALUE, H_LOCK, H_LOCK_NUM} = iota();
+
+const actions = {};
 
 function init() {
     let values = new Array(32).fill(0);
@@ -25,12 +30,12 @@ function init() {
 
 function hashReducer(state, dispatch) {
     switch (dispatch.type) {
-        case 'random': {
+        case H_RANDOM: {
             let data = generateRandomValues(state);
             data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
-        case 'set': {
+        case H_SET: {
             let hash = dispatch?.hash ?? state.hash;
             let number = dispatch?.number ?? state.number;
             let values = convertHashToValues(hash);
@@ -38,7 +43,7 @@ function hashReducer(state, dispatch) {
             let data = {hash: hash, number: number, values: values, history: history};
             return {...state, ...data};
         }
-        case 'back': {
+        case H_BACK: {
             let last = state.history[state.history.length - 1];
             let hash = last.hash;
             let number = last.number;
@@ -48,10 +53,10 @@ function hashReducer(state, dispatch) {
             let data = {hash: hash, number: number, values: values, history: history};
             return {...state, ...data};
         }
-        case 'clear': {
+        case H_CLEAR: {
             return {...state, ...init()};
         }
-        case 'setValue': {
+        case H_SET_VALUE: {
             let values = state.values;
             values[dispatch.index] = dispatch.value;
             let data = {
@@ -61,12 +66,12 @@ function hashReducer(state, dispatch) {
             data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
-        case 'toggle-locked': {
+        case H_LOCK: {
             let locked = state.locked;
             locked[dispatch.index] = !locked[dispatch.index];
             return {...state, ...{locked: locked}};
         }
-        case 'toggle-number-locked': {
+        case H_LOCK_NUM: {
             let locked = !state.numberLocked;
             return {...state, numberLocked: locked};
         }
@@ -115,4 +120,4 @@ function useHash() {
     return context;
 }
 
-export {useHash, HashProvider};
+export {useHash, HashProvider, actions};

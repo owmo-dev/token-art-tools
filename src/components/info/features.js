@@ -3,7 +3,7 @@ import {List, Header, Loader} from 'semantic-ui-react';
 
 import {useURL} from '../../hooks/useURL';
 import {useHash} from '../../hooks/useHash';
-import {useFeatures} from '../../hooks/useFeatures';
+import {F_CLEAR, F_SET, useFeatures} from '../../hooks/useFeatures';
 
 const Features = () => {
     const [url] = useURL();
@@ -18,7 +18,7 @@ const Features = () => {
             switch (e.data['command']) {
                 case 'loadFeatures':
                     {
-                        featuresAction({type: 'set', data: e.data['features']});
+                        featuresAction({type: F_SET, data: e.data['features']});
                     }
                     break;
                 default:
@@ -28,7 +28,7 @@ const Features = () => {
     }, []);
 
     useEffect(() => {
-        featuresAction({type: 'clear'});
+        featuresAction({type: F_CLEAR});
         if (!url.isValid) {
             setList([]);
             return;

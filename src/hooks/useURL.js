@@ -1,6 +1,9 @@
 import React, {createContext, useContext, useReducer, useMemo} from 'react';
+import {iota} from '../helpers/iota';
 
 const URLContext = createContext();
+
+export const {U_SET, U_REFRESH, U_CLEAR} = iota();
 
 const init = {
     url: '',
@@ -10,7 +13,7 @@ const init = {
 
 function urlReducer(state, dispatch) {
     switch (dispatch.type) {
-        case 'set': {
+        case U_SET: {
             return {
                 ...state,
                 url: dispatch.url,
@@ -18,10 +21,10 @@ function urlReducer(state, dispatch) {
                 iframeKey: getRandomString(),
             };
         }
-        case 'refresh': {
+        case U_REFRESH: {
             return {...state, iframeKey: getRandomString()};
         }
-        case 'clear': {
+        case U_CLEAR: {
             return init;
         }
         default:

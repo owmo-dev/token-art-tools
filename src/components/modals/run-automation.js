@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Modal, Progress, Icon} from 'semantic-ui-react';
 
-import {useHash} from '../../hooks/useHash';
-import {useAutomation} from '../../hooks/useAutomation';
+import {H_RANDOM, useHash} from '../../hooks/useHash';
+import {A_EXPORT, A_RESET, A_STOP, A_TICK, useAutomation} from '../../hooks/useAutomation';
 import {useFeatures} from '../../hooks/useFeatures';
 
 import {screenshot} from '../../helpers/screenshot';
@@ -26,11 +26,11 @@ const RunAutomation = () => {
     useEffect(() => {
         if (automation.status === 'active' && runner === null) {
             setFeaturesList([]);
-            hashAction({type: 'random'});
+            hashAction({type: H_RANDOM});
             setRunner(
                 setInterval(() => {
                     automationAction({
-                        type: 'tick',
+                        type: A_TICK,
                     });
                 }, automation.waitTime),
             );
@@ -65,9 +65,9 @@ const RunAutomation = () => {
             }
 
             if (automation.tick === automation.total) {
-                automationAction({type: 'stop'});
+                automationAction({type: A_STOP});
             } else {
-                hashAction({type: 'random'});
+                hashAction({type: H_RANDOM});
             }
         }
     }, [automation.status, automation.tick]);
@@ -80,11 +80,11 @@ const RunAutomation = () => {
             if (automation.doCSVExport) {
                 if (message !== msg_exp) setMessage(msg_exp);
                 setTimeout(() => {
-                    automationAction({type: 'export'});
+                    automationAction({type: A_EXPORT});
                 }, automation.waitTime);
             } else {
                 setTimeout(() => {
-                    automationAction({type: 'reset'});
+                    automationAction({type: A_RESET});
                 }, 500);
             }
         }
@@ -94,7 +94,7 @@ const RunAutomation = () => {
         if (automation.status === 'exporting') {
             exportCSV(featuresList);
             setTimeout(() => {
-                automationAction({type: 'reset'});
+                automationAction({type: A_RESET});
             }, 500);
         }
     });
@@ -114,7 +114,7 @@ const RunAutomation = () => {
                     disabled={isSubmitting}
                     onClick={() => {
                         setSubmitState(true);
-                        automationAction({type: 'stop'});
+                        automationAction({type: A_STOP});
                     }}
                 >
                     <Icon name="cancel" />

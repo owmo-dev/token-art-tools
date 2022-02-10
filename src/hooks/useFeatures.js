@@ -1,6 +1,9 @@
 import React, {createContext, useContext, useReducer, useMemo} from 'react';
+import {iota} from '../helpers/iota';
 
 const FeaturesContext = createContext();
+
+export const {F_SET, F_CLEAR} = iota();
 
 const init = {
     data: {},
@@ -8,10 +11,10 @@ const init = {
 
 function automationReducer(state, dispatch) {
     switch (dispatch.type) {
-        case 'set': {
+        case F_SET: {
             return {...state, data: dispatch.data};
         }
-        case 'clear': {
+        case F_CLEAR: {
             return init;
         }
         default:

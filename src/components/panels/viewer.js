@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 
-import {useHash} from '../../hooks/useHash';
-import {useURL} from '../../hooks/useURL';
-import {useFeatures} from '../../hooks/useFeatures';
+import {H_CLEAR, useHash} from '../../hooks/useHash';
+import {useURL, U_CLEAR, U_REFRESH, U_SET} from '../../hooks/useURL';
+import {F_CLEAR, useFeatures} from '../../hooks/useFeatures';
 import {useAutomation} from '../../hooks/useAutomation';
 
 import SetResolution from '../modals/set-resolution';
@@ -22,13 +22,13 @@ const Viewer = () => {
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
 
     function onChange(e) {
-        urlAction({type: 'set', url: e.target.value});
+        urlAction({type: U_SET, url: e.target.value});
     }
 
     function handleClearURL() {
-        urlAction({type: 'clear'});
-        hashAction({type: 'clear'});
-        featuresAction({type: 'clear'});
+        urlAction({type: U_CLEAR});
+        hashAction({type: H_CLEAR});
+        featuresAction({type: F_CLEAR});
         setResolutionValue('fill');
     }
 
@@ -65,7 +65,7 @@ const Viewer = () => {
             openResolutionModal();
         } else {
             setResolutionValue(d.value);
-            urlAction({type: 'refresh'});
+            urlAction({type: U_REFRESH});
         }
     }
 
@@ -105,7 +105,7 @@ const Viewer = () => {
             x: x + 2 + 'px',
             y: y + 2 + 'px',
         });
-        urlAction({type: 'refresh'});
+        urlAction({type: U_REFRESH});
     }
 
     return (
@@ -128,7 +128,7 @@ const Viewer = () => {
                     floated="right"
                     style={{float: 'right', marginLeft: 20}}
                     onClick={() => {
-                        urlAction({type: 'refresh'});
+                        urlAction({type: U_REFRESH});
                     }}
                 >
                     <Icon name="refresh" />

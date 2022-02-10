@@ -1,5 +1,5 @@
 # token-art-tools
-Static web application for generative artists to explore creative concepts via mappable hashpair control sliders, automate image generation and capture features information to CSV in order to analyze probablility of outcomes. Developed in React, using Gatsby and Semantic UI libraries.
+Static webapp for generative artists to explore a script's creative domain via sliders mapped to hashpairs, automate image generation for a sample set, and capture features as a CSV for analyzing probability of outcomes. Developed in React using Gatsby and Semantic UI libraries.
 
 https://owenmoore.github.io/token-art-tools/
 
@@ -7,7 +7,7 @@ https://owenmoore.github.io/token-art-tools/
 
 # Project Configuration
 
-This project requries a `localhost` web server to host your work and that you have imported the `lib/connector.js` script prior to executing your sketch. A globally accessible `hash` and `number` variables will be made available for your use, as well as some platform specific implementations.
+This webapp expects a `localhost` web server hosting your script and that you have referenced the `lib/connector.js` script before executing your sketch. Global variables `hash` and `number` are available for your sketch to use, as well as some platform sepcific implementations.
 
 ## Boilerplate Setup
 
@@ -17,7 +17,7 @@ https://github.com/owenmoore/token-art-tools-boilerplate
 
 ## Manual Setup
 
-The `lib/connector.js` script must be referenced in your project's index before your artwork sketch executes. Either copy it directly into your project or simply use the following CDN.
+The `lib/connector.js` script must be referenced in your project before your artwork sketch executes. Either copy it into your repo or use this CDN.
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.6.1/lib/connector.js"></script>
@@ -25,7 +25,7 @@ The `lib/connector.js` script must be referenced in your project's index before 
 
 ## Host Locally
 
-If you want, you can also simply fork this repo and run it locally
+You can run this webapp locally if you want by doing the following:
 
 1. `npm install`
 2. `make run-server`
@@ -35,25 +35,29 @@ If you want, you can also simply fork this repo and run it locally
 
 ### [Art Blocks](https://www.artblocks.io)
 
-The globally accessible `tokenData` variable is constructed by the `lib/connector.js` script from a hash provided by this web application. All 32 hashpair sliders create the `hash` directly. The `tokenId` simulates project "0" with a possible range of "0 to 1000" even though Art Blocks technically supports up to one million mints.
+The global variable `tokenData` is made available by the `lib/connector.js` script by using the hash directly provided by the webapp. All 32 hashpairs are used in the hash and the edition number simulates project "0" with a possitble edition range of "0 to 1000", smaller than the possible million for practical UI purposes.
 
 ```js
 tokenData = {
     hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
     tokenId: 1000000
-}
+};
 ```
 
-To learn more about how you can use this structure, refer to [Art Block's 101 Docs](https://docs.artblocks.io/creator-docs/creator-onboarding/readme/)
+Please refer to [Art Block's 101 Docs](https://docs.artblocks.io/creator-docs/creator-onboarding/readme/) for more information.
 
 
 ### [fx(hash)](https://www.fxhash.xyz)
 
-The globally acessible `fxhash` variable and `fxrand` function are constructed by the `lib/connector.js` script from a slice of the hash provided by this application. The script simply contains a copy of code required by fxhash with the `fxhash` variable overriden by what this application generates.
+The global variable `fxhash` and function `fxrand` are made available by the `lib/connector.js` script by using a slice of the hash provided by the webapp. The script simply overrides the code snippet required by the fx(hash) creator minting process. If you are including this snippet in your project setup (recommended), please ensure that the reference to `lib/connector.js` is made **AFTER** the fx(hash) code snippet to have them properly overriden. Also, please don't forget to remove it when you are ready to mint.
 
-You must import / reference the `lib/connector.js` script **AFTER** the fxhash template code in order for it to work. You can otherwise use the variable fxhash provides as normal in your artwork sketch.
+```js
+fxhash = 'oo89fd946ca9ce6b038b4434c205da26767bf632748f5cf8292';
 
-To learn more about how you can use fxhash variables, refer to the [fxhash guide](https://www.fxhash.xyz/doc/artist/guide-publish-generative-token)
+console.log("new random number between 0 and 1", fxrand());
+```
+
+Please refer to the [fxhash publish docs](https://www.fxhash.xyz/doc/artist/guide-publish-generative-token) for more inforamtion.
 
 
 ## Technical Requirements
@@ -69,7 +73,7 @@ The `preserveDrawingBuffer` must be `true` for screenshots to work.
 ##### ThreeJS
 
 ```javascript
- renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
+let renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
 
 ```
 
@@ -81,9 +85,9 @@ const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true })
 
 # Tips & Tricks
 
-## Hashpairs
+## Hashpairs for Exploration
 
-While exploring the domain of creative features, it can be helpful to map them directly to hashpairs (and thus, sliders in the interface). Being able to quickly mix the different features can help make refinements or discover new possibilities.
+The hashpair sliders are best used early on while exploring ranges and mixes of different creative features.
 
 ```js
 function mpd(n, a1, b1, a2, b2) {
@@ -102,15 +106,16 @@ let rns = hs.map((x) => {
 
 let features = {
     hue: mpd(rns[0], 0, 255, 0, 360),
-    size: mpd(rns[1], 0, 255, 0.5, 1.8)
-}
+    size: mpd(rns[1], 0, 255, 0.5, 1.8),
+    offset: mpd(rns[2], 0, 255, -2.0, 2.0)
+};
 ```
 
-## Random Seed
+## Hash to Seed Randomd
 
-I would not recommend using the haspair mapping suggestion above in your final work. The reason is simply because the randomization you get from an external system (such as blockchain smart contracts) may not provide reliable randomization and in some cases, can be gamed by minters. It's much better to simply implement your own random function and use the hash as it's seed directly.
+While I have used hashparis directly in projects, I wouldn't recommend it because the hash produced by external services (such as minting on chain) may not produce a sufficient randomization and it's more difficult to control probabilities. The best way to use the `hash` is simply to use it as a seed in a random function you trust.
 
-Here's an excellent Random function [Piter Pasma](https://twitter.com/piterpasma) has shared with fellow Art Blocks artists.
+Below is an excellent Random function [Piter Pasma](https://twitter.com/piterpasma) made available for everyone to use.
 
 ```js
 let S = Uint32Array.from([0, 0, 0, 0]).map(i => parseInt(hash.substr(i * 8 + 5, 8), 16));
@@ -125,16 +130,21 @@ let R = (a = 1) => {
     return (a * S[0]) / 2 ** 32;
 };
 
-console.log("new random number", R());
+console.log("random value between 0 and 1", R());
+
+let myArray = ['a','b','c','d'];
+
+console.log("pick from array", myArray[R() * myArray.length | 0]);
+
 ```
 
-## Screenshot Delays
+## Longer Delays for Reliable Screenshots & CSV Capture
 
-Getting a consistent screenshot can be tricky sometimes, especially if your artwork is particularly heavy. I suggest that you err on the side of caution and use a long wait time when automating. Also, try your settings on a smaller sample size before doing full sets.
+The automated process can sometimes produce unreliable results, especially if your artwork is particularly taxing. I simply suggest increasing the wait time between capturing and testing on smaller sample sizes before commiting to a larger set to run overnight.
 
-## Features & CSV Data
+## Define Features as Early as Possible
 
-The `lib/connector.js` script defines a global `features` variable which the web application polls to both display and collect for the CSV export. You **MUST NOT** redfine this variable, otherwise these features will not work. Simple assign features to this variable as soon as you can within your artwork script.
+The `lib/connector.js` script defines a global `features` variable as an empty object which you can then assign key-value pairs to display in the webapp. You must set the features variables no later than `500ms` because the webapp will attempt to retrieve them at about `600ms`.
 
 ```js
 features = {
