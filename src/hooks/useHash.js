@@ -1,66 +1,64 @@
 import React, {createContext, useContext, useReducer, useMemo} from 'react';
 
-const HASH_0x32 = 0;
-
 const HashContext = createContext();
 
-function init(type) {
-    switch (type) {
-        case HASH_0x32: {
-            let values = new Array(32).fill(0);
-            let locked = new Array(32).fill(false);
-            return {
-                type: type,
-                hash: convertValuesToHash(type, values),
-                values: values,
-                locked: locked,
-                history: [],
-                params: {
-                    min: 0,
-                    max: 255,
-                    step: 1,
-                    count: 32,
-                },
-            };
-        }
-        default:
-            throw new Error(`useHash type '${type}' not supported`);
-    }
+function init() {
+    let values = new Array(32).fill(0);
+    let locked = new Array(32).fill(false);
+    return {
+        number: 0,
+        hash: convertValuesToHash(values),
+        values: values,
+        locked: locked,
+        numberLocked: false,
+        history: [],
+        params: {
+            min: 0,
+            max: 255,
+            step: 1,
+            count: 32,
+            start: 0,
+            editions: 1000,
+        },
+    };
 }
 
 function hashReducer(state, dispatch) {
     switch (dispatch.type) {
         case 'random': {
-            let data = getRandomHashValues(state);
-            data['history'] = [...state.history, state.hash];
+            let data = generateRandomValues(state);
+            data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
-        case 'setHash': {
-            let hash = dispatch.hash;
-            let history = [...state.history, hash];
-            let values = convertHashToValues(state.type, hash);
-            let data = {hash: hash, values: values, history: history};
+        case 'set': {
+            let hash = dispatch?.hash ?? state.hash;
+            let number = dispatch?.number ?? state.number;
+            let values = convertHashToValues(hash);
+            let history = [...state.history, {hash: state.hash, number: state.number}];
+            let data = {hash: hash, number: number, values: values, history: history};
             return {...state, ...data};
         }
         case 'back': {
-            let hash = state.history[state.history.length - 1];
+            let last = state.history[state.history.length - 1];
+            let hash = last.hash;
+            let number = last.number;
             let history = state.history;
             history.pop();
-            let values = convertHashToValues(state.type, hash);
-            let data = {hash: hash, values: values, history: history};
+            let values = convertHashToValues(hash);
+            let data = {hash: hash, number: number, values: values, history: history};
             return {...state, ...data};
         }
         case 'clear': {
-            return {...state, ...init(state.type)};
+            return {...state, ...init()};
         }
         case 'setValue': {
             let values = state.values;
             values[dispatch.index] = dispatch.value;
             let data = {
-                hash: convertValuesToHash(state.type, values),
+                hash: convertValuesToHash(values),
                 values: values,
             };
-            data['history'] = [...state.history, state.hash];
+            data['history'] = [...state.history, {hash: state.hash, number: state.number}];
             return {...state, ...data};
         }
         case 'toggle-locked': {
@@ -68,55 +66,43 @@ function hashReducer(state, dispatch) {
             locked[dispatch.index] = !locked[dispatch.index];
             return {...state, ...{locked: locked}};
         }
+        case 'toggle-number-locked': {
+            let locked = !state.numberLocked;
+            return {...state, numberLocked: locked};
+        }
         default:
             throw new Error(`hashReducer type '${dispatch.type}' not supported`);
     }
 }
 
-function getRandomHashValues(state) {
-    switch (state.type) {
-        case HASH_0x32: {
-            let values = state.values;
-            for (let i = 0; i < 32; i++) {
-                if (!state.locked[i]) values[i] = Math.floor(Math.random() * 255);
-            }
-            return {
-                hash: convertValuesToHash(state.type, values),
-                values: values,
-            };
-        }
-        default:
-            throw new Error(`getRandomHash type '${state.type}' not supported`);
+function generateRandomValues(state) {
+    let values = state.values;
+    for (let i = 0; i < 32; i++) {
+        if (!state.locked[i]) values[i] = Math.floor(Math.random() * 255);
     }
+    let number = !state.numberLocked ? Math.floor(state.params.start + Math.random() * state.params.editions) : state.number;
+    return {
+        hash: convertValuesToHash(values),
+        values: values,
+        number: number,
+    };
 }
 
-function convertHashToValues(type, hash) {
-    switch (type) {
-        case HASH_0x32: {
-            let values = [];
-            hash = hash.substring(2);
-            for (let i = 0; i < hash.length; i += 2) {
-                values.push(parseInt('0x' + hash[i] + hash[i + 1]));
-            }
-            return values;
-        }
-        default:
-            throw new Error(`convertHashToValues type '${type}' not supported`);
+function convertHashToValues(hash) {
+    let values = [];
+    hash = hash.substring(2);
+    for (let i = 0; i < hash.length; i += 2) {
+        values.push(parseInt('0x' + hash[i] + hash[i + 1]));
     }
+    return values;
 }
 
-function convertValuesToHash(type, values) {
-    switch (type) {
-        case HASH_0x32: {
-            return '0x' + values.map(x => Number(x).toString(16).padStart(2, '0')).join('');
-        }
-        default:
-            throw new Error(`convertValuesToHash type '${type}' not supported`);
-    }
+function convertValuesToHash(values) {
+    return '0x' + values.map(x => Number(x).toString(16).padStart(2, '0')).join('');
 }
 
 function HashProvider(props) {
-    const [state, dispatch] = useReducer(hashReducer, HASH_0x32, init);
+    const [state, dispatch] = useReducer(hashReducer, null, init);
     const value = useMemo(() => [state, dispatch], [state]);
     return <HashContext.Provider value={value} {...props} />;
 }

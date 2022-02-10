@@ -61,14 +61,17 @@ const Viewer = () => {
     ];
 
     function handleChange(e, d) {
-        setResolutionValue(d.value);
-        urlAction({type: 'refresh'});
+        if (d.value === 'custom') {
+            openResolutionModal();
+        } else {
+            setResolutionValue(d.value);
+            urlAction({type: 'refresh'});
+        }
     }
 
     useEffect(() => {
         switch (resolutionValue) {
             case 'custom':
-                openResolutionModal();
                 break;
             case 'thumb':
                 setIFrameResolution({x: '258px', y: '258px'});
@@ -97,6 +100,7 @@ const Viewer = () => {
     }
 
     function setRes(x, y) {
+        setResolutionValue('custom');
         setIFrameResolution({
             x: x + 2 + 'px',
             y: y + 2 + 'px',
@@ -177,7 +181,7 @@ const Viewer = () => {
                         var iframe = window.document.querySelector('iframe');
                         const w = iframe.clientWidth;
                         const h = iframe.clientHeight;
-                        window.open(url.url + '?hash=' + hash.hash, '', `top=100, width=${w}, height=${h}`);
+                        window.open(url.url + '?hash=' + hash.hash + '&number=' + hash.number, '', `top=100, width=${w}, height=${h}`);
                     }}
                     style={{
                         position: 'absolute',
@@ -219,7 +223,7 @@ const Viewer = () => {
                             <iframe
                                 id={new Date().getTime()}
                                 title="token art tools viewer"
-                                src={url.url + '?hash=' + hash.hash}
+                                src={url.url + '?hash=' + hash.hash + '&number=' + hash.number}
                                 width={iframeResolution.x}
                                 height={iframeResolution.y}
                                 style={{

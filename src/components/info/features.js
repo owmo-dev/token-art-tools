@@ -50,7 +50,7 @@ const Features = () => {
             clearTimeout(timerGet);
             clearTimeout(timerTimeout);
         };
-    }, [hash.hash, url.isValid, url.iframeKey]);
+    }, [hash.hash, url.isValid, url.iframeKey, hash.number]);
 
     useEffect(() => {
         setList(
