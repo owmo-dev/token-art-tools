@@ -29,7 +29,7 @@ const Controls = () => {
     const hashSliders = useCallback(createHashSliders({...hash.params}), [hash.params]);
 
     function createNumberSlider({start, editions}) {
-        return <RangeSlider key={'N'} index={'N'} min={start} max={editions} step={1} type={TYPE_NUMBER} />;
+        return <RangeSlider key={'E'} index={'E'} min={start} max={editions} step={1} type={TYPE_NUMBER} />;
     }
 
     const numberSlider = useCallback(createNumberSlider({...hash.params}), [hash.params]);
