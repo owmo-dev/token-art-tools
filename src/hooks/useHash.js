@@ -7,12 +7,15 @@ const init = {
     number: 0,
     values: new Array(32).fill(0),
     locked: new Array(32).fill(false),
+    numberLocked: false,
     history: [],
     params: {
         min: 0,
         max: 255,
         step: 1,
         count: 32,
+        start: 0,
+        editions: 1000,
     },
 };
 
@@ -62,6 +65,10 @@ function hashReducer(state, dispatch) {
             locked[dispatch.index] = !locked[dispatch.index];
             return {...state, ...{locked: locked}};
         }
+        case 'toggle-number-locked': {
+            let locked = !state.numberLocked;
+            return {...state, numberLocked: locked};
+        }
         default:
             throw new Error(`hashReducer type '${dispatch.type}' not supported`);
     }
@@ -72,9 +79,11 @@ function generateRandomValues(state) {
     for (let i = 0; i < 32; i++) {
         if (!state.locked[i]) values[i] = Math.floor(Math.random() * 255);
     }
+    let number = !state.numberLocked ? Math.floor(state.params.start + Math.random() * state.params.editions) : state.number;
     return {
         hash: convertValuesToHash(values),
         values: values,
+        number: number,
     };
 }
 
