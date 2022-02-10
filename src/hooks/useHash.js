@@ -2,22 +2,26 @@ import React, {createContext, useContext, useReducer, useMemo} from 'react';
 
 const HashContext = createContext();
 
-const init = {
-    hash: convertValuesToHash(new Array(32).fill(0)),
-    number: 0,
-    values: new Array(32).fill(0),
-    locked: new Array(32).fill(false),
-    numberLocked: false,
-    history: [],
-    params: {
-        min: 0,
-        max: 255,
-        step: 1,
-        count: 32,
-        start: 0,
-        editions: 1000,
-    },
-};
+function init() {
+    let values = new Array(32).fill(0);
+    let locked = new Array(32).fill(false);
+    return {
+        hash: convertValuesToHash(values),
+        values: values,
+        locked: locked,
+        number: 0,
+        numberLocked: false,
+        history: [],
+        params: {
+            min: 0,
+            max: 255,
+            step: 1,
+            count: 32,
+            start: 0,
+            editions: 1000,
+        },
+    };
+}
 
 function hashReducer(state, dispatch) {
     switch (dispatch.type) {
@@ -42,7 +46,7 @@ function hashReducer(state, dispatch) {
             return {...state, ...data};
         }
         case 'clear': {
-            return {...state, ...init(state.type)};
+            return {...state, ...init()};
         }
         case 'setValue': {
             let values = state.values;
@@ -101,7 +105,7 @@ function convertValuesToHash(values) {
 }
 
 function HashProvider(props) {
-    const [state, dispatch] = useReducer(hashReducer, init);
+    const [state, dispatch] = useReducer(hashReducer, null, init);
     const value = useMemo(() => [state, dispatch], [state]);
     return <HashContext.Provider value={value} {...props} />;
 }

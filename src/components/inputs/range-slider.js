@@ -63,7 +63,7 @@ function SliderControl({index, min, max, step, type}) {
                 setLocked(hash.numberLocked);
             }
         }
-    });
+    }, [hash.locked[index], hash.numberLocked]);
 
     const handleChange = e => {
         const v = parseInt(e.target.value);
