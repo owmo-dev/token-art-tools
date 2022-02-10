@@ -57,6 +57,7 @@ const RunAutomation = () => {
                         let f = features.data;
                         if (f !== undefined) {
                             f['hash'] = hash.hash;
+                            f['edition'] = hash.number;
                             setFeaturesList(prev => [...prev, f]);
                         }
                     }, 900);
