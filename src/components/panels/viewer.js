@@ -61,14 +61,17 @@ const Viewer = () => {
     ];
 
     function handleChange(e, d) {
-        setResolutionValue(d.value);
-        urlAction({type: 'refresh'});
+        if (d.value === 'custom') {
+            openResolutionModal();
+        } else {
+            setResolutionValue(d.value);
+            urlAction({type: 'refresh'});
+        }
     }
 
     useEffect(() => {
         switch (resolutionValue) {
             case 'custom':
-                openResolutionModal();
                 break;
             case 'thumb':
                 setIFrameResolution({x: '258px', y: '258px'});
@@ -97,6 +100,7 @@ const Viewer = () => {
     }
 
     function setRes(x, y) {
+        setResolutionValue('custom');
         setIFrameResolution({
             x: x + 2 + 'px',
             y: y + 2 + 'px',
