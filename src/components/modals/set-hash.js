@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {Modal, Form, Message, Button} from 'semantic-ui-react';
 import {H_SET, useHash} from '../../hooks/useHash';
-
-function isValidHash(str) {
-    const regexExp = /^0x[a-f0-9]{64}$/gi;
-    return regexExp.test(str);
-}
+import {isValidHash} from '../../helpers/hash';
 
 const SetHash = props => {
     const [hash, hashAction] = useHash();
@@ -49,7 +45,6 @@ const SetHash = props => {
         }
 
         let h = formData.hash !== '' ? formData.hash : undefined;
-        console.log(h);
 
         if (h) {
             if (!isValidHash(h)) {
@@ -61,7 +56,6 @@ const SetHash = props => {
         }
 
         let n = formData.number !== '' ? Number(formData.number) : undefined;
-        console.log(n);
 
         if (n) {
             if (n < hash.params.start || n > hash.params.editions || !Number.isInteger(n)) {

@@ -82,7 +82,7 @@ const Features = () => {
             <center>
                 {!url.isValid ? (
                     <Header as="h4" inverted style={{marginTop: 14}}>
-                        {'set the "features" variable to display results here'}
+                        {'assign variables (float, int, string) to global "features"'}
                         <Header.Subheader style={{marginTop: 5, font: 'monospace'}}>{example}</Header.Subheader>
                     </Header>
                 ) : url.isValid && list.length === 0 ? (

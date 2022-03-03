@@ -3,9 +3,9 @@ import {Segment, Header, Icon, Input} from 'semantic-ui-react';
 
 const Instructions = () => {
     const script = '<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.6.1/lib/connector.js"></script>';
-    const code = 'var hash = tokenData.hash;';
-    const localhost = 'python -m http.server 5500';
-    const localURL = 'http://127.0.0.1:5500';
+    const code = 'console.log(hash, number);';
+    const boilerplate = 'https://github.com/owenmoore/token-art-tools-boilerplate';
+    const localURL = 'https://127.0.0.1:8080';
 
     return (
         <Segment
@@ -22,7 +22,7 @@ const Instructions = () => {
         >
             <Header as="h4">
                 <Icon name="copy" style={{float: 'left'}} />
-                copy/paste this into your index.html header
+                include the connector.js script in your project
             </Header>
 
             <Input
@@ -40,7 +40,7 @@ const Instructions = () => {
 
             <Header as="h4">
                 <Icon name="code" style={{float: 'left'}} />
-                Use the hash provided by the token in your script
+                use the global variables (hash &amp; number) in your script
             </Header>
 
             <Input
@@ -58,25 +58,25 @@ const Instructions = () => {
 
             <Header as="h4">
                 <Icon name="server" style={{float: 'left'}} />
-                host your script via local http server
+                host your script via http(s) server (supported boilerplate available)
             </Header>
 
             <Input
                 fluid
                 action={{
                     color: 'blue',
-                    icon: 'copy',
+                    icon: 'external',
                     onClick: () => {
-                        navigator.clipboard.writeText(localhost);
+                        window.open(boilerplate);
                     },
                 }}
-                value={localhost}
+                value={boilerplate}
                 readOnly={true}
             />
 
             <Header as="h4">
                 <Icon name="arrow circle up" style={{float: 'left'}} />
-                enter the localhost URL at the top of the page
+                enter the URL for your hosted work above
             </Header>
 
             <Input
