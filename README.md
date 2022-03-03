@@ -85,6 +85,12 @@ const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true })
 
 # Tips & Tricks
 
+## Share Hosted URL & Hash
+
+If your `URL` is publicly accessible, you can share a Token Art Tools initialization by using `url`, `hash` and `number` variables in the URL for the application (click the "shared" button next to the address bar to copy the current to clipboard). Not that a valid `url` is required for anything to be set.
+
+`https://owenmoore.github.io/token-art-tools//?url={URL}&hash={HASH}&number={NUMBER}`
+
 ## Hashpairs for Exploration
 
 The hashpair sliders are best used early on while exploring ranges and mixes of different creative features.
