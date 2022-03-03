@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Input, Button, Icon, Dropdown, Segment} from 'semantic-ui-react';
 
-import {H_CLEAR, useHash} from '../../hooks/useHash';
+import {H_CLEAR, H_SET, useHash} from '../../hooks/useHash';
 import {useURL, U_CLEAR, U_REFRESH, U_SET} from '../../hooks/useURL';
 import {F_CLEAR, useFeatures} from '../../hooks/useFeatures';
 import {useAutomation} from '../../hooks/useAutomation';
@@ -11,6 +11,7 @@ import Instructions from '../copy/instructions';
 import Features from '../info/features';
 
 import {screenshot} from '../../helpers/screenshot';
+import {isValidHash} from '../../helpers/hash';
 
 const Viewer = () => {
     const [hash, hashAction] = useHash();
@@ -20,6 +21,36 @@ const Viewer = () => {
 
     const [resolutionValue, setResolutionValue] = useState('fill');
     const [iframeResolution, setIFrameResolution] = useState({x: '100%', y: '100%'});
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+
+        const ext_url = params.get('url');
+        if (ext_url !== null && ext_url !== '') {
+            urlAction({type: U_SET, url: ext_url});
+
+            const hashData = {};
+
+            const set_hash = params.get('hash');
+            if (set_hash !== null) {
+                if (isValidHash(set_hash)) {
+                    hashData['hash'] = set_hash;
+                }
+            }
+
+            const set_number = params.get('number');
+            if (set_number !== null) {
+                const num = Number(set_number);
+                if (Number.isInteger(num) && num >= hash.params.start && num <= hash.params.editions) {
+                    hashData['number'] = num;
+                }
+            }
+
+            if (Object.keys(hashData).length > 0) {
+                hashAction({type: H_SET, ...hashData});
+            }
+        }
+    }, []);
 
     function onChange(e) {
         urlAction({type: U_SET, url: e.target.value});
@@ -142,6 +173,17 @@ const Viewer = () => {
                     onChange={handleChange}
                     style={{float: 'right', marginLeft: 20}}
                 />
+                <Button
+                    icon
+                    disabled={!url.isValid || automation.status !== 'idle'}
+                    floated="right"
+                    style={{float: 'right', marginLeft: 20}}
+                    onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}/?url=${url.url}&hash=${hash.hash}&number=${hash.number}`);
+                    }}
+                >
+                    <Icon name="share square" />
+                </Button>
                 <Input
                     label="URL"
                     fluid
