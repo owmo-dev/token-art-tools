@@ -179,7 +179,7 @@ const Viewer = () => {
                     floated="right"
                     style={{float: 'right', marginLeft: 20}}
                     onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/?url=${url.url}&hash=${hash.hash}&number=${hash.number}`);
+                        navigator.clipboard.writeText(`${window.location.origin}/token-art-tools/?url=${url.url}&hash=${hash.hash}&number=${hash.number}`);
                     }}
                 >
                     <Icon name="share square" />
