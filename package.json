@@ -8,10 +8,10 @@
         "gatsby"
     ],
     "dependencies": {
-        "react": "^18.1.0",
-        "react-dom": "^18.1.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "react-range-step-input": "^1.3.0",
-        "semantic-ui-react": "^2.1.2",
+        "semantic-ui-react": "^2.1.3",
         "fomantic-ui-css": "^2.8.8"
     },
     "scripts": {
@@ -22,9 +22,9 @@
         "url": "git+https://github.com/owenmoore/token-art-tools"
     },
     "devDependencies": {
-        "eslint": "^8.15.0",
-        "eslint-plugin-react": "^7.30.0",
+        "eslint": "^8.20.0",
+        "eslint-plugin-react": "^7.30.1",
         "gh-pages": "^4.0.0",
-        "gatsby": "^4.14.1"
+        "gatsby": "^4.19.2"
     }
 }
