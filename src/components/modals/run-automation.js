@@ -26,6 +26,7 @@ const RunAutomation = () => {
     useEffect(() => {
         if (automation.status === 'active' && runner === null) {
             setFeaturesList([]);
+            hashAction({type: H_RANDOM});
             setRunner(
                 setInterval(() => {
                     automationAction({
@@ -66,9 +67,7 @@ const RunAutomation = () => {
             if (automation.tick === automation.total) {
                 automationAction({type: A_STOP});
             } else {
-                setTimeout(() => {
-                    hashAction({type: H_RANDOM});
-                }, 500);
+                hashAction({type: H_RANDOM});
             }
         }
     }, [automation.status, automation.tick]);
