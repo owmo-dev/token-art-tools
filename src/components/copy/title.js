@@ -10,7 +10,7 @@ const Title = () => {
                 <a href="https://www.owenmoore.xyz/" target="_blank" rel="noreferrer" style={{marginLeft: 5, color: 'white', fontWeight: 'bold'}}>
                     Owen Moore
                 </a>
-                <a href="https://github.com/owenmoore/token-art-tools" target="_blank" rel="noreferrer" style={{marginLeft: 5}}>
+                <a href="https://github.com/owenmoore-xyz/token-art-tools" target="_blank" rel="noreferrer" style={{marginLeft: 5}}>
                     <Icon name="github" inverted link />
                 </a>
             </Header.Subheader>

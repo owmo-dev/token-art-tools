@@ -1,4 +1,5 @@
 # token-art-tools
+
 Static webapp for generative artists to explore a script's creative domain via sliders mapped to hashpairs, automate image generation for a sample set, and capture features as a CSV for analyzing probability of outcomes. Developed in React using Gatsby and Semantic UI libraries.
 
 https://owenmoore.github.io/token-art-tools/
@@ -13,14 +14,14 @@ This webapp expects a `localhost` web server hosting your script and that you ha
 
 The following boilerplate project setup supports all of Token Art Tool's features
 
-https://github.com/owenmoore/token-art-tools-boilerplate
+https://github.com/owenmoore-xyz/token-art-tools-boilerplate
 
 ## Manual Setup
 
 The `lib/connector.js` script must be referenced in your project before your artwork sketch executes. Either copy it into your repo or use this CDN.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/owenmoore/token-art-tools@1.6.5/lib/connector.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/owenmoore-xyz/token-art-tools@1.6.5/lib/connector.js"></script>
 ```
 
 ## Host Locally
@@ -40,12 +41,11 @@ The global variable `tokenData` is made available by the `lib/connector.js` scri
 ```js
 tokenData = {
     hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
-    tokenId: 1000000
+    tokenId: 1000000,
 };
 ```
 
 Please refer to [Art Block's 101 Docs](https://docs.artblocks.io/creator-docs/creator-onboarding/readme/) for more information.
-
 
 ### [fx(hash)](https://www.fxhash.xyz)
 
@@ -54,11 +54,10 @@ The global variable `fxhash` and function `fxrand` are made available by the `li
 ```js
 fxhash = 'oo89fd946ca9ce6b038b4434c205da26767bf632748f5cf8292';
 
-console.log("new random number between 0 and 1", fxrand());
+console.log('new random number between 0 and 1', fxrand());
 ```
 
 Please refer to the [fxhash publish docs](https://www.fxhash.xyz/doc/artist/guide-publish-generative-token) for more inforamtion.
-
 
 ## Technical Requirements
 
@@ -73,14 +72,13 @@ The `preserveDrawingBuffer` must be `true` for screenshots to work.
 ##### ThreeJS
 
 ```javascript
-let renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
-
+let renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
 ```
 
 ##### WebGL
 
 ```javascript
-const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true })
+const gl = canvas.getContext('webgl', {preserveDrawingBuffer: true});
 ```
 
 # Tips & Tricks
@@ -110,14 +108,14 @@ for (j = 0; j < 32; j++) {
     hs.push(hash.slice(2 + j * 2, 4 + j * 2));
 }
 
-let rns = hs.map((x) => {
+let rns = hs.map(x => {
     return parseInt(x, 16);
 });
 
 let features = {
     hue: mpd(rns[0], 0, 255, 0, 360),
     size: mpd(rns[1], 0, 255, 0.5, 1.8),
-    offset: mpd(rns[2], 0, 255, -2.0, 2.0)
+    offset: mpd(rns[2], 0, 255, -2.0, 2.0),
 };
 ```
 
@@ -140,12 +138,11 @@ let R = (a = 1) => {
     return (a * S[0]) / 2 ** 32;
 };
 
-console.log("random value between 0 and 1", R());
+console.log('random value between 0 and 1', R());
 
-let myArray = ['a','b','c','d'];
+let myArray = ['a', 'b', 'c', 'd'];
 
-console.log("pick from array", myArray[R() * myArray.length | 0]);
-
+console.log('pick from array', myArray[(R() * myArray.length) | 0]);
 ```
 
 ## Longer Delays for Reliable Screenshots & CSV Capture
@@ -158,8 +155,8 @@ The `lib/connector.js` script defines a global `features` variable as an empty o
 
 ```js
 features = {
-    Palette: "Blue Sky",
-    Style: "Shadow",
+    Palette: 'Blue Sky',
+    Style: 'Shadow',
 };
 features['Size'] = 10;
 ```
@@ -168,4 +165,4 @@ You can only assign `int`, `float`, and `string` values as a feature entry.
 
 # Known Issues
 
-- When using a simple web server (ex: `python -m http.server 5500`), Chrome will block HTML files within iframes. At the time of writing, Firefox will still allow this, but it's much better to simple use a `node` project setup.
+-   When using a simple web server (ex: `python -m http.server 5500`), Chrome will block HTML files within iframes. At the time of writing, Firefox will still allow this, but it's much better to simple use a `node` project setup.
