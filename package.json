@@ -19,7 +19,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/owenmoore-xyz/token-art-tools"
+        "url": "git+https://github.com/owmoxyz/token-art-tools"
     },
     "devDependencies": {
         "eslint": "^8.20.0",
