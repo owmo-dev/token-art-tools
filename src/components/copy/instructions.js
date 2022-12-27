@@ -2,7 +2,7 @@ import React from 'react';
 import {Segment, Header, Icon, Input} from 'semantic-ui-react';
 
 const Instructions = () => {
-    const script = '<script src="https://cdn.jsdelivr.net/gh/owmoxyz/token-art-tools@1.6.5/lib/connector.js"></script>';
+    const script = '<script src="https://cdn.jsdelivr.net/gh/owmoxyz/token-art-tools@1.6.6/lib/connector.js"></script>';
     const code = 'console.log(hash, number);';
     const boilerplate = 'https://github.com/owmoxyz/token-art-tools-boilerplate';
     const localURL = 'https://127.0.0.1:8080';
