@@ -2,7 +2,7 @@
 
 Static webapp for generative artists to explore a script's creative domain via sliders mapped to hashpairs, automate image generation for a sample set, and capture features as a CSV for analyzing probability of outcomes. Developed in React using Gatsby and Semantic UI libraries.
 
-https://owenmoore.github.io/token-art-tools/
+https://owmo-dev.github.io/token-art-tools/
 
 ![screenshot](assets/preview.jpg)
 
