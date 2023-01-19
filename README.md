@@ -91,7 +91,7 @@ Some browsers will require that you serve your artwork locally via `https` rathe
 
 If your `URL` is publicly accessible, you can share a Token Art Tools initialization by using `url`, `hash` and `number` variables in the URL for the application (click the "shared" button next to the address bar to copy the current to clipboard). Not that a valid `url` is required for anything to be set.
 
-`https://owenmoore.github.io/token-art-tools//?url={URL}&hash={HASH}&number={NUMBER}`
+`https://owmo-dev.github.io/token-art-tools//?url={URL}&hash={HASH}&number={NUMBER}`
 
 ## Hashpairs for Exploration
 
