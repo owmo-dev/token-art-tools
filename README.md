@@ -14,14 +14,14 @@ This webapp expects a `localhost` web server hosting your script and that you ha
 
 The following boilerplate project setup supports all of Token Art Tool's features
 
-https://github.com/owmoxyz/token-art-tools-boilerplate
+https://github.com/owmo-dev/token-art-tools-boilerplate
 
 ## Manual Setup
 
 The `lib/connector.js` script must be referenced in your project before your artwork sketch executes. Either copy it into your repo or use this CDN.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/owmoxyz/token-art-tools@1.6.6/lib/connector.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/owmo-dev/token-art-tools@1.6.6/lib/connector.js"></script>
 ```
 
 ## Host Locally
